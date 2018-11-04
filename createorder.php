@@ -41,18 +41,43 @@
 
   		var pos=$('#main').position();
   		var xv=pos.top;
-  		var lv=pos.left
+  		var lv=pos.left;
+  		var rv=pos.right;
+  		var bv=pos.bottom;
+
+
+
+
+  $('#grab').click(function(){
+var category=$('#category').val();
+var brand=$('#brand').val();
+var model=$('#model').val();
+alert(category+" "+brand+" "+model);
+$.getJSON( "loadproduct.php?category="+category+"&brand="+brand+"&model="+model, function( data ) {
+  var items = [];
+  $.each( data, function( key, val ) {
+
+$('#main').attr('src',val.imagepath);
+  });
+});
+
+  });
 
   		
 $('#cloud').click(function(){
 $('#logo').attr('src',"google.png");
 
 });
+$('.main').click(function j(v){
+var g= $(this).attr('src');
+$("#main").attr('src',g);
+});
+
 
 $('.logoc').click(function x(v){
 	
 	$('#logo').css('top',xv+20);
-	$('#logo').css('left',lv+25);
+	$('#logo').css('left',lv+30);
 
 var g= $(this).attr('src');
 $('#logo').attr('src',g);
@@ -120,6 +145,7 @@ $.ajax({url: "image.php?&invoice="+invoice, success: function(result){
   </script>
 </head>
 <body class="container-fluid">
+	<?php include 'connection.php'; ?>
 <center>
 	<div style=" height:auto;padding: 12px;color: white;">
 		<table class="table">
@@ -127,9 +153,9 @@ $.ajax({url: "image.php?&invoice="+invoice, success: function(result){
 			<thead><th>Create product</th></thead>
 			<tbody>
 				<tr>
-					<td><select  class="form-control" name="category">
-							<option value="t-shirt" >tshirt</option>
-   							 <option value="shirt">mobile</option>
+					<td><select  class="form-control" name="category" id="category">
+							<option value="t-shirt" >t-shirt</option>
+   							 <option value="mobile">mobile</option>
 
 						</select>
 					</td>
@@ -138,9 +164,9 @@ $.ajax({url: "image.php?&invoice="+invoice, success: function(result){
 <tr>
 	
 	<td>
-	<select  class="form-control" name="brand" >
+	<select  class="form-control" name="brand"  id="brand">
 	<option>
-<p>brand</p>
+<p>samsung</p>
 </option>  
 </select>
 </td>
@@ -148,13 +174,18 @@ $.ajax({url: "image.php?&invoice="+invoice, success: function(result){
 <tr>
 	<td>
 	
-<select name="model" class="form-control">
-	<option  ><p>model</p></option>  
-  
+<select name="model" class="form-control" id="model">
+	<option  ><p>yk11</p></option>  
+  <option  ><p>bz11</p></option>  
 </select> 
 
 </td>
 
+</tr>
+<tr>
+	<td>
+		<h4 style="color: blue;" id="grab">grab images</h4>
+	</td>
 </tr>
 
 <tr>
@@ -185,6 +216,20 @@ $.ajax({url: "image.php?&invoice="+invoice, success: function(result){
 
 	</td>
 </tr>
+
+<tr>
+	<td>
+		<?php 
+$sql="select * from mobile where brand='samsung' and model='bz11'" ;
+$result=mysqli_query($conn,$sql);
+while ($row=mysqli_fetch_assoc($result)) {
+	?>
+	<img src="<?php echo $row['imagepath'];?>" height="100" width="100"  class="img-rounded main"   >
+	<?php
+}
+	?>
+	</td>
+</tr>
 <tr>
 	<td><button id="down" class="btn btn-default">down</button>
 <button id="up" class="btn btn-default">up</button>
@@ -197,7 +242,7 @@ $.ajax({url: "image.php?&invoice="+invoice, success: function(result){
 <tr>
 	<td>
 	<?php 
-include 'connection.php';
+
 
 $sql="select * from logo where cid=4";
 $result=mysqli_query($conn,$sql);
