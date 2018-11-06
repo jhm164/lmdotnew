@@ -12,41 +12,6 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
-<script>
-
-function _(el){
-	return document.getElementById(el);
-}
-function uploadFile(){
-	var file = _("file1").files[0];
-	// alert(file.name+" | "+file.size+" | "+file.type);
-	var formdata = new FormData();
-	formdata.append("file1", file);
-	var ajax = new XMLHttpRequest();
-	ajax.upload.addEventListener("progress", progressHandler, false);
-	ajax.addEventListener("load", completeHandler, false);
-	ajax.addEventListener("error", errorHandler, false);
-	ajax.addEventListener("abort", abortHandler, false);
-	ajax.open("POST", "file_upload_parser.php");
-	ajax.send(formdata);
-}
-function progressHandler(event){
-	_("loaded_n_total").innerHTML = "Uploaded "+event.loaded+" bytes of "+event.total;
-	var percent = (event.loaded / event.total) * 100;
-	_("progressBar").value = Math.round(percent);
-	_("status").innerHTML = Math.round(percent)+"% uploaded... please wait";
-}
-function completeHandler(event){
-	_("status").innerHTML = event.target.responseText;
-	_("progressBar").value = 0;
-}
-function errorHandler(event){
-	_("status").innerHTML = "Upload Failed";
-}
-function abortHandler(event){
-	_("status").innerHTML = "Upload Aborted";
-}
-</script>
 <style type="text/css">
 		.table {border: 1px solid black!important;} 
 .table tr, .table td, .table th {border: 0!important;}
@@ -84,6 +49,7 @@ var v1;
   		var rv=pos.right;
   		var bv=pos.bottom;
 
+<?php $varr;?>
 
 
   $('#grab').click(function(){
@@ -97,7 +63,6 @@ $.getJSON( "loadproduct.php?category="+category+"&brand="+brand+"&model="+model,
   $.each( data, function( key, val ) {
 
 mainproductid=val.id;
-alert(mainproductid);
 pmodel=val.model;
 $('#main').attr('src',val.imagepath);
   });
@@ -121,36 +86,10 @@ $('.logoc').click(function x(v){
 	$('#logo').css('top',xv+20);
 	$('#logo').css('left',lv+30);
 logoid1=$(this).attr('id');
-alert(logoid1);
 var g= $(this).attr('src');
 $('#logo').attr('src',g);
 //alert('here');
 });
-
-/*
-  $('#submit').click(function(){
-var category=$('#category').val();
-var brand=$('#brand').val();
-var model=$('#model').val();
-alert(category+" "+brand+" "+model);
-$.getJSON( "createorder.php?category="+category+"&brand="+brand+"&model="+model, function( data ) {
-  pcategory=category;
-  var items = [];
-  $.each( data, function( key, val ) {
-
-mainproductid=val.id;
-alert(mainproductid);
-pmodel=val.model;
-$('#main').attr('src',val.imagepath);
-  });
-});
-
-  });
-
-*/
-
-
-
 
 $('#down').click(function(){
 
@@ -331,23 +270,15 @@ while ($row=mysqli_fetch_assoc($result)) {
 </tr>
 			</tbody>
 		</form>
-		
-<tr>
-	<td><form id="upload_form" enctype="multipart/form-data" method="post">
-  <input type="file" name="file1" id="file1"><br>
-  <input type="button" value="Upload File" onclick="uploadFile()">
-  <progress id="progressBar" value="0" max="100" style="width:300px;"></progress>
-  <h3 id="status"></h3>
-  <p id="loaded_n_total"></p>
-  <input type="submit" name="">
-</form></td>
-</tr>
-
 		</table>
 	</div>
 </center>
 
 	
+<form action="createorder.php" method="post" enctype="multipart/form-data">
+	<input type="file" name="file_img">
+	<input type="submit" class="btn btn-success" name="btn_upload" value="Upload">
+</form>
 
 </body>
 </html>
@@ -356,7 +287,34 @@ session_start();
 $_session['id']=4;
 include "connection.php";
 
+if(isset($_POST['btn_upload'])){
+	# code...
+	$conn=mysqli_connect("localhost","root","","lmdot");
 
+if(!$conn){
+	echo die();
+}
+
+
+	
+	$filetmp = $_FILES["file_img"]["tmp_name"];
+	$filename = $_FILES["file_img"]["name"];
+	$filetype = $_FILES["file_img"]["type"];
+	$filepath = "images/".$filename;
+
+
+move_uploaded_file($filetmp,$filepath);
+	$id=$_session['id'];
+$sql = "INSERT INTO `lmdot`.`logo` (`id`, `imagepath`, `imagename`, `type`, `cid`) VALUES (NULL, '$filepath','$filename','$filetype',$id)";
+if(mysqli_query($conn,$sql)){
+echo "success";
+}else
+{
+
+}
+ 
+
+}
 
 if (isset($_POST['upload'])) {
 	//isset($_POST['category'])&&isset($_POST['brand'])&&isset($_POST['model'])&&isset($_POST['size'])&&isset($_POST['quantity'])&&isset($_POST['sellp'])
