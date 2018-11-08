@@ -4,6 +4,7 @@
   <title>try</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/animate.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -13,6 +14,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
 <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.4.2/css/all.css' >
+
+
 <style type="text/css">
     #leftmenu{
       margin-top: 20px;
@@ -79,10 +82,28 @@ box-shadow: 3px 3px 2px #255370;
   </style>
 
 
+<script>
+var app = angular.module("myApp", ["ngRoute"]);
+app.config(function($routeProvider) {
+    $routeProvider
+    .when("/dashboard", {
+        templateUrl : "chart.php"
+    })
+    .when("/red", {
+        templateUrl : "red.htm"
+    })
+    .when("/green", {
+        templateUrl : "green.htm"
+    })
+    .when("/blue", {
+        templateUrl : "blue.htm"
+    });
+});
+</script>
 
 
 </head>
-<body class="container-fluid" style="background-color: #AFC2D5;" >
+<body class="container-fluid" style="background-color: #AFC2D5;" ng-app="myApp">
 
 <div class="row" >
 <div class="col-lg-2" style="background-color: #357196; box-shadow: 3px 4px 3px gray;"  >
@@ -129,8 +150,9 @@ box-shadow: 3px 3px 2px #255370;
   </div>
 </div>
 </div>
+<div ng-view></div>
 </div>
-
+</div>
 
 </body>
 </html>

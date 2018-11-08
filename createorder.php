@@ -64,6 +64,34 @@ function abortHandler(event){
 		position: absolute;
 		
 	}
+
+#wrapper
+{
+ text-align:center;
+ margin:0 auto;
+ padding:0px;
+ width:995px;
+}
+#drop-area
+{
+ margin-top:20px;
+ margin-left:220px;
+ width:550px;
+ height:200px;
+ background-color:white;
+ border:3px dashed grey;
+}
+.drop-text
+{
+ margin-top:70px;
+ color:grey;
+ font-size:25px;
+ font-weight:bold;
+}
+#drop-area img
+{
+ max-width:200px;
+}
 </style>
 
  <script type="text/javascript">
@@ -106,10 +134,7 @@ $('#main').attr('src',val.imagepath);
   });
 
   		
-$('#cloud').click(function(){
-$('#logo').attr('src',"google.png");
 
-});
 $('.main').click(function j(v){
 var g= $(this).attr('src');
 $("#main").attr('src',g);
@@ -191,6 +216,21 @@ var s=$('#logo').position();
 $('#logo').css('left',s.left+3);
 });
 
+ $("#drop-area").on('dragenter', function (e){
+  e.preventDefault();
+  $(this).css('background', '#BBD5B8');
+ });
+
+ $("#drop-area").on('dragover', function (e){
+  e.preventDefault();
+ });
+
+ $("#drop-area").on('drop', function (e){
+  $(this).css('background', '#D8F9D3');
+  e.preventDefault();
+  var image = e.originalEvent.dataTransfer.files;
+  createFormData(image);
+ });
 
 
 $('#submit').click(function(){
@@ -210,6 +250,31 @@ $.ajax({url: "image.php?&invoice="+invoice, success: function(result){
 });
 
   	});
+
+
+
+function createFormData(image)
+{
+ var formImage = new FormData();
+ formImage.append('userImage', image[0]);
+ uploadFormData(formImage);
+}
+
+function uploadFormData(formData) 
+{
+ $.ajax({
+ url: "upload_image.php",
+ type: "POST",
+ data: formData,
+ contentType:false,
+ cache: false,
+ processData: false,
+ success: function(data){
+  alert('Upload Successfully');
+  $('#drop-area').html(data);
+
+ }});
+}
   </script>
 </head>
 <body class="container-fluid">
@@ -222,7 +287,7 @@ $.ajax({url: "image.php?&invoice="+invoice, success: function(result){
 			<thead><th>Create product</th></thead>
 			<tbody>
 				<tr>
-					<td><select  class="form-control" name="category" id="category">
+					<td  colspan="2"><select  class="form-control" name="category" id="category">
 							<option value="t-shirt" >t-shirt</option>
    							 <option value="mobile">mobile</option>
 
@@ -232,7 +297,7 @@ $.ajax({url: "image.php?&invoice="+invoice, success: function(result){
 				</tr>
 <tr>
 	
-	<td>
+	<td  colspan="2">
 	<select  class="form-control" name="brand"  id="brand">
 	<option>
 <p>samsung</p>
@@ -241,7 +306,7 @@ $.ajax({url: "image.php?&invoice="+invoice, success: function(result){
 </td>
 </tr>
 <tr>
-	<td>
+	<td  colspan="2">
 	
 <select name="model" class="form-control" id="model">
 	<option  ><p>yk11</p></option>  
@@ -252,21 +317,30 @@ $.ajax({url: "image.php?&invoice="+invoice, success: function(result){
 
 </tr>
 <tr>
-	<td>
+	<td  colspan="2">
 		<h4 style="color: blue;" id="grab">grab images</h4>
 	</td>
 </tr>
 
 <tr>
-	<td>
+	<td  colspan="2">
 			
 <select  class="form-control" name="size" >
-	<option><p>120x130</p></option>  
+	<option ><p>120x130</p></option>  
 	 
 </select>
 		</td>
 </tr>
-
+<tr>
+	<td colspan="2">
+			<input type="text" class="form-control" name="quantity" placeholder="Quantity" >
+		</td>
+</tr>
+<tr>
+	<td colspan="2">
+		<input type="text" class="form-control" name="sellp" placeholder="Enter your selling price " >
+		</td>
+</tr>
 <tr>
 	<td><a href="createorder.php">click</a></td>
 </tr>
@@ -274,13 +348,9 @@ $.ajax({url: "image.php?&invoice="+invoice, success: function(result){
 	<td>
 	<center><img src="imgmain/tshirt.jpg" id="main" height="300" id="main" width="300">
 <img  height="100" id="logo" width="100"></center>
-
-
 	</td>
-</tr>
 
-<tr>
-	<td>
+	<td >
 		<?php 
 $sql="select * from mobile where brand='samsung' and model='bz11'" ;
 $result=mysqli_query($conn,$sql);
@@ -293,7 +363,7 @@ while ($row=mysqli_fetch_assoc($result)) {
 	</td>
 </tr>
 <tr>
-	<td><button id="down" class="btn btn-default">down</button>
+	<td><div id="down" class="btn btn-default">down</div>
 <button id="up" class="btn btn-default">up</button>
 <button id="zoomin" class="btn btn-default">zoomin</button>
 <button id="zoomout" class="btn btn-default">zoomout</button>
@@ -316,18 +386,13 @@ while ($row=mysqli_fetch_assoc($result)) {
 	?>
 </td>
 </tr>
+
+
 <tr>
-	<td>
-			<input type="text" class="form-control" name="quantity" placeholder="Quantity" >
-		</td>
-</tr>
-<tr>
-	<td>
-		<input type="text" class="form-control" name="sellp" placeholder="Enter your selling price per product" >
-		</td>
-</tr>
-<tr>
-	<td><input type="submit" class="btn btn-success" value="Submit" name="upload"></td>
+	<td><input type="submit" class="btn btn-success" value="Submit" name="upload">
+
+
+	</td>
 </tr>
 			</tbody>
 		</form>
@@ -340,7 +405,16 @@ while ($row=mysqli_fetch_assoc($result)) {
   <h3 id="status"></h3>
   <p id="loaded_n_total"></p>
   <input type="submit" name="">
-</form></td>
+</form>
+<div id="wrapper">
+ <input type="file">
+ <div id="drop-area">
+  <h3 class="drop-text">Drag and Drop Images Here</h3>
+
+ </div>
+
+</div>
+</td>
 </tr>
 
 		</table>
