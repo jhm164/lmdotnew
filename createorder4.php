@@ -85,7 +85,7 @@
 #drop-area
 {
  
- width:550px;
+ width:200px;
  height:200px;
  background-color:white;
  border:3px dashed grey;
@@ -102,6 +102,12 @@
  max-width:200px;
 }
   
+
+.dh{
+  box-shadow: 3px 4px 3px gray;
+ 
+}
+
 .circularbutton{
 
   border-radius: 5px;
@@ -130,7 +136,7 @@ box-shadow: 3px 3px 2px #255370;
   width: 100px;
 height: 100px;
 }
-.table {border: 1px solid black!important;} 
+.table {border: 0px solid black!important;} 
 .table tr, .table td, .table th {border: 0!important;}
 .table tr td, 
 .table tr th {border-left: 1px solid black!important;}
@@ -176,6 +182,7 @@ function abortHandler(event){
   	var pcategory=0;
   	var pmodel=0;
   	var logoid1=0;
+    var zone=null;
   	$(document).ready(function(){
 
 
@@ -265,7 +272,9 @@ $.getJSON( "loadproduct.php?category="+category+"&brand="+brand+"&model="+model,
   $.each( data, function( key, val ) {
 
 mainproductid=val.id;
-alert(mainproductid);
+zone=val.zone;
+
+alert(mainproductid+zone);
 pmodel=val.model;
 $('#main').attr('src',val.imagepath);
   });
@@ -289,6 +298,63 @@ $("#drop-area").on('dragenter', function (e){
   var image = e.originalEvent.dataTransfer.files;
   createFormData(image);
  });
+
+
+$('#evaluate').click(function(){
+ var quantity=$('#quantity').val();
+  var category=$('#category').val();
+  var brand=$('#brand').val();
+  var model=$('#model').val();
+  var zonep=0;
+ $('#quantity1').text(quantity);
+
+ $('#pname1').text(category+' '+brand+' '+model);
+$('#priceperp').text(180);
+ $('#pprice1').text(quantity*180);
+ $.post("zone.php",
+    {
+      zone:zone
+    }, function(data, status){
+        $('#zonepp').text(data);
+        zonep=data;
+    });
+
+$('#total').text(zonep+quantity*180);
+
+
+
+});
+
+ $("#submit").click(function(){
+
+
+  var category=$('#category').val();
+  var brand=$('#brand').val();
+  var model=$('#model').val();
+  var size=$('#size').val();
+  var quantity=$('#quantity').val();
+  var sellp=$('#sellp').val();
+  var category=$('#category').val();
+
+
+
+ $.post("orderp.php",
+    {
+       
+        category:category,
+        brand:brand,
+        model:model,
+        size:size,
+        quantity:quantity,
+        sellp:sellp,
+        category:category,
+        mainproductid,mainproductid,
+        logoid:logoid1
+    }, function(data, status){
+        alert(data);
+    });
+    
+});
 
 
   	});
@@ -333,58 +399,8 @@ function uploadFormData(formData)
 session_start();
 $_session['id']=4;
 include "connection.php";
+?>
 
-
-
-if (isset($_POST['upload'])) {
-	//isset($_POST['category'])&&isset($_POST['brand'])&&isset($_POST['model'])&&isset($_POST['size'])&&isset($_POST['quantity'])&&isset($_POST['sellp'])
-$category="N/A";
-$brand="N/A";
-$model="N/A";
-$size="N/A";
-$quantity=0;
-$sellp=0;
-
-$category=$_POST['category'];
-$brand=$_POST['brand'];
-$model=$_POST['model'];
-$size=$_POST['size'];
-$quantity=$_POST['quantity'];
-$sellp=$_POST['sellp'];
-$id=$_session['id'];
-$productid="<script>document.write(mainproductid);</script>";
-
-//echo "<script>document.write(logoid1);</script>";
-//echo "<script>document.write(mainproductid);</script>";
-echo "<script>document.write(mainproductid=0;mainproductid);</script>";
-$logoid="<script>document.write(logoid1);</script>";
-echo $logoid." ".$productid;
-$flag="true";
-$sql1="select * from orders where productid='$productid' and logoid='$logoid' and customerid='$id' and status='ordered'";
-
-$result=mysqli_query($conn,$sql1);
-while ($row=mysqli_fetch_assoc($result)) {
-	
-	if ($row['id']==null) {
-		# code...
-	}else{
-	$flag="false";
-	echo '<h4>order placed already</h4>';
-	
-}
-}
-
-if ($flag=="true") {
-	
-$sql = "INSERT INTO `orders` (`id`, `type`, `productid`, `logoid`, `customerid`, `dateoforder`, `sellprice`, `status`) VALUES (NULL, 'mobile', '$productid', '$logoid', '$id',now(), $sellp, 'ordered')";
-
-if (mysqli_query($conn,$sql)) {
-	echo "<h4>order placed successfully</h4>";
-}
-
-}
-}
-	?>
   </head>
   <body class="container-fluid">
 
@@ -414,8 +430,9 @@ if (mysqli_query($conn,$sql)) {
 
 
   </div>
-   <div class="col-lg-10"  >
-<table class="table">
+   <div class="col-lg-10"   >
+
+<table class="table" >
 <tbody>
   <tr >
     <td>
@@ -432,138 +449,109 @@ if (mysqli_query($conn,$sql)) {
 
 
 
-<table class="table">
-	<form action="createorder1.php" method="post" enctype="multipart/form-data">
-			<thead>
-				<th>Create product</th>
-			</thead>	
-            <tbody>
+ <div class="row">
+      
+      <div class="col-lg-6">
+      
+<table class="table" style="border: none;">
+  <form action="createorder1.php" method="post" enctype="multipart/form-data">
+      <thead>
+        <th>Create product</th>
+      </thead>  
+            <tbody >
 
+<div style="padding: 12px;">              <tr >
+          <td  colspan="2">
+            <select  class="form-control" name="category" id="category">
+              <option value="t-shirt" >t-shirt</option>
+                 <option value="mobile">mobile</option>
+            </select>
+          </td>
 
-            	<tr>
-					<td  colspan="2">
-						<select  class="form-control" name="category" id="category">
-							<option value="t-shirt" >t-shirt</option>
-   							 <option value="mobile">mobile</option>
-						</select>
-					</td>
+        </tr>
 
-				</tr>
-
-				<tr>
-					<td colspan="2">
-						<select  class="form-control" name="brand"  id="brand">
-	                       <option>
-							<p>samsung</p>
-							</option>  
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<select name="model" class="form-control" id="model">
-						<option  ><p>yk11</p></option>  
- 						<option  ><p>bz11</p></option>  
-						</select> 
-					</td>
-				</tr>
- 				<tr>
- 					<td colspan="2">
- 						<h4 style="color: blue;" id="grab">grab images as per selection</h4>
- 					</td>
- 				</tr>
- 				<tr>
- 					<td colspan="2">
- 					<select  class="form-control" name="size" >
-	                <option ><p>120x130</p></option>  
-	                    </select>
+        <tr>
+          <td >
+            <select  class="form-control" name="brand"  id="brand">
+                         <option>
+              <p>samsung</p>
+              </option>  
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <select name="model" class="form-control" id="model">
+            <option  ><p>yk11</p></option>  
+            <option  ><p>bz11</p></option>  
+            </select> 
+          </td>
+        </tr>
+        <tr>
+          <td >
+            <h4 style="color: blue;" id="grab">grab images as per selection</h4>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+          <select  class="form-control" name="size" id="size" >
+                  <option ><p>120x130</p></option>  
+                      </select>
                    </td>
- 				</tr>
- 				<tr>
- 					<td colspan="2">
- 						<input type="text" class="form-control" name="quantity" placeholder="Quantity" >
-					</td>
- 				</tr>
- 				<tr>
- 					<td colspan="2">
- 						<input type="text" class="form-control" name="sellp" placeholder="Enter your selling price " >
- 					</td>
- 				</tr>
- 				<tr>
- 					<td>
- 						<a href="createorder1.php">refresh</a>
- 					</td>
- 				</tr>
- 				<tr>
- 					<td>
- 						<img src="imgmain/tshirt.jpg" id="main"  >
-                      <img src="images/oscar.png" id="logo" >
- 					</td>
- 					<td>
- 						<div id="down" class="btn btn-default">down</div>
-						<div id="up" class="btn btn-default">up</div>
-						<div id="zoomin" class="btn btn-default">zoomin</div>
-						<div id="zoomout" class="btn btn-default">zoomout</div>
-						<div id="left" class="btn btn-default">left</div>
-						<div id="right" class="btn btn-default">right</div>
-
- 					</td>
- 					
- 				</tr>
- 				<tr>
- 					<td>
- 						<?php 
-			$sql="select * from logo where cid=4";
-			$result=mysqli_query($conn,$sql);
-			while ($row=mysqli_fetch_assoc($result)) {
-				?>
-				<img src="<?php echo $row['imagepath'];?>" height="100" width="100"  class="img-rounded logoc"  id="<?php echo $row['id'];?>" >
-				<?php
-			}
-				?>
- 					</td>
- 					<td>
- 						<?php 
-
-							$sql="select * from mobile where brand='samsung' and model='bz11'" ;
-							$result=mysqli_query($conn,$sql);
-							while ($row=mysqli_fetch_assoc($result)) {
-						?>
-					<img src="<?php echo $row['imagepath'];?>" height="100" width="100"  class="img-rounded main"   >
-					<?php
-						}
-						?>
- 					</td>
- 				</tr>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <input type="text" class="form-control" name="quantity" id="quantity" placeholder="Quantity" >
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <input type="text" class="form-control" name="sellp" id="sellp" placeholder="Enter your selling price " >
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="createorder1.php">refresh</a>
+          </td>
+        </tr>
+       
+        <tr >
+          <td>
+           
+          </td>
+       
+        </tr>
 
 <tr>
-	<td><input type="submit" class="btn btn-success" value="Submit" name="upload">
+  <td><input type="button" class="btn btn-success" value="Submit" id="submit" name="upload">
 
 
-	</td>
+  </td>
 </tr>
-
+</div>
 
             </tbody>
 </form>
         </table>
-<table class="table">
 
-<tr>
-	<td><form id="upload_form" enctype="multipart/form-data" method="post">
-  <input type="file" name="file1" id="file1"><br>
-  <input type="button" value="Upload File" onclick="uploadFile()">
-  <progress id="progressBar" value="0" max="100" style="width:300px;"></progress>
+        <div class="row">
+        <div class="col-lg-6">
+<form id="upload_form" enctype="multipart/form-data" method="post">
+  <input type="file" class="form-control" name="file1" id="file1"><br>
+  <input type="button" class="form-control" value="Upload File" onclick="uploadFile()">
+  <progress id="progressBar" class="form-control" value="0" max="100" style="width:300px;"></progress>
   
-</form></td>
-<td>
-<div id="wrapper">
+</form>
+</div>
+<div class="col-lg-6">
+<div id="wrapper" >
 
  <div id="drop-area">
   <h3 class="drop-text">Drag and Drop Images Here</h3>
 
  </div>
-
+</div>
+</div>
 </div>
 </td>
 </tr>
@@ -582,24 +570,51 @@ if (mysqli_query($conn,$sql)) {
 
 </table>
 
+      </div>
+       
+      <div class="col-lg-6">
+         <center>
+            <img  id="main"  >
+                      <img id="logo" >
+                    </center>
+          </td>
+          <td >
+            <div id="down" class="btn btn-default dh" >down</div>
+            <div id="up" class="btn btn-default dh">up</div>
+            <div id="zoomin" class="btn btn-default dh">zoomin</div>
+            <div id="zoomout" class="btn btn-default dh">zoomout</div>
+            <div id="left" class="btn btn-default dh">left</div>
+            <div id="right" class="btn btn-default dh">right</div>
+<div style="overflow:scroll;height: 80px;margin-top: 12px;">         <?php 
+      $sql="select * from logo where cid=4";
+      $result=mysqli_query($conn,$sql);
+      while ($row=mysqli_fetch_assoc($result)) {
+        ?>
+        <img src="<?php echo $row['imagepath'];?>" height="60" width="60"  class="img-rounded logoc"  id="<?php echo $row['id'];?>" >
+        <?php
+      }
+        ?>
+</div>
+      </div>
+    </div>
 
+
+
+<h3 id="evaluate">Evaluate</h3>
+<table class="table">
+  <thead><th>Product Name</th><th>Quantity</th><th>Product Price</th><th>Printing charges</th><th>Additional charges</th><th>Product price</th></thead>
+<tbody>
+  <tr><td><b id="pname1"></b></td><td><b id="quantity1"></b></td><td id="priceperp">-</td><td>-</td><td>-</td><td><b id="pprice1"></b></td></tr>
+  <tr><td><b >Shipping</b></td><td>-</td><td>-</td><td>-</td><td>-</td><td><b id="zonepp">-</b></td></tr>
+ 
+  <tr><td><b >Credit Balance</b></td><td><b >-</b></td><td><b></b></td><td>-</td><td>-</td><td>4000</td></tr>
+  <tr><td><b>Total</b></td><td>-</td><td>-</td><td>-</td><td>-</td><td id="total">-</td></tr>
+</tbody>
+</table>
 </div>
 
 </div>
 
-<button id="kkk" onclick="g1()">kkas</button>
-   
-<script type="text/javascript">
-	
 
-	function g1(){
-		alert(mainproductid);
-
-	}
-
-
-</script>
-<?php echo "here"."<script>document.write(mainproductid);</script>"; ?>
-    
   </body>
 </html>
