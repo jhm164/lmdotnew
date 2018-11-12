@@ -55,7 +55,10 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
   </style>
 </head>
 <body class="container">
-
+<?php
+session_start();
+session_destroy();
+?>
 <center >
 	<div  id="whole"  id="r" class="animated bounceInUp delay-0s">
 	<table class="table animated bounceInDown delay-0.7s">
@@ -64,7 +67,7 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 		<h3 style="font-family: 'Roboto'; color: white;" class="animated fadeInLeft delay-1s" ><center>Login admin panel</center></h3>
 		</th>
 	</thead>
-	<form action="internship.php" method="POST">
+	<form action="main.php" method="POST">
 	<tbody>
 		<tr class="form-group">
 						<td>

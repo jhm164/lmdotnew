@@ -80,15 +80,14 @@
  text-align:center;
  margin:0 auto;
  padding:0px;
- width:100%;
+
 }
 #drop-area
 {
  
- width:200px;
- height:200px;
+
  background-color:white;
- border:3px dashed grey;
+ 
 }
 .drop-text
 {
@@ -136,12 +135,7 @@ box-shadow: 3px 3px 2px #255370;
   width: 100px;
 height: 100px;
 }
-.table {border: 0px solid black!important;} 
-.table tr, .table td, .table th {border: 0!important;}
-.table tr td, 
-.table tr th {border-left: 1px solid black!important;}
-.table tr td:nth-child(1), 
-.table tr th:nth-child(1) {border-left: 0!important;}
+
   </style>
   <script type="text/javascript">
 function _(el){
@@ -183,10 +177,13 @@ function abortHandler(event){
   	var pmodel=0;
   	var logoid1=0;
     var zone=null;
+    var selectedcustomer=0;
+    var  paymentmode=null;
   	$(document).ready(function(){
-
-
-
+$('#evaluatearea').hide();
+$('#customerd').hide();
+$('#finalp').hide();
+$('#uploadarea').hide();
 var v=$("#main").position();
 var marginl=$("#main").css("margin-left");
 var margint=$("#main").css("margin-top");
@@ -205,6 +202,42 @@ $("#logo").css("top",v.top+height/2-height1/2);
 $("#logo").css("left",v.left+width/2-width1/2);
 
 
+$('#showupload').click(function(){
+
+$('#uploadarea').toggle(1000);
+
+});
+
+$('#slider').change(function(){
+var v=$('#slider').val();
+var s=$('#logo').height();
+var w=$('#logo').width();
+var h=0;
+var w1=0;
+if(v>50){
+
+
+
+h=v-50;
+ w1=w-50;
+$('#logo').css('height',s+h);
+$('#logo').css('width',w+w1);
+}
+
+});
+
+
+$('.grp').click(function(){
+
+paymentmode= $('.grp').attr('id');
+
+});
+
+
+$('#fullsize').click(function(){
+
+$('#myicons').css('overflow','');
+});
 
 $('#down').click(function(){
 
@@ -227,10 +260,62 @@ var s=$('#logo').height();
 $('#logo').css('height',s+3);
 });
 
+$('.getcustomer').click(function(){
+selectedcustomer=$('.getcustomer').attr('id');
+
+alert(selectedcustomer);
+
+});
+
 
 $('#zoomout').click(function(){
 var s=$('#logo').height();
 $('#logo').css('height',s-3);
+});
+
+$('#cdetail').click(function(){
+var cname=$('#cname').val();
+var cadd1=$('#cadd1').val();
+var cadd2=$('#cadd2').val();
+var landmark=$('#landmark').val();
+var pincode=$('#pincode').val();
+var country=$('#country').val();
+var state=$('#state').val();
+var city=$('#city').val()
+var ccode=$('#ccode').val();
+var mobile=$('#mobile').val();
+var email=$('#email').val();
+alert(cname+' '+cadd1+' '+cadd2+' '+landmark+' '+pincode+' '+country+' '+state+' '+city+' '+ccode+' '+mobile+' '+email);
+$.post("addcustomer.php",
+    {
+      cname:cname,
+      cadd1:cadd1,
+      cadd2:cadd2,
+      landmark:landmark,
+      pincode:pincode,
+      country:country,
+      state:state,
+      city:city,
+      ccode:ccode,
+      mobile:mobile,
+      email:email
+    }, function(data, status){
+        alert(data);
+    }).then(function(){
+
+      location.reload();
+    });
+
+
+
+
+
+
+
+
+
+
+
 });
 
 
@@ -281,8 +366,13 @@ $('#main').attr('src',val.imagepath);
 });
 
   });
+$('#cod').click(function(){
 
-
+  $('#customerd').show(1000);
+});
+$('#online').click(function(){
+  $('#customerd').show(1000);
+});
 $("#drop-area").on('dragenter', function (e){
   e.preventDefault();
   $(this).css('background', '#BBD5B8');
@@ -306,6 +396,7 @@ $('#evaluate').click(function(){
   var brand=$('#brand').val();
   var model=$('#model').val();
   var zonep=0;
+  $('#evaluatearea').show(1000);
  $('#quantity1').text(quantity);
 
  $('#pname1').text(category+' '+brand+' '+model);
@@ -337,6 +428,7 @@ $('#total').text(zonep+quantity*180);
   var category=$('#category').val();
 
 
+alert(category+' '+brand+' '+model+' '+size+' '+quantity+' '+sellp+' '+category+' '+mainproductid+' '+logoid1+' '+selectedcustomer+' '+paymentmode);
 
  $.post("orderp.php",
     {
@@ -349,7 +441,9 @@ $('#total').text(zonep+quantity*180);
         sellp:sellp,
         category:category,
         mainproductid,mainproductid,
-        logoid:logoid1
+        logoid:logoid1,
+        selectedcustomer,selectedcustomer,
+        paymentmode,paymentmode
     }, function(data, status){
         alert(data);
     });
@@ -397,7 +491,8 @@ function uploadFormData(formData)
   </script>
   <?php
 session_start();
-$_session['id']=4;
+$id=$_SESSION['id'];
+
 include "connection.php";
 ?>
 
@@ -418,7 +513,7 @@ include "connection.php";
 
     <div style="background-color: #357196;padding-top: 5px; padding-bottom: 5px;">
     <center>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-dashboard" style="float: left;font-size: 30px; width: 100%;"></span><a href="#!dashboard" style="color: white;font-size: 15px;"> Dashboard</a></div>
+    <div id="leftmenu" ><span class="glyphicon glyphicon-dashboard" style="float: left;font-size: 30px; width: 100%;"></span><a href="dashboard.php" style="color: white;font-size: 15px;"> Dashboard</a></div>
     <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;"></span> <a href="#!order" style="color: white;font-size: 15px;">Orders</a></div>
     <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;"></span><a href="#!accaunt" style="color: white;font-size: 15px;">Accaunt</a></div>
     <div style="margin-top: 100%;">
@@ -449,9 +544,9 @@ include "connection.php";
 
 
 
- <div class="row">
+ <div class="row" style="margin-left:10px;margin-right:10px;box-shadow: 1px 4px 4px gray;background-color: #d9d9d9;" >
       
-      <div class="col-lg-6">
+      <div class="col-lg-6" >
       
 <table class="table" style="border: none;">
   <form action="createorder1.php" method="post" enctype="multipart/form-data">
@@ -461,7 +556,8 @@ include "connection.php";
             <tbody >
 
 <div style="padding: 12px;">              <tr >
-          <td  colspan="2">
+          <td >
+            <h5>Select Category<span style="color:red;font-size: 20px;">*</span></h5>
             <select  class="form-control" name="category" id="category">
               <option value="t-shirt" >t-shirt</option>
                  <option value="mobile">mobile</option>
@@ -472,6 +568,7 @@ include "connection.php";
 
         <tr>
           <td >
+            <h5>Select Product<span style="color:red;font-size: 20px;">*</span></h5>
             <select  class="form-control" name="brand"  id="brand">
                          <option>
               <p>samsung</p>
@@ -481,6 +578,7 @@ include "connection.php";
         </tr>
         <tr>
           <td>
+            <h5>Select Model<span style="color:red;font-size: 20px;">*</span></h5>
             <select name="model" class="form-control" id="model">
             <option  ><p>yk11</p></option>  
             <option  ><p>bz11</p></option>  
@@ -489,23 +587,26 @@ include "connection.php";
         </tr>
         <tr>
           <td >
-            <h4 style="color: blue;" id="grab">grab images as per selection</h4>
+            <div style="color: blue;" id="grab"  class="form-control btn btn-primary"><b style="color:white;">Load</b></div>
           </td>
         </tr>
         <tr>
-          <td colspan="2">
+          <td>
+             <h5>Select Size of logo<span style="color:red;font-size: 20px;">*</span></h5>
           <select  class="form-control" name="size" id="size" >
                   <option ><p>120x130</p></option>  
                       </select>
                    </td>
         </tr>
         <tr>
-          <td colspan="2">
+          <td >
+             <h5> Quantity<span style="color:red;font-size: 20px;">*</span></h5>
             <input type="text" class="form-control" name="quantity" id="quantity" placeholder="Quantity" >
           </td>
         </tr>
         <tr>
-          <td colspan="2">
+          <td >
+             <h5>Enter total selling price<span style="color:red;font-size: 20px;">*</span></h5>
             <input type="text" class="form-control" name="sellp" id="sellp" placeholder="Enter your selling price " >
           </td>
         </tr>
@@ -523,7 +624,7 @@ include "connection.php";
         </tr>
 
 <tr>
-  <td><input type="button" class="btn btn-success" value="Submit" id="submit" name="upload">
+  <td>
 
 
   </td>
@@ -536,21 +637,10 @@ include "connection.php";
 
         <div class="row">
         <div class="col-lg-6">
-<form id="upload_form" enctype="multipart/form-data" method="post">
-  <input type="file" class="form-control" name="file1" id="file1"><br>
-  <input type="button" class="form-control" value="Upload File" onclick="uploadFile()">
-  <progress id="progressBar" class="form-control" value="0" max="100" style="width:300px;"></progress>
-  
-</form>
+
 </div>
 <div class="col-lg-6">
-<div id="wrapper" >
 
- <div id="drop-area">
-  <h3 class="drop-text">Drag and Drop Images Here</h3>
-
- </div>
-</div>
 </div>
 </div>
 </td>
@@ -572,38 +662,159 @@ include "connection.php";
 
       </div>
        
-      <div class="col-lg-6">
-         <center>
-            <img  id="main"  >
-                      <img id="logo" >
+      <div class="col-lg-6" >
+
+        <table class="table">
+          <tbody>
+          <tr>
+            <td>
+         <center style="margin-top:15px; ">
+            <img  id="main" style="background-color: white;"  >
+                      <img id="logo" style="background:transparent;" >
                     </center>
-          </td>
-          <td >
-            <div id="down" class="btn btn-default dh" >down</div>
-            <div id="up" class="btn btn-default dh">up</div>
-            <div id="zoomin" class="btn btn-default dh">zoomin</div>
-            <div id="zoomout" class="btn btn-default dh">zoomout</div>
-            <div id="left" class="btn btn-default dh">left</div>
-            <div id="right" class="btn btn-default dh">right</div>
-<div style="overflow:scroll;height: 80px;margin-top: 12px;">         <?php 
+                  </td>
+                </tr>
+         <tr>
+          <td>
+          <h5>My Designs<span style="color:red;font-size: 20px;">*</span></h5>
+<div style="overflow:scroll;height: 80px;margin-top: 12px;margin-bottom: 12px;" id="myicons">         <?php 
       $sql="select * from logo where cid=4";
       $result=mysqli_query($conn,$sql);
       while ($row=mysqli_fetch_assoc($result)) {
         ?>
-        <img src="<?php echo $row['imagepath'];?>" height="60" width="60"  class="img-rounded logoc"  id="<?php echo $row['id'];?>" >
+        <img src="<?php echo $row['imagepath'];?>" height="60" width="60" style="margin:4px;" class="img-rounded logoc"  id="<?php echo $row['id'];?>" >
         <?php
       }
         ?>
 </div>
-      </div>
+
+<div style="float: right; font-size:25px;"><span class="glyphicon glyphicon-resize-full" id="fullsize" ></span>
+</div></td></tr>
+
+<tr><td>
+<center><button class="btn btn-primary" style="background:transparent;border:1px solid #2e6da4;color:#2e6da4;" id="showupload" >Upload new design </button></center>
+  </td></tr>
+  <tr><td>
+   <div class="row" id="uploadarea" style="">         
+<form id="upload_form" enctype="multipart/form-data" method="post">
+ <center> <input type="file" class="form-control" name="file1" id="file1">
+
+  <input type="button" class="btn btn-primary" style="margin-top:10px;" value="Upload File" onclick="uploadFile()">
+  <progress id="progressBar" value="0" max="100" style="margin-top:10px;"></progress>
+  </center>
+</form>
+<div id="wrapper" class="row" >
+
+ <div id="drop-area" class="col-lg-12" style="padding:12px;">
+  <p style="  font-weight:bold;">drop image here</p>
+  <h3 class="drop-text"><span class="glyphicon glyphicon-file"></span></h3>
+
+ </div>
+</div>
     </div>
+  </td></tr>
+  <tr>
+<td>
 
 
+</td>
+</tr>
+       </tbody>
+          </table>
+  </div>
 
-<h3 id="evaluate">Evaluate</h3>
-<table class="table">
-  <thead><th>Product Name</th><th>Quantity</th><th>Product Price</th><th>Printing charges</th><th>Additional charges</th><th>Product price</th></thead>
+
+<table class="table table-hover" style="border-bottom: 1px solid gray;"  >
+
+  <thead>
+  <tr><th><h4>My Customers</h4></th></tr>
+    <tr style="background-color: #204c67;color: white;"><th>Customer name</th><th>Country</th><th>City</th><th>Pincode</th><th>Landmark</th></tr></thead>
 <tbody>
+  
+  
+  <?php
+$sql="select * from customerdetail where recordholder='$id'";
+
+$result=mysqli_query($conn,$sql);
+while ($row=mysqli_fetch_assoc($result)) {
+ ?>
+ <tr class="getcustomer" id="<?php echo $row['id'];?>">
+  
+<td><b>
+<?php echo $row['name'];?></b></td>
+<td>
+<?php echo $row['country'];?></td>
+<td>
+<?php echo $row['city'];?></td>
+<td>
+<?php echo $row['pincode'];?></td>
+<td>
+<?php echo $row['landmark'];?></td>
+  </tr>  
+ <?php
+}
+
+
+  ?>
+
+
+
+</tbody>
+
+</table>
+
+
+
+
+<table class="table">
+  <thead><tr><th>Shipping mode</th></thead>
+  <tbody><tr style="border: 1px solid gray;box-shadow: 1px 2px 4px gray;font-weight: bold;">
+    <center><td ><input type="radio" id="cod" name="grp" class="grp" value="cod"> cod</td>
+    <td><input type="radio" id="online" name="grp" class="grp" value="online"> Online Payment</td></center>
+  </tr>
+</tbody>
+</table>
+<table class="table" id="customerd">
+  <thead><tr><th>Customer details</th></thead>
+  <tbody>
+
+    <tr>
+
+      <td ><h5>Customer name<span style="color: red;">*</span></h5><input type="text"  class="form-control" id="cname"  ></td>
+    <td ><h5>Address Line1<span style="color: red;">*</span></h5><input type="text"  class="form-control" id="cadd1"  ></td>
+     <td ><h5>Address Line2</h5><input type="text"  class="form-control" id="cadd2"  ></td>
+      <td ><h5>Landmark<span style="color: red;">*</span></h5><input type="text"  class="form-control" id="landmark"  ></td>
+  </tr>
+
+  <tr>
+    <td>Pincode<span style="color: red;">*</span><input type="text"  class="form-control" id="pincode"  ></td>
+     <td>Country<span style="color: red;">*</span><input type="text"  class="form-control" id="country"  ></td>
+     <td>State<span style="color: red;">*</span><input type="text"  class="form-control" id="state"  ></td>
+      <td>City<span style="color: red;">*</span><input type="text"  class="form-control" id="city"  ></td>
+
+  </tr>
+  <tr>
+     <td>Country code<span style="color: red;">*</span><input type="text"  class="form-control" id="ccode"  ></td>
+      <td>Mobile<span style="color: red;">*</span><input type="text"  class="form-control" id="mobile"  ></td>
+       <td>Customer Email<span style="color: red;">*</span><input type="text"  class="form-control" id="email"></td>
+  </tr>
+<tr><td>
+  <input type="button" value="confirm details" class="btn btn-success" id="cdetail" name="">
+</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+<table class="table" style="" id="finalp" >
+  
+  <thead><tr ><th><h3 id="evaluate" style="float:left;">Evaluate</h3>
+</th></tr></thead>
+<tbody id="evaluatearea">
+  <tr style="background-color: #204c67;color: white;"><td>Product Name</td><td>Quantity</td><td>Product Price</td><td>Printing charges</td><td>Additional charges</td><td>Product price</td></tr>
   <tr><td><b id="pname1"></b></td><td><b id="quantity1"></b></td><td id="priceperp">-</td><td>-</td><td>-</td><td><b id="pprice1"></b></td></tr>
   <tr><td><b >Shipping</b></td><td>-</td><td>-</td><td>-</td><td>-</td><td><b id="zonepp">-</b></td></tr>
  
@@ -611,10 +822,12 @@ include "connection.php";
   <tr><td><b>Total</b></td><td>-</td><td>-</td><td>-</td><td>-</td><td id="total">-</td></tr>
 </tbody>
 </table>
+<div style="margin: 20px;">
+<center ><input type="button" class="btn btn-success" value="Confirm Oreder" id="submit" name="upload"></center>
+</div>
 </div>
 
 </div>
-
 
   </body>
 </html>

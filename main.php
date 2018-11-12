@@ -82,35 +82,63 @@ box-shadow: 3px 3px 2px #255370;
   </style>
 
 
+<style>
+#spinner{
+	position: fixed;
+	top:50%;
+left: 50%;
+}
+</style>
 <script>
-var app = angular.module("myApp", ["ngRoute"]);
-app.config(function($routeProvider) {
-    $routeProvider
-    .when("/dashboard", {
-        templateUrl : "chart.php"
-    })
-    .when("/red", {
-        templateUrl : "red.htm"
-    })
-    .when("/green", {
-        templateUrl : "green.htm"
-    })
-    .when("/blue", {
-        templateUrl : "blue.htm"
+
+    $(window).load(function () {
+        // run code
+       $('#spinner').show();
     });
+$(document).ready(function(){
+$('#spinner').hide();
 });
 </script>
 
-
 </head>
-<body class="container-fluid" style="background-color: #AFC2D5;" ng-app="myApp">
+<body class="container-fluid" style="background-color: #AFC2D5;" id="load_screen" ng-app="myApp">
 
+<div id="spinner" style="display: none;">
+	<img src="css/spinner.gif" alt="loading" id="img-spinner">
+	
+</div>
+<?php
+session_start();
+include 'connection.php';
+
+if (isset($_POST['username'])&&isset($_POST['username'])) {
+	
+$username=$_POST['username'];
+$password=$_POST['password'];
+
+
+	$sql="select * from customer where username='$username' and password='$password'";
+
+	$result=mysqli_query($conn,$sql);
+while ($row=mysqli_fetch_assoc($result)) {
+	$_SESSION['fname']=$row['fname'];
+	$_SESSION['lname']=$row['lname'];
+	$_SESSION['id']=$row['id'];
+
+}
+
+}
+
+if (isset($_SESSION['id'])) {
+	# code...
+
+?>
 <div class="row" >
 <div class="col-lg-2" style="background-color: #357196; box-shadow: 3px 4px 3px gray;"  >
     <div  style="background-color: #357196;padding-bottom: 5px;padding-top: 15px;">
     <center>
     <img src="images/oscar.png" style="height: 80px;width: 80px;border: 2px solid gray;padding: 2px; background-color: white;" class="img-circle">
-    <h4 style="color:white;font-family: 'Times New Romen';font-weight: bold;">Saurabh solkar <br></h4>
+    <h4 style="color:white;font-family: 'Times New Romen';font-weight: bold;"> <?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </h4>
     <button class="circularbutton">Update Profile</button>
   
     </center>
@@ -118,8 +146,8 @@ app.config(function($routeProvider) {
 
     <div style="background-color: #357196;padding-top: 5px; padding-bottom: 5px;">
     <center>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-dashboard" style="float: left;font-size: 30px; width: 100%;"></span><a href="#!dashboard" style="color: white;font-size: 15px;"> Dashboard</a></div>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;"></span> <a href="#!order" style="color: white;font-size: 15px;">Orders</a></div>
+    <div id="leftmenu" ><span class="glyphicon glyphicon-dashboard" style="float: left;font-size: 30px; width: 100%;"></span><a href="dashboard.php" style="color: white;font-size: 15px;"> Dashboard</a></div>
+    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;"></span> <a href="createorder4.php" style="color: white;font-size: 15px;">Orders</a></div>
     <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;"></span><a href="#!accaunt" style="color: white;font-size: 15px;">Accaunt</a></div>
     <div style="margin-top: 100%;">
     <div ><center><span class="fa fa-facebook-official " style="font-size: 50px;color:white;"></span> </center></div>
@@ -133,27 +161,66 @@ app.config(function($routeProvider) {
    <div class="col-lg-10"  >
 
   <div class="container-fluid" id="d"  style="background-color: #1e3a68;box-shadow: 1px 6px 4px gray;" >
-  <center><span class="fas fa-wallet" style="float: left;font-size: 20px;" > : 4000</span></center>
-  <div> <span class="glyphicon glyphicon-user" style="float: right;font-size: 20px;"> <p>Saurabh solkar </p></span>
-  </div>
+
+  <span class="fas fa-wallet" style="float: left;font-size: 20px;" > : 4000</span>
+
+   <span class="glyphicon glyphicon-log-out" style="float: right;"><a href="main.php?logout=true" >Log out</a></span>
+    <span class="glyphicon glyphicon-user" style="float: right;font-size: 20px;"> <p><?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </p></span>
     </div>
-<div class="row1">
-<div class="panel panel-default " style="margin-top: 10px;padding: 14px; box-shadow:  5px 6px 4px gray;width: 300px;float: left; " >
+
+<table>
+<tbody>
+<tr><td>
+<div class="panel panel-default " style="margin: 5px;padding: 14px; box-shadow:  5px 6px 4px gray;width: 300px;" >
   <div class="panel-body">
     <h5>Total transaction</h5>
   </div>
 </div>
 
-<div class="panel panel-default " style="margin-top: 10px;box-shadow:  5px 6px 4px gray; float: left;margin-left: 10px;" >
+	</td><td>
+<div class="panel panel-default " style="margin: 5px;padding: 14px; box-shadow:  5px 6px 4px gray;width: 300px;" >
+  <div class="panel-body">
+    <h5>Total transaction</h5>
+  </div>
+</div>
+
+	</td></tr>	
+
+</tbody>
+</table>
+
+
+
+
+
+<div class="row1">
+
+
+<div class="panel panel-default " style="margin-top: 10px;padding: 14px;width: 300px;box-shadow:  5px 6px 4px gray; float: left;" >
   <div class="panel-body">
     <h5>Total transaction</h5>
   </div>
 </div>
 </div>
+
 <div ng-view></div>
 </div>
 </div>
+?>
+<?php
+}else{
+	
+	echo "<h1 class='alert alert-danger'>Please login</h1>";
+	
+}
+ if (isset($_GET['logout'])){
+if($_GET['logout']=='true'){
+	session_destroy();
+header('Location:login.php');
+}
 
+} ?>
 </body>
 </html>
 
+	
