@@ -95,7 +95,7 @@ session_destroy();
 		<tr class="form-group">
 			
 			<td>
-				<a href=""  >Forgot password ?</a>
+				<a href="register.php"  >create new accaunt</a>
 			
 		</tr>
 	</tbody>

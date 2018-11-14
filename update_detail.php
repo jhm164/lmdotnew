@@ -45,37 +45,21 @@ h5{
 <script type="text/javascript">
 	
 $(document).ready(function(){
+$('#fname').prop("readonly", true);
+$('#mname').prop("readonly", true);
+$('#lname').prop("readonly", true);
+$('#addr').prop("readonly", true);
+$('#landmark').prop("readonly", true);
+$('#pin').prop("readonly", true);
+$('#username').prop("readonly", true);
+$('#password').prop("readonly", true);
 
+$('.edit').click(function(){
 
-$('#submit').click(function(){
-
-var fname=$('#fname').val();
-var mname=$('#mname').val();
-var lname=$('#lname').val();
-var addr=$('#addr').val();
-var landmark=$('#landmark').val();
-var pin=$('#pin').val();
-var contact=$('#contact').val();
-var username=$('#username').val();
-var password=$('#password').val();
-alert(fname+' '+mname+' '+lname+' '+addr+' '+landmark+' '+pin+' '+contact+' '+username+' '+password);
-$.post("registerfetch.php",{
-	fname:fname,
-	mname:mname,
-	lname:lname,
-	addr:addr,
-	landmark:landmark,
-	pin:pin,
-	contact:contact,
-	username:username,
-	password:password
-}, function(data,status){
-
-alert(data);	
-
+var d=$(this).attr('id');
+$('#'+d).prop("readonly",false);
 });
-});
-//
+
 
 });
 
@@ -86,7 +70,19 @@ alert(data);
 
 </head>
 <body class="container-fluid"style="background-color:  #357196;">
-<?php include "connection.php";
+<?php 
+include "connection.php";
+session_start();
+
+if (isset($_SESSION['id'])) {
+echo "inside";
+	$id=$_SESSION['id'];
+$sql="select * from customer where id=$id";
+$result=mysqli_query($conn,$sql);
+	while ($row=mysqli_fetch_assoc($result)) {
+
+	
+
 
  ?>
 <center>
@@ -97,27 +93,27 @@ alert(data);
 		<tbody >
 			<tr  class="form-group" colspan="3" >
 				<td><h5>First Name</h5>
-				  <input type="text" class="form-control" placeholder="First Name" id="fname" required=""></td>
+				  <input type="text" class="form-control" value="<?php echo $row['fname']; ?>" placeholder="First Name" id="fname" required="" ><p style="color: blue" id="<?php echo $row['fname']; ?>" class="edit">edit</p></td>
 				  <td><h5>Middle Name</h5>
-				  <input type="text" class="form-control" placeholder="Middle Name"  id="mname" required=""></td>
+				  <input type="text" class="form-control" placeholder="Middle Name" value="<?php echo $row['mname']; ?>"  id="mname" required=""><p style="color: blue" id="<?php echo $row['mname']; ?>" class="edit">edit</p></td>
 				  <td><h5>Last Name</h5>
-				  <input type="text" class="form-control" placeholder="Last Name"  id="lname" required=""></td>
+				  <input type="text" value="<?php echo $row['lname']; ?>" class="form-control" placeholder="Last Name"  id="lname" required=""><p style="color: blue" id="<?php echo $row['lname']; ?>" class="edit">edit</p></td>
 			</tr>
 			<tr >
 				<td colspan="3"><h5>Address</h5>
-				  <input type="text" class="form-control" placeholder="Address"  id="addr"  required=""></td>
+				  <input type="text" class="form-control" value="<?php echo $row['address']; ?>" placeholder="Address"  id="addr"  required=""></td>
 			</tr>
 			<tr>
 				<td colspan="3"><h5>Landmark</h5>
-				  <input type="text" class="form-control" placeholder="Landmark"  id="landmark"  required=""></td>
+				  <input type="text" value="<?php echo $row['landmark']; ?>" class="form-control" placeholder="Landmark"  id="landmark"  required=""></td>
 			</tr>
 			<tr>
 				<td colspan="3"><h5>Pin Code</h5>
-				  <input type="text" class="form-control" placeholder="Pin Code"  id="pin"  required=""></td>
+				  <input type="text" class="form-control" value="<?php echo $row['pin']; ?>" placeholder="Pin Code"  id="pin"  required=""></td>
 			</tr>
 			<tr>
 				<td colspan="3"><h5>Contact Number</h5>
-				  <input type="text" class="form-control" placeholder="Contact"  id="contact"  required=""></td>
+				  <input type="text" class="form-control" placeholder="Contact" value="<?php echo $row['contact']; ?>"  id="contact"  required=""></td>
 			</tr>
 			<tr>
 				<td colspan="3"><h5>Username</h5>
@@ -129,7 +125,7 @@ alert(data);
 			</tr>
 			<tr>
 				<td ><center>
-				  <input type="button" class=" btn btn-success" id="submit" value="Register" ></center></td>
+				  <input type="button" class=" btn btn-success" id="submit" value="Update profile" ></center></td>
 			</tr>
 
 		</tbody>
@@ -137,6 +133,9 @@ alert(data);
 </table>
 
 </center>
-
+<?php
+}
+	}
+?>
 </body>
 </html>
