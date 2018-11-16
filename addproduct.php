@@ -17,7 +17,8 @@
 
 
 <style type="text/css">
-    #leftmenu{
+
+   #leftmenu{
       margin-top: 20px;
        background-color: #357196;
        height: auto;
@@ -105,12 +106,13 @@ left: 50%;
 </style>
 <script>
 
-    $(window).load(function () {
-        // run code
-       $('#spinner').show();
-    });
-$(document).ready(function(){
-$('#spinner').hide();
+
+  $(document).ready(function(){
+
+$("#type").change(function(){
+var x=$(this).val();
+alert(x);
+});
 });
 </script>
 
@@ -154,8 +156,7 @@ if (isset($_SESSION['id'])) {
     <img src="images/oscar.png" style="height: 80px;width: 80px;border: 2px solid gray;padding: 2px; background-color: white;" class="img-circle">
     <h4 style="color:white;font-family: 'Times New Romen';font-weight: bold;"> <?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </h4>
     <a href="update_detail.php" style="color: white;">Update Profile</a></center>
-  
- 
+
   </div>
 
     <div style="background-color: #357196;padding-top: 5px; padding-bottom: 5px;">
@@ -173,38 +174,43 @@ if (isset($_SESSION['id'])) {
 
   </div>
    <div class="col-lg-10"  >
+<table class="table table-striped">
+  <thread></thread>
+<tbody>
+  <tr>
+    <td>Enter category</td>
+    <td><select id="type">
+       <?php 
+$sql="select * from category";
 
-  <div class="container-fluid" id="d"  style="background-color: #1e3a68;box-shadow: 1px 6px 4px gray;" >
+  $result=mysqli_query($conn,$sql);
+while ($row=mysqli_fetch_assoc($result)) {
 
-  <span class="fas fa-wallet" style="float: left;font-size: 20px;" > : 4000</span>
+       ?>
+      <option value="<?php echo $row['category'] ;?>"><?php echo $row['category'] ;?></option>
+    <?php } ?>
+    <option value="gg">kk</option>
+    </select></td>
+   
 
-   <span class="glyphicon glyphicon-log-out" style="float: right;"><a href="main.php?logout=true" >Log out</a></span>
-    <span class="glyphicon glyphicon-user" style="float: right;font-size: 20px;"> <p><?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </p></span>
-    </div>
+  </tr>
+  <?php 
 
-
-
-
-<center>
-
-<div class="row" style=" margin: 10px;margin-top:10%; ">
-
-<a href="createorder4.php"><div class="bb"  style="float: left;margin-left: 10px;  height:150px; width: 30%;background-color: #357196;box-shadow: 6px 6px 3px gray;color: white; "><center><h3>See my orders</h3></center></div></a>
-<a href="dashboard.php">
-<div class="bb"  style="float: left;margin-left: 10px; height:150px; width: 30%;background-color: #357196;box-shadow: 6px 6px 3px gray; color:white;"><center><h3>Dashboard</h3></center></div></a>
-<a href="previous.php">
-<div class="bb"  style="float: left;margin-left: 10px; height:150px;width: 30%;background-color: #357196; box-shadow: 6px 6px 3px gray;color: white;"><center><h3>my all Order</h3></center></div></a>
+if (isset($_GET['category'])) {
+  
+}
 
 
+  ?>
+</tbody>
+</table>
 
 
 </div>
 
-</div>
-
 
 </div>
-?>
+
 <?php
 }else{
 	

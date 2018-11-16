@@ -17,6 +17,19 @@
 
 
 <style type="text/css">
+
+#main{
+  width: 300px;
+  height: 300px;
+  position: relative;
+}
+#logo{
+
+  position: absolute;
+  
+  width: 100px;
+height: 100px;
+}
     #leftmenu{
       margin-top: 20px;
        background-color: #357196;
@@ -105,12 +118,61 @@ left: 50%;
 </style>
 <script>
 
-    $(window).load(function () {
-        // run code
-       $('#spinner').show();
-    });
-$(document).ready(function(){
+  function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+            function (m, key, value) {
+                vars[key] = value;
+            });
+        return vars;
+    }
+
+  $(document).ready(function(){
+
+var tech=null
+
+
+ tech = getUrlVars().productid;
+alert(tech);
+if (tech!=null) {
+
+/*
+$('#evaluatearea').hide();
 $('#spinner').hide();
+$('#customerd').hide();
+$('#finalp').hide();
+$('#uploadarea').hide();
+*/
+var v=$("#main").position();
+var marginl=$("#main").css("margin-left");
+var margint=$("#main").css("margin-top");
+var paddingt=$("#main").css("padding-top");
+var paddingl=$("#main").css("padding-left");
+var width=$("#main").outerWidth();
+var height=$("#main").outerHeight();
+var width1=$("#logo").outerWidth();
+var height1=$("#logo").outerHeight();
+
+$("#logo").css("margin-left",marginl);
+$("#logo").css("margin-top",margint);
+$("#logo").css("padding-left",paddingl);
+$("#logo").css("padding-top",paddingt);
+$("#logo").css("top",v.top+height/2-height1/2);
+$("#logo").css("left",v.left+width/2-width1/2);
+
+
+}
+$('.here').click(function(){
+  var d=$(this).attr('id');
+alert(d);
+ $(location).attr('href', 'adminp.php?productid='+d);
+});
+$('#find').click(function(){
+  var d=$("#enterid").val();
+alert(d);
+ $(location).attr('href', 'adminp.php?productid='+d);
+});
+
 });
 </script>
 
@@ -153,7 +215,7 @@ if (isset($_SESSION['id'])) {
     <center>
     <img src="images/oscar.png" style="height: 80px;width: 80px;border: 2px solid gray;padding: 2px; background-color: white;" class="img-circle">
     <h4 style="color:white;font-family: 'Times New Romen';font-weight: bold;"> <?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </h4>
-    <a href="update_detail.php" style="color: white;">Update Profile</a></center></center>
+    <a href="update_detail.php" style="color: white;">Update Profile</a></center>
 
   </div>
 
@@ -172,17 +234,144 @@ if (isset($_SESSION['id'])) {
 
   </div>
    <div class="col-lg-10"  >
-
-
+<table style="margin-top:10px; ">
+  <tr><td>
+<input type="text " class="form-control" name="" placeholder="Enter order Id" id="enterid"> </td><td><input type="button" class="btn btn-primary" name="" id="find" value="Find Order">
+</td>
+</tr>
+</table>
 <?php
-if (isset($_POST['logoid'])) {
-  # code...
+if (isset($_GET['productid'])) {
+$logoid1;
+$pid1;
+$category1=null;
+$type=null;
+$customerid1=null;
+$subcustomerid=null;
+ $pid=$_GET['productid'];
+ 
+$sql1 ="select * from orders where id=$pid";
+$result1=mysqli_query($conn,$sql1);
+
+?>
+<center>
+<table class="table table-dark">
+  <thead><th>product</th></thead>
+  <tbody>
+  
+<?php
+
+while ($row=mysqli_fetch_assoc($result1)) {
+
+
+  $veri=$row['id'];
+?>
+<tr>
+  <td>Order Id</td>
+   <td><?php echo $row['id']; ?></td>
+</tr>
+ <tr>
+<td>Date of order</td>
+<td><?php echo $row['dateoforder']; ?></td>
+</tr>
+  <tr>
+<td>product ID</td>
+<td><?php echo $row['productid']; ?></td>
+</tr>
+<tr>
+  <td>Current Status</td>
+ <td><?php echo $row['status']; ?></td>
+</tr>
+
+<tr  ><td colspan="2"  >
+     <center style="margin-top:15px; ">   
+<?php
+
+$logoid1=$row['logoid'];
+$pid1=$row['productid'];
+$type=$row['type'];
+$customerid1=$row['customerid'];
+$subcustomerid=$row['subcustomerid'];
+}
+
+$sql2="select * from category where category='$type'" ;
+
+$result2=mysqli_query($conn,$sql2);
+
+while ($row=mysqli_fetch_assoc($result2)) {
+$category1=$row['category'];
+}
+
+$sql2="select * from $category1 where id=$pid1" ;
+$result3=mysqli_query($conn,$sql2);
+
+while ($row=mysqli_fetch_assoc($result3)) {
+
+?>
+<img src="<?php echo $row['imagepath'];?>" id="main" style="background-color: white;">
+<?php
+}
+$sql2="select * from logo where id=$logoid1" ;
+
+$result2=mysqli_query($conn,$sql2);
+
+while ($row=mysqli_fetch_assoc($result2)) {
+  ?>
+            
+<img src="<?php echo $row['imagepath'];?>" id="logo" style="background:transparent;">
+  <?php
+
+
+
+  
+?></center>
+</td></tr>
+<?php }
+
+$sql2="select * from customer where id=$customerid1" ;
+
+$result2=mysqli_query($conn,$sql2);
+
+while ($row=mysqli_fetch_assoc($result2)) {
+
+ ?>
+ <tr style="background-color: black;color:white;"><td colspan="2"><center><h3>Marchant Detail</h3></center></td></tr>
+ <tr><td>Marchant Name</td><td><?php echo $row['fname'].'  ',$row['mname'].'  '.$row['lname']; ?></td></tr>
+ <tr><td> Marchant Address</td><td><?php echo $row['address'];?></td></tr>
+ <tr><td>Pin Code</td><td><?php echo $row['pin'];?></td></tr>
+  <tr><td>Contact</td><td><?php echo $row['contact'];?></td></tr>
+<?php }
+
+$sql2="select * from customerdetail where id=$subcustomerid" ;
+
+$result2=mysqli_query($conn,$sql2);
+
+while ($row=mysqli_fetch_assoc($result2)) {
+
+?>
+<tr style="background-color: black;color:white;"><td colspan="2"><center><h3>Customer Detail</h3></center></td></tr>
+<tr><td>Customer Name</td><td><?php echo $row['name'];?></td></tr>
+<tr><td>Address</td><td><?php echo $row['add1'];?></td></tr>
+<tr><td>Landmark</td><td><?php echo $row['landmark'];?></td></tr>
+<tr><td>State</td><td><?php echo $row['state'];?></td></tr>
+<tr><td>City</td><td><?php echo $row['city'];?></td></tr>
+<tr><td>Pin</td><td><?php echo $row['pincode'];?></td></tr>
+<tr><td>Landmark</td><td><?php echo $row['landmark'];?></td></tr>
+<tr><td>E-mail</td><td><?php echo $row['email'];?></td></tr>
+<tr><td>Mobile</td><td><?php echo $row['mobile'];?></td></tr>
+<?php
 }
 ?>
+</tbody>
+</table>
+</center>
+<?php
+ } ?>
+ <center style="background-color: black;color: white;"><h3>All Current orders</h3></center>
 
-    <table class="table table-striped">
+    <table class="table table-dark">
       <thead>
-      <tr><th>Order id</th><th>Type</th><th>Date</th><th>Status</th></tr>
+      <tr class=""><th>Order id</th><th>Type</th><th>Date</th><th>Status</th></tr>
 </thead>
 <tbody>
 <?php
@@ -195,7 +384,7 @@ while ($row=mysqli_fetch_assoc($result)) {
 
 
 <tr>
-  <td><?php echo $row['id']; ?></td> <td><?php echo $row['type']; ?></td> <td><?php echo $row['dateoforder']; ?></td> <td><?php echo $row['status']; ?></td>
+  <td><?php echo $row['id']; ?></td> <td><?php echo $row['type']; ?></td> <td><?php echo $row['dateoforder']; ?></td> <td><?php echo $row['status']; ?></td><td><p id="<?php echo $row['id']; ?>" class="here" style="color: blue;">More info</p></td>
 </tr>
 <?php
 }
@@ -207,7 +396,7 @@ while ($row=mysqli_fetch_assoc($result)) {
 
 
 </div>
-?>
+
 <?php
 }else{
 	
