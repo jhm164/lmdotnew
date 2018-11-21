@@ -156,16 +156,33 @@ if (isset($_SESSION['id'])) {
   </div>
    <div class="col-lg-10"  >
 
-  <div class="container-fluid" id="d"  style="background-color: #1e3a68;box-shadow: 1px 6px 4px gray;" >
+
+  <div class="container-fluid" id="d"  style="color:white;background-color: #1e3a68;box-shadow: 1px 6px 4px gray; " >
 
   <span class="fas fa-wallet" style="float: left;font-size: 20px;" > : 4000</span>
-
-   <span class="glyphicon glyphicon-log-out" style="float: right;"><a href="main.php?logout=true" >Log out</a></span>
-    <span class="glyphicon glyphicon-user" style="float: right;font-size: 20px;"> <p><?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </p></span>
+  <a href="main.php?logout=true" style="color: white;margin-left:  2px;" >
+  <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
+   <span class="glyphicon glyphicon-log-out" style="float: right;text-align: center;font-size: 16px;color: white;margin-right: 2px;"></span>Log out
+ </div></a>
+   <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
+    <span class="glyphicon glyphicon-user" style="font-size: 16px;"> </span><span style="margin-left: 3px;font-weight: bold;"><?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </span></div>
     </div>
 
 
 
+
+
+
+
+<div style="margin-left: auto;margin-top: 22px;">
+  <center>
+  <a href="current.php" style="color: white"> <div style="border:1px solid white; background-color: #142952;width: 33%;height: 50px;float: left; color: white;"><p style="text-align: center;color: white;padding-top: 15px;">Current orders</p> </div> </a>
+    <a href="previous.php" style="color: white">  <div style="border:1px solid white;background-color: #142952;width: 33%;height: 50px;float: left;color: white;">
+  <p style="padding-top: 15px;">  Cancelled orders</p>
+   </div></a>
+    <div style="border:1px solid white;background-color:#142952;width: 33%;height: 50px;float: left;"></div>
+    </center>
+</div>
 
 
 <div class="row" style=" margin: 10px;margin-top:10%; ">
@@ -176,8 +193,8 @@ if (isset($_SESSION['id'])) {
 
 $id=$_SESSION['id'];
 
-$sql="select * from orders where customerid=$id";
-
+$sql = "SELECT * FROM `orders`WHERE customerid =$id Order by 'dateoforder' ASC";
+    
 $result=mysqli_query($conn,$sql);
 
 while ($row=mysqli_fetch_assoc($result)) {

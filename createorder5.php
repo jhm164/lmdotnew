@@ -220,9 +220,9 @@ function abortHandler(event){
     var  paymentmode=null;
   	$(document).ready(function(){
       $('#mycustomer').hide();
-$('#evaluatearea').hide();
-$('#customerd').hide();
-$('#finalp').hide();
+
+$('#customerd').show();
+
 $('#uploadarea').hide();
 var v=$("#main").position();
 var marginl=$("#main").css("margin-left");
@@ -243,6 +243,10 @@ $("#logo").css("left",v.left+width/2-width1/2);
 
 $('#showmycustomer').click(function(){
 $('#mycustomer').toggle(1000);
+
+});
+$('#createnew').click(function(){
+$('#customerd').toggle(1000);
 
 });
 
@@ -443,13 +447,7 @@ $('#main').attr('src',val.imagepath);
 });
 
   });
-$('#cod').click(function(){
 
-  $('#customerd').show(1000);
-});
-$('#online').click(function(){
-  $('#customerd').show(1000);
-});
 $("#drop-area").on('dragenter', function (e){
   e.preventDefault();
   $(this).css('background', '#BBD5B8');
@@ -643,19 +641,17 @@ include "connection.php";
   </div>
    <div class="col-lg-10"   >
 
-<table class="table" >
-<tbody>
-  <tr >
-    <td>
-  <div class="container-fluid" id="d1"  style="background-color: #1e3a68;box-shadow: 1px 6px 4px gray;" >
-  <center><span class="fas fa-wallet" style="float: left;font-size: 20px;" > : 4000</span></center>
-  <div> <span class="glyphicon glyphicon-user" style="float: right;font-size: 20px;"> <p>Saurabh solkar </p></span>
-  </div>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
+  <div class="container-fluid" id="d"  style="color:white;background-color: #1e3a68;box-shadow: 1px 6px 4px gray; " >
+
+  <span class="fas fa-wallet" style="float: left;font-size: 20px;" > : 4000</span>
+  <a href="main.php?logout=true" style="color: white;margin-left:  2px;" >
+  <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
+   <span class="glyphicon glyphicon-log-out" style="float: right;text-align: center;font-size: 16px;color: white;margin-right: 2px;"></span>Log out
+ </div></a>
+   <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
+    <span class="glyphicon glyphicon-user" style="font-size: 16px;"> </span><span style="margin-left: 3px;font-weight: bold;"><?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </span></div>
+    </div>
+
 
 
 
@@ -907,8 +903,13 @@ while ($row=mysqli_fetch_assoc($result)) {
   </td></tr>
   </tbody>
 </table>
+</div>
+<div style="margin-top: 20px; margin-left:10px;margin-right:10px;box-shadow: 1px 4px 4px gray;background-color: #d9d9d9;">
+	<h3 style="margin: 10px;">Customer details</h3>
+<input type="button" class="btn btn-primary"  style="background:transparent;border:1px solid #2e6da4;color:#2e6da4; margin: 10px;" name="" id="showmycustomer" value="my customers">
+<input type="button" class="btn btn-primary"  style="background:transparent;border:1px solid #2e6da4;color:#2e6da4; margin: 10px;" name="" id="createnew" value="create new">
 
-<input type="button" class="btn btn-primary"  style="background:transparent;border:1px solid #2e6da4;color:#2e6da4;" name="" id="showmycustomer" value="my customers">
+<div id="existcustomer">
 <table class="table table-hover" style="border-bottom: 1px solid gray;" id="mycustomer" >
 
   <thead>
@@ -948,19 +949,13 @@ while ($row=mysqli_fetch_assoc($result)) {
 
 </table>
 
+</div>
 
 
+<div id="newtcustomer">
 
-<table class="table">
-  <thead><tr><th>Shipping mode</th></thead>
-  <tbody><tr style="border: 1px solid gray;box-shadow: 1px 2px 4px gray;font-weight: bold;">
-    <center><td ><input type="radio" id="cod" name="grp" class="grp" value="cod"> cod</td>
-    <td><input type="radio" id="online" name="grp" class="grp" value="online"> Online Payment</td></center>
-  </tr>
-</tbody>
-</table>
 <table class="table" id="customerd">
-  <thead><tr><th>Customer details</th></thead>
+
   <tbody>
 
     <tr>
@@ -989,11 +984,20 @@ while ($row=mysqli_fetch_assoc($result)) {
 </tr>
 </tbody>
 </table>
-
-
-
-
-<button id="evaluate" class="btn btn-primary"  style="background:transparent;border:1px solid #2e6da4;color:#2e6da4;float:left;" >Evaluate</button>
+</div>
+</div>
+<div style="margin-top: 20px; margin-left:10px;margin-right:10px;box-shadow: 1px 4px 4px gray;background-color: #d9d9d9;">
+<table class="table">
+  <thead><tr><th>Shipping mode</th></thead>
+  <tbody><tr style="font-weight: bold;">
+    <center><td ><input type="radio" id="cod" name="grp" class="grp" value="cod"> cod</td>
+    <td><input type="radio" id="online" name="grp" class="grp" value="online"> Online Payment</td></center>
+  </tr>
+</tbody>
+</table>
+</div>
+<div style="margin-top: 20px; margin-left:10px;margin-right:10px;box-shadow: 1px 4px 4px gray;background-color: #d9d9d9;">
+<button id="evaluate" class="btn btn-primary"  style="margin: 10px; background:transparent;border:1px solid #2e6da4;color:#2e6da4;float:left;" >Evaluate</button>
 <table class="table" style="" id="finalp" >
   
   <thead><tr ><th>
@@ -1007,10 +1011,11 @@ while ($row=mysqli_fetch_assoc($result)) {
   <tr  style="background-color:  #004d99;color: white;"><td><b>Total Payable</b></td><td>-</td><td>-</td><td>-</td><td>-</td><td id="total">-</td></tr>
 </tbody>
 </table>
+</div>
 <div style="margin: 20px;">
 <center ><input type="button" class="btn btn-success" value="Confirm Oreder" id="submit" name="upload"></center>
 </div>
-</div>
+
 
 
 </div>

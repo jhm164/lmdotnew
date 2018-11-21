@@ -31,17 +31,6 @@
   overflow: auto;
     }
 
-input[type="range"]::-moz-range-progress {
-  background-color: #43e5f7; 
-}
-input[type="range"]::-moz-range-track {  
-  background-color: #9a905d;
-}
-/* IE*/
-input[type="range"]::-ms-fill-lower {
-  background-color: #43e5f7; 
-}
-
     #o{
       
     
@@ -84,24 +73,7 @@ input[type="range"]::-ms-fill-lower {
       color: white;
 }
 
-.slider {
-    -webkit-appearance: none;
-   
-  margin-left:10px;
-  margin-height:10px;
-    height: 1px;
-    width: 300px;
-    background:#000080;
-    outline: none;
-    opacity: 0.7;
-     background-color: #aaaaaa;
-     box-shadow: inset 0 0 4px rgba(24, 24, 24, 0.8),
-      inset 0 0 2px rgba(0, 0, 0,0.5);
-    
-    
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-}
+
 
 #wrapper
 {
@@ -128,17 +100,8 @@ input[type="range"]::-ms-fill-lower {
 {
  max-width:200px;
 }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555; 
-}
-#errmsg1
-{
-color: red;
-}
-#errmsg
-{
-color: red;
-}
+  
+
 .dh{
   box-shadow: 3px 4px 3px gray;
  
@@ -215,11 +178,8 @@ function abortHandler(event){
   	var logoid1=0;
     var zone=null;
     var selectedcustomer=0;
-    var mainproductprice=0;
-    var zonep=0;
     var  paymentmode=null;
   	$(document).ready(function(){
-      $('#mycustomer').hide();
 $('#evaluatearea').hide();
 $('#customerd').hide();
 $('#finalp').hide();
@@ -241,61 +201,28 @@ $("#logo").css("padding-top",paddingt);
 $("#logo").css("top",v.top+height/2-height1/2);
 $("#logo").css("left",v.left+width/2-width1/2);
 
-$('#showmycustomer').click(function(){
-$('#mycustomer').toggle(1000);
-
-});
-
-$('#slider').change(function(){
-var v1=$('#slider').val();
-var s=$('#logo').outerWidth();
-var w=$('#logo').outerHeight();
-var h=0;
-var w1=0;
-alert($("#logo").outerWidth()+' '+$("#logo").outerHeight());
-if(v1>50&&v1<70){
-
- 
-$('#logo').css('height',115);
-$('#logo').css('width',115);
-var w2=$("#logo").outerWidth();
-var h2=$("#logo").outerHeight();
-$("#h").val(3);
-$("#w").val(4);
-$("#logo").css("top",v.top+height/2-h2/2);
-$("#logo").css("left",v.left+width/2-w2/2);
-
-}else if(v1>70&&v1<90){
-
- 
-$('#logo').css('height',125);
-$('#logo').css('width',125);
-var w2=$("#logo").outerWidth();
-var h2=$("#logo").outerHeight();
-$("#h").val(4);
-$("#w").val(5);
-$("#logo").css("top",v.top+height/2-h2/2);
-$("#logo").css("left",v.left+width/2-w2/2);
-
-}else if(v1>90&&v1<100){
-
-$('#logo').css('height',135);
-$('#logo').css('width',135);
-var w2=$("#logo").outerWidth();
-var h2=$("#logo").outerHeight();
-$("#h").val(5);
-$("#w").val(6);
-$("#logo").css("top",v.top+height/2-h2/2);
-$("#logo").css("left",v.left+width/2-w2/2);
-
-}
-
-});
-
 
 $('#showupload').click(function(){
 
 $('#uploadarea').toggle(1000);
+
+});
+
+$('#slider').change(function(){
+var v=$('#slider').val();
+var s=$('#logo').height();
+var w=$('#logo').width();
+var h=0;
+var w1=0;
+if(v>50){
+
+
+
+h=v-50;
+ w1=w-50;
+$('#logo').css('height',s+h);
+$('#logo').css('width',w+w1);
+}
 
 });
 
@@ -309,9 +236,7 @@ paymentmode= $('.grp').attr('id');
 
 $('#fullsize').click(function(){
 
-
-$('#fullsize').css('overflow','visible');
-
+$('#myicons').css('overflow','');
 });
 
 $('#down').click(function(){
@@ -436,8 +361,6 @@ zone=val.zone;
 
 alert(mainproductid+zone);
 pmodel=val.model;
-
-mainproductprice=val.price;
 $('#main').attr('src',val.imagepath);
   });
 });
@@ -467,70 +390,31 @@ $("#drop-area").on('dragenter', function (e){
  });
 
 
-  //called when key is pressed in textbox
-  $("#quantity").keypress(function (e) {
-     //if the letter is not digit then display error and don't type anything
-     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
-        //display error message
-        $("#errmsg").html("Digits Only").show().fadeOut("slow");
-               return false;
-    }
-   });
-    $("#sellp").keypress(function (e) {
-     //if the letter is not digit then display error and don't type anything
-     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
-        //display error message
-        $("#errmsg1").html("Digits Only").show().fadeOut("slow");
-               return false;
-    }
-   });
-
-
 $('#evaluate').click(function(){
  var quantity=$('#quantity').val();
   var category=$('#category').val();
   var brand=$('#brand').val();
   var model=$('#model').val();
-  
-  //alert(zone);
-
-  $('#finalp').show(1000);
+  var zonep=0;
   $('#evaluatearea').show(1000);
  $('#quantity1').text(quantity);
 
  $('#pname1').text(category+' '+brand+' '+model);
-$('#priceperp').text(mainproductprice);
- $('#pprice1').text(quantity*mainproductprice);
-
+$('#priceperp').text(180);
+ $('#pprice1').text(quantity*180);
  $.post("zone.php",
     {
       zone:zone
     }, function(data, status){
         $('#zonepp').text(data);
-        zonep=parseInt(data);
-       // alert(zonep+1000);
+        zonep=data;
     });
-var m=quantity*mainproductprice;
-//alert('m='+m);
-var x11=zonep+m;
-//alert('x11'+x11);
-//alert(x11);
-$('#total').text(x11);
+
+$('#total').text(zonep+quantity*180);
 
 
 
 });
-
-$('#category').change(function(){
-var id=$(this).attr('id');
-var cat=$(this).val();
-alert(cat);
-$('#'+id).attr('onkeyup',cat);
-$(location).attr('href', 'createorder4.php?category='+cat);
-//$('#'+id).attr('onkeyup',cat);
-$('#bb').text(cat);
-});
-
 
  $("#submit").click(function(){
 
@@ -630,7 +514,7 @@ include "connection.php";
     <div style="background-color: #357196;padding-top: 5px; padding-bottom: 5px;">
     <center>
     <div id="leftmenu" ><span class="glyphicon glyphicon-dashboard" style="float: left;font-size: 30px; width: 100%;"></span><a href="dashboard.php" style="color: white;font-size: 15px;"> Dashboard</a></div>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;"></span> <a href="previous.php" style="color: white;font-size: 15px;">Orders</a></div>
+    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;"></span> <a href="#!order" style="color: white;font-size: 15px;">Orders</a></div>
     <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;"></span><a href="#!accaunt" style="color: white;font-size: 15px;">Accaunt</a></div>
     <div style="margin-top: 100%;">
     <div ><center><span class="fa fa-facebook-official " style="font-size: 50px;color:white;"></span> </center></div>
@@ -662,7 +546,7 @@ include "connection.php";
 
  <div class="row" style="margin-left:10px;margin-right:10px;box-shadow: 1px 4px 4px gray;background-color: #d9d9d9;" >
       
-      <div class="col-lg-6"  >
+      <div class="col-lg-6" >
       
 <table class="table" style="border: none;">
   <form action="createorder1.php" method="post" enctype="multipart/form-data">
@@ -671,118 +555,36 @@ include "connection.php";
       </thead>  
             <tbody >
 
-<div style="padding: 12px;">         
+<div style="padding: 12px;">              <tr >
+          <td >
+            <h5>Select Category<span style="color:red;font-size: 20px;">*</span></h5>
+            <select  class="form-control" name="category" id="category">
+              <option value="t-shirt" >t-shirt</option>
+                 <option value="mobile">mobile</option>
+            </select>
+          </td>
 
-<tr> <td>
-    <h5>Select Category<span style="color:red;font-size: 20px;">*</span></h5>
-   <select class="form-control" name="category" id="category" >
-  
-<?php
- if (isset($_GET['category']))
-  { 
-    ?>
-        <option value="<?php  echo $_GET['category']; ?>"><?php  echo $_GET['category']; ?></option>
-    <?php
- 
-  } 
-  ?>
-   <option>--select--</option>
+        </tr>
 
-       <?php 
-$sql="select * from category";
-$arr=array();
-  $result=mysqli_query($conn,$sql);
-while ($row=mysqli_fetch_assoc($result)) {
-
-       ?>
-      <option value="<?php echo $row['category'] ;?>"><?php echo $row['category'] ;?></option>
-    <?php } ?>
-   
-    </select>
-<h5><span style="color:green;font-size: 20px;" id="bb"></span></h5>
-  </td>
-   
-
-  </tr>
-<?php
-
-if (isset($_GET['category'])) {
-
-$cat=$_GET['category'];
-$sql="select * from category where category='$cat'";
-
-  $result=mysqli_query($conn,$sql);
-while ($row=mysqli_fetch_assoc($result)) {
-for ($i=1; $i <=5 ; $i++) { 
-   $arr[$i]=$row['c'.$i];
-}
-
-}
-?>
-      
-          <?php
-for($j=1;$j<=5;$j++){
-
-
-if($row['c'.$j]!='N/A'){
-
-?>
-
-<?php
-if ($arr[$j]=='brand') {
- ?>
- <tr><td>
-   <h5><?php echo $arr[$j];?><span style="color:red;font-size: 20px;">*</span></h5>
- <select class="form-control" id="<?php echo $arr[$j];?>">
-
- <?php
- $sql="SELECT DISTINCT brand FROM $cat ";
-
-  $result=mysqli_query($conn,$sql);
-while ($row=mysqli_fetch_assoc($result)) {
-?>  <option>
-<?php echo  $row['brand']; ?>
-</option>
-<?php
-}
-?>
-
-</select>
-</td>
-</tr>
-<?php
-} else  if ($arr[$j]=='model') {
-   ?>
-   <tr>
-    <td>
-      <h5><?php echo $arr[$j];?><span style="color:red;font-size: 20px;">*</span></h5>
- <select class="form-control" id="<?php echo $arr[$j];?>">
-
- <?php
- $sql="SELECT DISTINCT model FROM $cat ";
-
-  $result=mysqli_query($conn,$sql);
-while ($row=mysqli_fetch_assoc($result)) {
-?>  <option >
-<?php echo  $row['model']; ?>
-</option>
-<?php
-}
-?>
-
-</select>
-</td>
-</tr>
-<?php
-}
-
-}
-}
-?>
-          <?php 
-}
-          ?>
-        
+        <tr>
+          <td >
+            <h5>Select Product<span style="color:red;font-size: 20px;">*</span></h5>
+            <select  class="form-control" name="brand"  id="brand">
+                         <option>
+              <p>samsung</p>
+              </option>  
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h5>Select Model<span style="color:red;font-size: 20px;">*</span></h5>
+            <select name="model" class="form-control" id="model">
+            <option  ><p>yk11</p></option>  
+            <option  ><p>bz11</p></option>  
+            </select> 
+          </td>
+        </tr>
         <tr>
           <td >
             <div style="color: blue;" id="grab"  class="form-control btn btn-primary"><b style="color:white;">Load</b></div>
@@ -799,16 +601,20 @@ while ($row=mysqli_fetch_assoc($result)) {
         <tr>
           <td >
              <h5> Quantity<span style="color:red;font-size: 20px;">*</span></h5>
-            <input type="text" class="form-control" name="quantity" id="quantity" placeholder="Quantity" ><span id="errmsg"></span>
+            <input type="text" class="form-control" name="quantity" id="quantity" placeholder="Quantity" >
           </td>
         </tr>
         <tr>
           <td >
              <h5>Enter total selling price<span style="color:red;font-size: 20px;">*</span></h5>
-            <input type="text" class="form-control" name="sellp" id="sellp" placeholder="Enter your selling price " ><span id="errmsg1"></span>
+            <input type="text" class="form-control" name="sellp" id="sellp" placeholder="Enter your selling price " >
           </td>
         </tr>
-       
+        <tr>
+          <td>
+            <a href="createorder1.php">refresh</a>
+          </td>
+        </tr>
        
         <tr >
           <td>
@@ -823,14 +629,22 @@ while ($row=mysqli_fetch_assoc($result)) {
 
   </td>
 </tr>
-
 </div>
 
             </tbody>
 </form>
         </table>
 
-    
+        <div class="row">
+        <div class="col-lg-6">
+
+</div>
+<div class="col-lg-6">
+
+</div>
+</div>
+</td>
+</tr>
 
 
 
@@ -844,6 +658,7 @@ while ($row=mysqli_fetch_assoc($result)) {
 
 
 
+</table>
 
       </div>
        
@@ -859,45 +674,38 @@ while ($row=mysqli_fetch_assoc($result)) {
                     </center>
                   </td>
                 </tr>
-                <tr><td><center><span style="margin-left: 50px; float: left;">height</span><span >width</span></center></td></tr>
-                <tr><td><center><input type="text" name="" id="h"> <input type="text" id="w" name=""></center></td></tr>
-                <tr><td><center><input type="range" class="form-control slider"  min="1" max="100" value="50"  id="slider" name="" ></center></td></tr>
          <tr>
           <td>
           <h5>My Designs<span style="color:red;font-size: 20px;">*</span></h5>
-          <center style="margin-bottom: 10px;"> 
-<div style="background-color: white; overflow: auto;overflow-x: hidden; transform-origin: right top;  box-shadow: 1px 2px 3px gray;height: 70px; display: inline-block; margin-top: 12px;margin-bottom: 12px;" id="myicons">         <?php 
+<div style="overflow:scroll;height: 80px;margin-top: 12px;margin-bottom: 12px;" id="myicons">         <?php 
       $sql="select * from logo where cid=4";
       $result=mysqli_query($conn,$sql);
       while ($row=mysqli_fetch_assoc($result)) {
         ?>
-        <img src="<?php echo $row['imagepath'];?>" height="60" width="60" style=" margin:4px;" class="img-rounded logoc"  id="<?php echo $row['id'];?>" >
+        <img src="<?php echo $row['imagepath'];?>" height="60" width="60" style="margin:4px;" class="img-rounded logoc"  id="<?php echo $row['id'];?>" >
         <?php
       }
         ?>
 </div>
-</center>
+
 <div style="float: right; font-size:25px;"><span class="glyphicon glyphicon-resize-full" id="fullsize" ></span>
 </div></td></tr>
 
-
- <tr><td>
+<tr><td>
 <center><button class="btn btn-primary" style="background:transparent;border:1px solid #2e6da4;color:#2e6da4;" id="showupload" >Upload new design </button></center>
   </td></tr>
-       </tbody>
-          </table>
-  </div>
-<table class="table">
-  <tbody>
-  
   <tr><td>
    <div class="row" id="uploadarea" style="">         
 <form id="upload_form" enctype="multipart/form-data" method="post">
+ <center> <input type="file" class="form-control" name="file1" id="file1">
 
+  <input type="button" class="btn btn-primary" style="margin-top:10px;" value="Upload File" onclick="uploadFile()">
+  <progress id="progressBar" value="0" max="100" style="margin-top:10px;"></progress>
+  </center>
 </form>
 <div id="wrapper" class="row" >
 
- <div id="drop-area"  style="padding:12px; margin-left: 12px;margin-right: 12px;">
+ <div id="drop-area" class="col-lg-12" style="padding:12px;">
   <p style="  font-weight:bold;">drop image here</p>
   <h3 class="drop-text"><span class="glyphicon glyphicon-file"></span></h3>
 
@@ -905,14 +713,21 @@ while ($row=mysqli_fetch_assoc($result)) {
 </div>
     </div>
   </td></tr>
-  </tbody>
-</table>
+  <tr>
+<td>
 
-<input type="button" class="btn btn-primary"  style="background:transparent;border:1px solid #2e6da4;color:#2e6da4;" name="" id="showmycustomer" value="my customers">
-<table class="table table-hover" style="border-bottom: 1px solid gray;" id="mycustomer" >
+
+</td>
+</tr>
+       </tbody>
+          </table>
+  </div>
+
+
+<table class="table table-hover" style="border-bottom: 1px solid gray;"  >
 
   <thead>
-  <tr></tr>
+  <tr><th><h4>My Customers</h4></th></tr>
     <tr style="background-color: #204c67;color: white;"><th>Customer name</th><th>Country</th><th>City</th><th>Pincode</th><th>Landmark</th></tr></thead>
 <tbody>
   
@@ -993,25 +808,24 @@ while ($row=mysqli_fetch_assoc($result)) {
 
 
 
-<button id="evaluate" class="btn btn-primary"  style="background:transparent;border:1px solid #2e6da4;color:#2e6da4;float:left;" >Evaluate</button>
+
 <table class="table" style="" id="finalp" >
   
-  <thead><tr ><th>
+  <thead><tr ><th><h3 id="evaluate" style="float:left;">Evaluate</h3>
 </th></tr></thead>
 <tbody id="evaluatearea">
   <tr style="background-color: #204c67;color: white;"><td>Product Name</td><td>Quantity</td><td>Product Price</td><td>Printing charges</td><td>Additional charges</td><td>Product price</td></tr>
   <tr><td><b id="pname1"></b></td><td><b id="quantity1"></b></td><td id="priceperp">-</td><td>-</td><td>-</td><td><b id="pprice1"></b></td></tr>
   <tr><td><b >Shipping</b></td><td>-</td><td>-</td><td>-</td><td>-</td><td><b id="zonepp">-</b></td></tr>
  
-  <tr><td><b >Current Balance</b></td><td><b >-</b></td><td><b></b></td><td>-</td><td>-</td><td>4000</td></tr>
-  <tr  style="background-color:  #004d99;color: white;"><td><b>Total Payable</b></td><td>-</td><td>-</td><td>-</td><td>-</td><td id="total">-</td></tr>
+  <tr><td><b >Credit Balance</b></td><td><b >-</b></td><td><b></b></td><td>-</td><td>-</td><td>4000</td></tr>
+  <tr><td><b>Total</b></td><td>-</td><td>-</td><td>-</td><td>-</td><td id="total">-</td></tr>
 </tbody>
 </table>
 <div style="margin: 20px;">
 <center ><input type="button" class="btn btn-success" value="Confirm Oreder" id="submit" name="upload"></center>
 </div>
 </div>
-
 
 </div>
 

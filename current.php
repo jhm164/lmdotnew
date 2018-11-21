@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +41,6 @@
     #d{
       background-color:#1e3a68;
       padding-top: 10px;
-      padding-bottom:  10px;
        height: auto;
        width: auto;
       color: white;
@@ -126,30 +127,6 @@ $('#spinner').hide();
 session_start();
 include 'connection.php';
 
-if (isset($_POST['username'])&&isset($_POST['username'])) {
-	$admin=0;
-$username=$_POST['username'];
-$password=$_POST['password'];
-
-
-	$sql="select * from customer where username='$username' and password='$password'";
-
-	$result=mysqli_query($conn,$sql);
-while ($row=mysqli_fetch_assoc($result)) {
-  if ($row['admin']==1) {
- 
- $admin=$row['admin'];
-
-
-  }
-	$_SESSION['fname']=$row['fname'];
-	$_SESSION['lname']=$row['lname'];
-	$_SESSION['id']=$row['id'];
-
-}
-
-}
-
 if (isset($_SESSION['id'])) {
 	# code...
 
@@ -160,35 +137,20 @@ if (isset($_SESSION['id'])) {
     <center>
     <img src="images/oscar.png" style="height: 80px;width: 80px;border: 2px solid gray;padding: 2px; background-color: white;" class="img-circle">
     <h4 style="color:white;font-family: 'Times New Romen';font-weight: bold;"> <?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </h4>
-    <a href="update_detail.php" style="color: white;">Update Profile</a></center>
+    <button class="circularbutton">Update Profile</button>
   
- 
+    </center>
   </div>
 
     <div style="background-color: #357196;padding-top: 5px; padding-bottom: 5px;">
     <center>
     <div id="leftmenu" ><span class="glyphicon glyphicon-dashboard" style="float: left;font-size: 30px; width: 100%;"></span><a href="dashboard.php" style="color: white;font-size: 15px;"> Dashboard</a></div>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;"></span> <a href="previous.php" style="color: white;font-size: 15px;">Orders</a></div>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;"></span><a href="update_detail.php" style="color: white;font-size: 15px;">Accaunt</a></div>
-  
-  <?php    
- 
-if ($admin==1) {
-   
-
-    ?>
-     <div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="adminp.php" style="color: white;font-size: 15px;"> All order</a></div>
-
-     <?php 
-
-}
-     ?>
-
+    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;"></span> <a href="createorder4.php" style="color: white;font-size: 15px;">Orders</a></div>
+    <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;"></span><a href="#!accaunt" style="color: white;font-size: 15px;">Accaunt</a></div>
     <div style="margin-top: 100%;">
     <div ><center><span class="fa fa-facebook-official " style="font-size: 50px;color:white;"></span> </center></div>
     <div><center><span class="fa fa-twitter " style="font-size: 50px;color:white;"></span> </center></div>
     </div>
-  
   </center>
   </div>  
 
@@ -196,7 +158,9 @@ if ($admin==1) {
   </div>
    <div class="col-lg-10"  >
 
-  <div class="container-fluid" id="d"  style="background-color: #1e3a68;box-shadow: 1px 6px 4px gray; " >
+
+ 
+  <div class="container-fluid" id="d"  style="color:white;background-color: #1e3a68;box-shadow: 1px 6px 4px gray; " >
 
   <span class="fas fa-wallet" style="float: left;font-size: 20px;" > : 4000</span>
   <a href="main.php?logout=true" style="color: white;margin-left:  2px;" >
@@ -210,40 +174,63 @@ if ($admin==1) {
 
 
 
-<center>
+<div style="margin-left: auto;margin-top: 22px;">
+  <center>
+  <a href="current.php" style="color: white"> <div style="border:1px solid white; background-color: #142952;width: 33%;height: 50px;float: left; color: white;"><p style="text-align: center;color: white;padding-top: 15px;">Current orders</p> </div> </a>
+    <a href="previous.php" style="color: white">  <div style="border:1px solid white;background-color: #142952;width: 33%;height: 50px;float: left;color: white;">
+  <p style="padding-top: 15px;">  Cancelled orders</p>
+   </div></a>
+    <div style="border:1px solid white;background-color:#142952;width: 33%;height: 50px;float: left;"></div>
+    </center>
+</div>
 
 <div class="row" style=" margin: 10px;margin-top:10%; ">
+<table class="table table-striped" style="box-shadow: 1px 6px 6px gray;">
+  <thead><th>Date</th><th>Order ID</th><th>Customer Name</th><th>Status</th></thead>
+  <tbody>
+  <?php 
 
-<a href="createorder4.php"><div class="bb"  style="float: left;margin-left: 10px;  height:150px; width: 30%;background-color: #357196;box-shadow: 6px 6px 3px gray;color: white; "><center><h3>Create New order</h3></center></div></a>
-<a href="dashboard.php">
-<div class="bb"  style="float: left;margin-left: 10px; height:150px; width: 30%;background-color: #357196;box-shadow: 6px 6px 3px gray; color:white;"><center><h3>Dashboard</h3></center></div></a>
-<a href="previous.php">
-<div class="bb"  style="float: left;margin-left: 10px; height:150px;width: 30%;background-color: #357196; box-shadow: 6px 6px 3px gray;color: white;"><center><h3>my all Order</h3></center></div></a>
+$id=$_SESSION['id'];
 
+$sql="select * from orders where customerid=$id";
 
+$result=mysqli_query($conn,$sql);
 
-
-</div>
-
-</div>
-
-
-</div>
+while ($row=mysqli_fetch_assoc($result)) {
+	if($row['status']=='ordered'){
 ?>
+<tr>
+  <td><?php echo $row['dateoforder'];  ?></td>
+  <td><?php echo $row['id'];  ?></td>
+  <td><?php echo $_SESSION['fname'].' '.$_SESSION['lname'];?></td>
+  <td><?php
+
+   echo '<p style="color:blue;">'.$row['status'].'</p>';
+
+    ?></td>
+  <td ><span class="glyphicon glyphicon-info-sign oo" id="<?php echo $row['id'];  ?>" ></span></td>
+  
+</tr>
+
 <?php
-}else{
-	
-	echo "<h1 class='alert alert-danger'>Please login</h1>";
-	header('Location:login.php');
 }
- if (isset($_GET['logout'])){
-if($_GET['logout']=='true'){
-	session_destroy();
-header('Location:login.php');
 }
 
-} ?>
 
+  ?>
+
+<div id="show"></div>
+</tbody>
+</table>
+
+
+</div>
+
+</div>
+
+
+</div>
+<?php }?>
 </body>
 </html>
 

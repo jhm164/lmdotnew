@@ -19,6 +19,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
    
 <?php 
+session_start();
 include 'connection.php'; 
 $sql="select * from orders where customerid=4";
 $delivered=0;
@@ -175,31 +176,35 @@ box-shadow: 3px 3px 2px #255370;
     </center>
   </div>
 
-    <div style="background-color: #357196;padding-top: 5px; padding-bottom: 5px;">
+     <div style="background-color: #357196;padding-top: 5px; padding-bottom: 5px;">
     <center>
     <div id="leftmenu" ><span class="glyphicon glyphicon-dashboard" style="float: left;font-size: 30px; width: 100%;"></span><a href="dashboard.php" style="color: white;font-size: 15px;"> Dashboard</a></div>
-    <div id="createorder4.php" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;"></span> <a href="#!order" style="color: white;font-size: 15px;">Orders</a></div>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;"></span><a href="#!accaunt" style="color: white;font-size: 15px;">Accaunt</a></div>
+    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;"></span> <a href="previous.php" style="color: white;font-size: 15px;">Orders</a></div>
+    <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;"></span><a href="update_detail.php" style="color: white;font-size: 15px;">Accaunt</a></div>
     <div style="margin-top: 100%;">
     <div ><center><span class="fa fa-facebook-official " style="font-size: 50px;color:white;"></span> </center></div>
     <div><center><span class="fa fa-twitter " style="font-size: 50px;color:white;"></span> </center></div>
     </div>
   </center>
-  </div>  
-
+  </div> 
 
   </div>
    <div class="col-lg-10"  >
+
+  <div class="container-fluid" id="d"  style="color:white;background-color: #1e3a68;box-shadow: 1px 6px 4px gray; " >
+
+  <span class="fas fa-wallet" style="float: left;font-size: 20px;" > : 4000</span>
+  <a href="main.php?logout=true" style="color: white;margin-left:  2px;" >
+  <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
+   <span class="glyphicon glyphicon-log-out" style="float: right;text-align: center;font-size: 16px;color: white;margin-right: 2px;"></span>Log out
+ </div></a>
+   <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
+    <span class="glyphicon glyphicon-user" style="font-size: 16px;"> </span><span style="margin-left: 3px;font-weight: bold;"><?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </span></div>
+    </div>
+
+
 <table class="table">
-  <tr >
-    <td>
-  <div class="container-fluid" id="d1"  style="background-color: #1e3a68;box-shadow: 1px 6px 4px gray;" >
-  <center><span class="fas fa-wallet" style="float: left;font-size: 20px;" > : 4000</span></center>
-  <div> <span class="glyphicon glyphicon-user" style="float: right;font-size: 20px;"> <p>Saurabh solkar </p></span>
-  </div>
-</div>
-<td>
-</tr>
+  
 <tr>
     <td>
 <center><div style="box-shadow: 1px 6px 4px gray;margin:12px;">

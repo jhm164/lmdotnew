@@ -33,7 +33,7 @@ box-shadow:  12px 12px 3px #222323;
 
   	}
   	.container{
-  		background-color:#4f5456;
+  		background-color:#99ccff;
 background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='%239C92AC' fill-opacity='0.3'%3E%3Cpath d='M12 0h18v6h6v6h6v18h-6v6h-6v6H12v-6H6v-6H0V12h6V6h6V0zm12 6h-6v6h-6v6H6v6h6v6h6v6h6v-6h6v-6h6v-6h-6v-6h-6V6zm-6 12h6v6h-6v-6zm24 24h6v6h-6v-6z'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
   	}
   	.table {border: 1px solid black!important;} 
@@ -43,16 +43,51 @@ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/s
 .table tr td:nth-child(1), 
 .table tr th:nth-child(1) {border-left: 0!important;}
 
+#errmsg
+{
+color: red;
+}
 #r{
 	margin-top: 5px;
 }
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
 
+
+input[type=text], select, textarea{
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+}
 
 #i{
 	margin-top: 5px;
 }
 
   </style>
+  <script type="text/javascript">
+  	$(document).ready(function () {
+  //called when key is pressed in textbox
+  $('#login').click(function(){
+
+var username=$('.username').val();
+var password=$('.password').val();
+if(username==''||password=='')
+{
+$('#errmsg').text('please fill all fields');	
+return false;
+}
+
+
+  });
+
+});
+  </script>
 </head>
 <body class="container">
 <?php
@@ -60,6 +95,7 @@ session_start();
 session_destroy();
 ?>
 <center >
+
 	<div  id="whole"  id="r" class="animated bounceInUp delay-0s">
 	<table class="table animated bounceInDown delay-0.7s">
 	<thead>
@@ -69,15 +105,16 @@ session_destroy();
 	</thead>
 	<form action="main.php" method="POST">
 	<tbody>
+		<tr><td>	<span id="errmsg"></span></td></tr>
 		<tr class="form-group">
 						<td>
-				<input type="text" class="form-control animated fadeInRight delay-1s " id="r" name="username" placeholder="Username"></td>
+				<input type="text" class=" animated fadeInRight delay-1s username" id="r" name="username" placeholder="Username"></td>
 			
 		</tr>
 			<tr class="form-group">
 			
 			<td>
-				<input type="text" class="form-control animated fadeInRight delay-1s " name="password" id="r" placeholder="Password"></td>
+				<input type="text" class="animated fadeInRight delay-1s password " name="password" id="r" placeholder="Password"></td>
 			
 		</tr>
 		<tr class="form-group">
@@ -89,7 +126,7 @@ session_destroy();
 		<tr class="form-group">
 			
 			<td>
-				<input type="submit" id="i" class="btn btn-success form-control animated fadeInRight delay-1s" id="r" value="Login"></td>
+				<input type="submit" id="i" class="btn btn-success form-control animated fadeInRight delay-1s login" id="r" value="Login"></td>
 			
 		</tr>
 		<tr class="form-group">

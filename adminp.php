@@ -129,7 +129,7 @@ left: 50%;
 
   $(document).ready(function(){
 
-var tech=null
+var tech=null;
 
 
  tech = getUrlVars().productid;
@@ -234,6 +234,18 @@ if (isset($_SESSION['id'])) {
 
   </div>
    <div class="col-lg-10"  >
+    <div class="container-fluid" id="d"  style="background-color: #1e3a68;box-shadow: 1px 6px 4px gray; " >
+
+  <span class="fas fa-wallet" style="float: left;font-size: 20px;" > : 4000</span>
+  <a href="main.php?logout=true" style="color: white;margin-left:  2px;" >
+  <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
+   <span class="glyphicon glyphicon-log-out" style="float: right;text-align: center;font-size: 16px;color: white;margin-right: 2px;"></span>Log out
+ </div></a>
+   <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
+    <span class="glyphicon glyphicon-user" style="font-size: 16px;"> </span><span style="margin-left: 3px;font-weight: bold;"><?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </span></div>
+    </div>
+<a href="addproduct.php"><div style="margin-top: 10px;background-color:  #001a66; height: 50px; text-align: center;width: 100%;color: white;padding-top: 24px; "><span style="padding-top: 24px;">Add new product</span></div></a>
+
 <table style="margin-top:10px; ">
   <tr><td>
 <input type="text " class="form-control" name="" placeholder="Enter order Id" id="enterid"> </td><td><input type="button" class="btn btn-primary" name="" id="find" value="Find Order">
