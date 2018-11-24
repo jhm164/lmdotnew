@@ -16,7 +16,27 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
 <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.4.2/css/all.css' >
+<script>
 
+
+$(document).ready(function(){
+$('#spinner').hide();
+
+
+$('#accauntsett').change(function(){
+  var a=$(this).val();
+
+$(location).attr('href',a);
+});
+$('#menuselect').change(function(){
+  var a=$(this).val();
+
+$(location).attr('href',a);
+});
+
+
+});
+</script>
 
 <style type="text/css">
     #leftmenu{
@@ -145,8 +165,46 @@ if (isset($_SESSION['id'])) {
     <div style="background-color: #357196;padding-top: 5px; padding-bottom: 5px;">
     <center>
     <div id="leftmenu" ><span class="glyphicon glyphicon-dashboard" style="float: left;font-size: 30px; width: 100%;"></span><a href="dashboard.php" style="color: white;font-size: 15px;"> Dashboard</a></div>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;"></span> <a href="createorder4.php" style="color: white;font-size: 15px;">Orders</a></div>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;"></span><a href="#!accaunt" style="color: white;font-size: 15px;">Accaunt</a></div>
+<div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;margin-bottom: 10px;"></span> 
+<select style="color: black;font-size: 15px;" class="form-control" id="menuselect">
+  <option>--select--</option>
+   <option value="createorder5.php">Create New order</option>
+  <option value="previous.php">My Orders</option>
+
+</select>
+    </div>
+    <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;margin-bottom: 10px;"></span>
+  <select style="color: black;font-size: 15px;"  class="form-control" id="accauntsett">
+  <option>--select--</option>
+   <option value="update_detail.php">Update Details</option>
+
+
+</select>
+
+    </div>
+  
+
+
+
+   
+  
+   
+  <?php    
+ if (isset($_SESSION['admin'])){
+
+ 
+if ($_SESSION['admin']==1) {
+   
+
+    ?>
+     <div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="adminp.php" style="color: white;font-size: 15px;"> All order</a></div>
+
+   <div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="addproduct.php" style="color: white;font-size: 15px;"> Add product</a></div>
+     <?php 
+
+}
+}
+     ?>
     <div style="margin-top: 100%;">
     <div ><center><span class="fa fa-facebook-official " style="font-size: 50px;color:white;"></span> </center></div>
     <div><center><span class="fa fa-twitter " style="font-size: 50px;color:white;"></span> </center></div>

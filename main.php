@@ -30,6 +30,8 @@
         text-align: center;
 
     }
+
+
     .row1{
    
   margin: 0 auto;
@@ -106,12 +108,23 @@ left: 50%;
 </style>
 <script>
 
-    $(window).load(function () {
-        // run code
-       $('#spinner').show();
-    });
+
 $(document).ready(function(){
 $('#spinner').hide();
+
+
+$('#accauntsett').change(function(){
+  var a=$(this).val();
+
+$(location).attr('href',a);
+});
+$('#menuselect').change(function(){
+  var a=$(this).val();
+
+$(location).attr('href',a);
+});
+
+
 });
 </script>
 
@@ -138,7 +151,7 @@ $password=$_POST['password'];
 while ($row=mysqli_fetch_assoc($result)) {
   if ($row['admin']==1) {
  
- $admin=$row['admin'];
+ $_SESSION['admin']=$row['admin'];
 
 
   }
@@ -160,7 +173,7 @@ if (isset($_SESSION['id'])) {
     <center>
     <img src="images/oscar.png" style="height: 80px;width: 80px;border: 2px solid gray;padding: 2px; background-color: white;" class="img-circle">
     <h4 style="color:white;font-family: 'Times New Romen';font-weight: bold;"> <?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </h4>
-    <a href="update_detail.php" style="color: white;">Update Profile</a></center>
+   </center>
   
  
   </div>
@@ -168,19 +181,42 @@ if (isset($_SESSION['id'])) {
     <div style="background-color: #357196;padding-top: 5px; padding-bottom: 5px;">
     <center>
     <div id="leftmenu" ><span class="glyphicon glyphicon-dashboard" style="float: left;font-size: 30px; width: 100%;"></span><a href="dashboard.php" style="color: white;font-size: 15px;"> Dashboard</a></div>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;"></span> <a href="previous.php" style="color: white;font-size: 15px;">Orders</a></div>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;"></span><a href="update_detail.php" style="color: white;font-size: 15px;">Accaunt</a></div>
+    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;margin-bottom: 10px;"></span> 
+<select style="color: black;font-size: 15px;" class="form-control" id="menuselect">
+  <option>--select--</option>
+   <option value="createorder5.php">Create New order</option>
+  <option value="previous.php">My Orders</option>
+
+</select>
+    </div>
+    <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;margin-bottom: 10px;"></span>
+  <select style="color: black;font-size: 15px;"  class="form-control" id="accauntsett">
+  <option>--select--</option>
+   <option value="update_detail.php">Update Details</option>
+
+
+</select>
+
+    </div>
   
+
+
+
+   
   <?php    
+ if (isset($_SESSION['admin'])){
+
  
-if ($admin==1) {
+if ($_SESSION['admin']==1) {
    
 
     ?>
      <div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="adminp.php" style="color: white;font-size: 15px;"> All order</a></div>
 
+   <div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="addproduct.php" style="color: white;font-size: 15px;"> Add product</a></div>
      <?php 
 
+}
 }
      ?>
 
@@ -214,7 +250,7 @@ if ($admin==1) {
 
 <div class="row" style=" margin: 10px;margin-top:10%; ">
 
-<a href="createorder4.php"><div class="bb"  style="float: left;margin-left: 10px;  height:150px; width: 30%;background-color: #357196;box-shadow: 6px 6px 3px gray;color: white; "><center><h3>Create New order</h3></center></div></a>
+<a href="createorder5.php"><div class="bb"  style="float: left;margin-left: 10px;  height:150px; width: 30%;background-color: #357196;box-shadow: 6px 6px 3px gray;color: white; "><center><h3>Create New order</h3></center></div></a>
 <a href="dashboard.php">
 <div class="bb"  style="float: left;margin-left: 10px; height:150px; width: 30%;background-color: #357196;box-shadow: 6px 6px 3px gray; color:white;"><center><h3>Dashboard</h3></center></div></a>
 <a href="previous.php">

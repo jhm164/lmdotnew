@@ -3,7 +3,7 @@
 session_start();
 include "connection.php";
 
-if (isset($_POST['category'])&&isset($_POST['brand'])&&isset($_POST['model'])&&isset($_POST['size'])&&isset($_POST['quantity'])&&isset($_POST['sellp'])&&isset($_POST['mainproductid'])&&isset($_POST['logoid'])&&isset($_POST['selectedcustomer'])&&isset($_POST['paymentmode'])) {
+if (isset($_POST['category'])&&isset($_POST['brand'])&&isset($_POST['model'])&&isset($_POST['size'])&&isset($_POST['quantity'])&&isset($_POST['sellp'])&&isset($_POST['mainproductid'])&&isset($_POST['logoid'])&&isset($_POST['selectedcustomer'])&&isset($_POST['paymentmode'])&&isset($_POST['total'])) {
 	//isset($_POST['category'])&&isset($_POST['brand'])&&isset($_POST['model'])&&isset($_POST['size'])&&isset($_POST['quantity'])&&isset($_POST['sellp'])
 $category="N/A";
 $brand="N/A";
@@ -16,6 +16,8 @@ $logoid=0;
 $id=0;
 $selectedcustomer=null;
 $paymentmode=null;
+$totalprice=0;
+
 
 $category=$_POST['category'];
 $brand=$_POST['brand'];
@@ -28,19 +30,18 @@ $productid=$_POST['mainproductid'];
 $logoid=$_POST['logoid'];
 $selectedcustomer=$_POST['selectedcustomer'];
 $paymentmode=$_POST['paymentmode'];
+$totalprice=$_POST['total'];
 
-/*
-echo $category.' '.$brand.' '.$model.' '.$size.' '.$quantity.' '.$sellp.' '.$id.' '.$productid.' '.$logoid.' '.$selectedcustomer.' '.$paymentmode;
 
-*/
+echo $category.' '.$brand.' '.$model.' '.$size.' '.$quantity.' '.$sellp.' '.$id.' '.$productid.' '.$logoid.' '.$selectedcustomer.' '.$paymentmode.' '.$totalprice;
+
 $flag="true";
 if ($productid!=null&&$logoid!=null&&$id!=null) {
 $sql1="select * from orders where productid='$productid' and logoid='$logoid' and customerid='$id' and status='ordered' ";
-echo "here";
 
 $result=mysqli_query($conn,$sql1);
 while ($row=mysqli_fetch_assoc($result)) {
-	echo "here";
+
 	
 	if ($row['id']==null) {
 		# code...
@@ -61,7 +62,7 @@ if ($flag=="true") {
 
 
 
-$sql = "INSERT INTO `orders` (`id`, `type`, `productid`, `logoid`, `customerid`, `dateoforder`, `totalprice`, `sellprice`, `subcustomerid`, `ordermode`, `status`) VALUES (NULL,'$category', '$productid', '$logoid', '$id',now(), 0, $sellp, '$selectedcustomer', '$paymentmode','ordered');";
+$sql = "INSERT INTO `orders` (`id`, `type`, `productid`, `logoid`, `customerid`, `dateoforder`, `totalprice`, `sellprice`, `subcustomerid`, `ordermode`, `status`) VALUES (NULL,'$category', '$productid', '$logoid', '$id',now(), $totalprice, $sellp, '$selectedcustomer', '$paymentmode','ordered');";
 if (mysqli_query($conn,$sql)) {
 	echo "order placed successfully";
 
@@ -76,6 +77,6 @@ if (mysqli_query($conn,$sql)) {
 }else{
 
 	
-echo "please fill all required fields outer";
+echo "please fill all required fields ";
 }
 	?>

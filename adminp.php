@@ -15,7 +15,27 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
 <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.4.2/css/all.css' >
 
+<script>
 
+
+$(document).ready(function(){
+$('#spinner').hide();
+
+
+$('#accauntsett').change(function(){
+  var a=$(this).val();
+
+$(location).attr('href',a);
+});
+$('#menuselect').change(function(){
+  var a=$(this).val();
+
+$(location).attr('href',a);
+});
+
+
+});
+</script>
 <style type="text/css">
 
 #main{

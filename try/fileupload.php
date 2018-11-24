@@ -95,7 +95,7 @@ function uploadFormData(formData)
 </head>
 <body>
 <div id="wrapper">
- <input type="file">
+ <input type="file" onclick="createFormData(this)" />
  <div id="drop-area">
   <h3 class="drop-text">Drag and Drop Images Here</h3>
 

@@ -27,10 +27,15 @@ if (!$fileTmpLoc) { // if file not chosen
 if(move_uploaded_file($fileTmpLoc, "images/$fileName")){
 		$id=4;
 $sql = "INSERT INTO `lmdot`.`logo` (`id`, `imagepath`, `imagename`, `type`, `cid`) VALUES (NULL, '$filepath','$fileName','$fileType',$id)";
-mysqli_query($conn,$sql);
+if(mysqli_query($conn,$sql)){
+echo "$fileName uploaded successfully";
+}else
+{
+	echo "please change filename and try again";
+}
 
 
-    echo "$fileName upload is complete";
+    
 } else {
     echo "move_uploaded_file function failed";
 }

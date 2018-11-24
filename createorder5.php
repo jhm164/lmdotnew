@@ -10,6 +10,43 @@
 
 <?php include 'connection.php'; ?>
 
+
+<script>
+
+function _(el){
+	return document.getElementById(el);
+}
+function uploadFile(){
+	var file = _("file1").files[0];
+	// alert(file.name+" | "+file.size+" | "+file.type);
+	var formdata = new FormData();
+	formdata.append("file1", file);
+	var ajax = new XMLHttpRequest();
+	ajax.upload.addEventListener("progress", progressHandler, false);
+	ajax.addEventListener("load", completeHandler, false);
+	ajax.addEventListener("error", errorHandler, false);
+	ajax.addEventListener("abort", abortHandler, false);
+	ajax.open("POST", "file_upload_parser.php");
+	ajax.send(formdata);
+}
+function progressHandler(event){
+	_("loaded_n_total").innerHTML = "Uploaded "+event.loaded+" bytes of "+event.total;
+	var percent = (event.loaded / event.total) * 100;
+	_("progressBar").value = Math.round(percent);
+	_("status").innerHTML = Math.round(percent)+"% uploaded... please wait";
+}
+function completeHandler(event){
+	_("status").innerHTML = event.target.responseText;
+	_("progressBar").value = 0;
+}
+function errorHandler(event){
+	_("status").innerHTML = "Upload Failed";
+}
+function abortHandler(event){
+	_("status").innerHTML = "Upload Aborted";
+}
+</script>
+
 <style type="text/css">
     #leftmenu{
       margin-top: 20px;
@@ -221,9 +258,11 @@ function abortHandler(event){
   	$(document).ready(function(){
       $('#mycustomer').hide();
 
+
 $('#customerd').show();
 
 $('#uploadarea').hide();
+$('#manual').hide();
 var v=$("#main").position();
 var marginl=$("#main").css("margin-left");
 var margint=$("#main").css("margin-top");
@@ -233,6 +272,7 @@ var width=$("#main").outerWidth();
 var height=$("#main").outerHeight();
 var width1=$("#logo").outerWidth();
 var height1=$("#logo").outerHeight();
+var totalp;
 
 $("#logo").css("margin-left",marginl);
 $("#logo").css("margin-top",margint);
@@ -256,7 +296,7 @@ var s=$('#logo').outerWidth();
 var w=$('#logo').outerHeight();
 var h=0;
 var w1=0;
-alert($("#logo").outerWidth()+' '+$("#logo").outerHeight());
+//alert($("#logo").outerWidth()+' '+$("#logo").outerHeight());
 if(v1>50&&v1<70){
 
  
@@ -269,7 +309,7 @@ $("#w").val(4);
 $("#logo").css("top",v.top+height/2-h2/2);
 $("#logo").css("left",v.left+width/2-w2/2);
 
-}else if(v1>70&&v1<90){
+}else if(v1>70&&v1<=100){
 
  
 $('#logo').css('height',125);
@@ -297,9 +337,21 @@ $("#logo").css("left",v.left+width/2-w2/2);
 });
 
 
+$('#accauntsett').change(function(){
+  var a=$(this).val();
+
+$(location).attr('href',a);
+});
+$('#menuselect').change(function(){
+  var a=$(this).val();
+
+$(location).attr('href',a);
+});
+
 $('#showupload').click(function(){
 
 $('#uploadarea').toggle(1000);
+$('#manual').toggle(1000);
 
 });
 
@@ -330,7 +382,7 @@ $('#logo').css('top',s.top-3);
 });
 
 $('#demo').click(function(v){
-alert(v1);
+//alert(v1);
 });
 
 
@@ -342,7 +394,7 @@ $('#logo').css('height',s+3);
 $('.getcustomer').click(function(){
 selectedcustomer=$('.getcustomer').attr('id');
 
-alert(selectedcustomer);
+//alert(selectedcustomer);
 
 });
 
@@ -364,7 +416,7 @@ var city=$('#city').val()
 var ccode=$('#ccode').val();
 var mobile=$('#mobile').val();
 var email=$('#email').val();
-alert(cname+' '+cadd1+' '+cadd2+' '+landmark+' '+pincode+' '+country+' '+state+' '+city+' '+ccode+' '+mobile+' '+email);
+//alert(cname+' '+cadd1+' '+cadd2+' '+landmark+' '+pincode+' '+country+' '+state+' '+city+' '+ccode+' '+mobile+' '+email);
 $.post("addcustomer.php",
     {
       cname:cname,
@@ -429,7 +481,7 @@ $("#main").attr('src',g);
 var category=$('#category').val();
 var brand=$('#brand').val();
 var model=$('#model').val();
-alert(category+" "+brand+" "+model);
+//alert(category+" "+brand+" "+model);
 $.getJSON( "loadproduct.php?category="+category+"&brand="+brand+"&model="+model, function( data ) {
   pcategory=category;
   var items = [];
@@ -438,7 +490,7 @@ $.getJSON( "loadproduct.php?category="+category+"&brand="+brand+"&model="+model,
 mainproductid=val.id;
 zone=val.zone;
 
-alert(mainproductid+zone);
+//alert(mainproductid+zone);
 pmodel=val.model;
 
 mainproductprice=val.price;
@@ -499,21 +551,35 @@ $('#evaluate').click(function(){
  $('#pname1').text(category+' '+brand+' '+model);
 $('#priceperp').text(mainproductprice);
  $('#pprice1').text(quantity*mainproductprice);
+//var zonep;
 
  $.post("zone.php",
     {
       zone:zone
     }, function(data, status){
         $('#zonepp').text(data);
-        zonep=parseInt(data);
-       // alert(zonep+1000);
-    });
+    var    zonep=data;
+        //alert("parsed"+zonep+1000);
+    }).then(function(){
+
+    	zonep=parseInt($('#zonepp').text());
+    	// alert(parseInt(zonep)+400);
+
+    	//  var ff=zonep;
+
+//zonep=$('#zonepp').text();
+ //lert(parseInt(ff)+80);
 var m=quantity*mainproductprice;
 //alert('m='+m);
 var x11=zonep+m;
 //alert('x11'+x11);
+//alert('zonep'+ff);
 //alert(x11);
+totalp=x11;
 $('#total').text(x11);
+
+
+    });
 
 
 
@@ -522,9 +588,9 @@ $('#total').text(x11);
 $('#category').change(function(){
 var id=$(this).attr('id');
 var cat=$(this).val();
-alert(cat);
+//alert(cat);
 $('#'+id).attr('onkeyup',cat);
-$(location).attr('href', 'createorder4.php?category='+cat);
+$(location).attr('href', 'createorder5.php?category='+cat);
 //$('#'+id).attr('onkeyup',cat);
 $('#bb').text(cat);
 });
@@ -536,13 +602,13 @@ $('#bb').text(cat);
   var category=$('#category').val();
   var brand=$('#brand').val();
   var model=$('#model').val();
-  var size=$('#size').val();
+  var size=$('#h').val();
   var quantity=$('#quantity').val();
   var sellp=$('#sellp').val();
   var category=$('#category').val();
 
 
-alert(category+' '+brand+' '+model+' '+size+' '+quantity+' '+sellp+' '+category+' '+mainproductid+' '+logoid1+' '+selectedcustomer+' '+paymentmode);
+//alert(category+' '+brand+' '+model+' '+size+' '+quantity+' '+sellp+' '+category+' '+mainproductid+' '+logoid1+' '+selectedcustomer+' '+paymentmode);
 
  $.post("orderp.php",
     {
@@ -554,10 +620,11 @@ alert(category+' '+brand+' '+model+' '+size+' '+quantity+' '+sellp+' '+category+
         quantity:quantity,
         sellp:sellp,
         category:category,
-        mainproductid,mainproductid,
+        mainproductid:mainproductid,
         logoid:logoid1,
-        selectedcustomer,selectedcustomer,
-        paymentmode,paymentmode
+        selectedcustomer:selectedcustomer,
+        paymentmode:paymentmode,
+        total:totalp
     }, function(data, status){
         alert(data);
     });
@@ -628,8 +695,43 @@ include "connection.php";
     <div style="background-color: #357196;padding-top: 5px; padding-bottom: 5px;">
     <center>
     <div id="leftmenu" ><span class="glyphicon glyphicon-dashboard" style="float: left;font-size: 30px; width: 100%;"></span><a href="dashboard.php" style="color: white;font-size: 15px;"> Dashboard</a></div>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;"></span> <a href="previous.php" style="color: white;font-size: 15px;">Orders</a></div>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;"></span><a href="#!accaunt" style="color: white;font-size: 15px;">Accaunt</a></div>
+   <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;margin-bottom: 10px;"></span> 
+<select style="color: black;font-size: 15px;" class="form-control" id="menuselect">
+  <option>--select--</option>
+   <option value="createorder5.php">Create New order</option>
+  <option value="previous.php">My Orders</option>
+
+</select>
+    </div>
+    <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;margin-bottom: 10px;"></span>
+  <select style="color: black;font-size: 15px;"  class="form-control" id="accauntsett">
+  <option>--select--</option>
+   <option value="update_detail.php">Update Details</option>
+
+
+</select>
+
+    </div>
+  
+
+
+   
+  <?php    
+ if (isset($_SESSION['admin'])){
+
+ 
+if ($_SESSION['admin']==1) {
+   
+
+    ?>
+     <div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="adminp.php" style="color: white;font-size: 15px;"> All order</a></div>
+
+   <div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="addproduct.php" style="color: white;font-size: 15px;"> Add product</a></div>
+     <?php 
+
+}
+}
+     ?>
     <div style="margin-top: 100%;">
     <div ><center><span class="fa fa-facebook-official " style="font-size: 50px;color:white;"></span> </center></div>
     <div><center><span class="fa fa-twitter " style="font-size: 50px;color:white;"></span> </center></div>
@@ -661,7 +763,7 @@ include "connection.php";
       <div class="col-lg-6"  >
       
 <table class="table" style="border: none;">
-  <form action="createorder1.php" method="post" enctype="multipart/form-data">
+  
       <thead>
         <th>Create product</th>
       </thead>  
@@ -784,14 +886,7 @@ while ($row=mysqli_fetch_assoc($result)) {
             <div style="color: blue;" id="grab"  class="form-control btn btn-primary"><b style="color:white;">Load</b></div>
           </td>
         </tr>
-        <tr>
-          <td>
-             <h5>Select Size of logo<span style="color:red;font-size: 20px;">*</span></h5>
-          <select  class="form-control" name="size" id="size" >
-                  <option ><p>120x130</p></option>  
-                      </select>
-                   </td>
-        </tr>
+       
         <tr>
           <td >
              <h5> Quantity<span style="color:red;font-size: 20px;">*</span></h5>
@@ -823,7 +918,7 @@ while ($row=mysqli_fetch_assoc($result)) {
 </div>
 
             </tbody>
-</form>
+
         </table>
 
     
@@ -863,7 +958,8 @@ while ($row=mysqli_fetch_assoc($result)) {
           <h5>My Designs<span style="color:red;font-size: 20px;">*</span></h5>
           <center style="margin-bottom: 10px;"> 
 <div style="background-color: white; overflow: auto;overflow-x: hidden; transform-origin: right top;  box-shadow: 1px 2px 3px gray;height: 70px; display: inline-block; margin-top: 12px;margin-bottom: 12px;" id="myicons">         <?php 
-      $sql="select * from logo where cid=4";
+$id=$_SESSION['id'];
+      $sql="select * from logo where cid=$id";
       $result=mysqli_query($conn,$sql);
       while ($row=mysqli_fetch_assoc($result)) {
         ?>
@@ -880,14 +976,31 @@ while ($row=mysqli_fetch_assoc($result)) {
  <tr><td>
 <center><button class="btn btn-primary" style="background:transparent;border:1px solid #2e6da4;color:#2e6da4;" id="showupload" >Upload new design </button></center>
   </td></tr>
+  <tr></tr>
        </tbody>
           </table>
   </div>
+
 <table class="table">
   <tbody>
-  
+  <tr>
+  	<td>
+  		<div id="manual">
+  		<form id="upload_form" enctype="multipart/form-data" method="post">
+  <input type="file" name="file1" id="file1"><br>
+  <input type="button" value="Upload File" onclick="uploadFile()">
+  <progress id="progressBar" value="0" max="100" style="width:300px;"></progress>
+  <h3 id="status"></h3>
+  <p id="loaded_n_total"></p>
+</form>
+
+    </div>
+  	</td>
+  </tr>
   <tr><td>
-   <div class="row" id="uploadarea" style="">         
+
+   <div class="row" id="uploadarea" style="">   
+
 <form id="upload_form" enctype="multipart/form-data" method="post">
 
 </form>
@@ -1022,3 +1135,37 @@ while ($row=mysqli_fetch_assoc($result)) {
 
   </body>
 </html>
+<?php
+include 'connection.php';
+if(isset($_POST['btn_upload'])){
+	$id=$_SESSION['id'];
+	# code...
+	//$conn=mysqli_connect("localhost","root","","lmdot");
+
+if(!$conn){
+	echo die();
+}
+
+
+	
+	$filetmp = $_FILES["file_img"]["tmp_name"];
+	$filename = $_FILES["file_img"]["name"];
+	$filetype = $_FILES["file_img"]["type"];
+	$filepath = "images/".$filename;
+  //$targetPath = "images/".$_FILES['file_img']['name'];
+
+
+
+move_uploaded_file($filetmp,$filepath);
+	
+$sql = "INSERT INTO `logo` (`id`,`imagepath`, `imagename`, `type`, `cid`) VALUES (NULL, '$filepath','$filename','$filetype',$id)";
+if(mysqli_query($conn,$sql)){
+echo "<script type='text/javascript'>alert(<?php echo 'success'; ?>);</script>";
+}else
+{
+echo "<script type='text/javascript'>alert(<?php echo 'please change the file name and try again'; ?>);</script>";
+}
+ 
+
+}
+	?>
