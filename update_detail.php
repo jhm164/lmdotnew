@@ -45,6 +45,7 @@ h5{
 <script type="text/javascript">
 	
 $(document).ready(function(){
+/*
 $('#fname').prop("readonly", true);
 $('#mname').prop("readonly", true);
 $('#lname').prop("readonly", true);
@@ -53,11 +54,39 @@ $('#landmark').prop("readonly", true);
 $('#pin').prop("readonly", true);
 $('#username').prop("readonly", true);
 $('#password').prop("readonly", true);
+*/
+$('#submit').click(function(){
+var fname=$('#fname').val();
+var mname=$('#mname').val();
+var lname=$('#lname').val();
+var addr=$('#addr').val();
+var landmark=$('#landmark').val();
+var pin=$('#pin').val();
+var contact=$('#contact').val();
+var username=$('#username').val();
+var password=$('#password').val();
 
-$('.edit').click(function(){
+alert(fname+' '+mname+' '+lname+' '+addr+' '+landmark+' '+pin+' '+contact+' '+username+' '+password);
+$.get("update_d.php",
+    {
+    fname:fname,
+	mname:mname,
+	lname:lname,
+	addr:addr,
+	landmark:landmark,
+	pin:pin,
+	contact:contact,
+	username:username,
+	password:password
+    }, function(data, status){
+    	
+        $('#status').text(data);
+   
+    });
 
-var d=$(this).attr('id');
-$('#'+d).prop("readonly",false);
+
+
+
 });
 
 
@@ -70,12 +99,14 @@ $('#'+d).prop("readonly",false);
 
 </head>
 <body class="container-fluid"style="background-color:  #357196;">
+
+
 <?php 
 include "connection.php";
 session_start();
 
 if (isset($_SESSION['id'])) {
-echo "inside";
+
 	$id=$_SESSION['id'];
 $sql="select * from customer where id=$id";
 $result=mysqli_query($conn,$sql);
@@ -89,7 +120,10 @@ $result=mysqli_query($conn,$sql);
 	<h3 ><a href="login.php" style="color: pink;">Back to Login</a></h3>
 <table class="table table-condensed animated bounceInDown delay-0.7s">
 	
-		<thead style="background-color: #004d99;color: white;"><tr  ><th colspan="3"><center><h2>Register</h2></center></th></tr></thead>
+		<thead style="background-color: #004d99;color: white;"><tr  ><th colspan="3"><center><h2>Register</h2></center></th></tr>
+<tr><th><p id="status"></p></th></tr>
+		</thead>
+
 		<tbody >
 			<tr  class="form-group" colspan="3" >
 				<td><h5>First Name</h5>

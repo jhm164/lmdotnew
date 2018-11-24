@@ -36,6 +36,73 @@ $(location).attr('href',a);
 
 });
 </script>
+
+<style type="text/css">
+  
+
+ol.progtrckr {
+    margin: 0;
+    padding: 0;
+    list-style-type none;
+}
+
+ol.progtrckr li {
+    display: inline-block;
+    text-align: center;
+    line-height: 3.5em;
+}
+
+ol.progtrckr[data-progtrckr-steps="2"] li { width: 49%; }
+ol.progtrckr[data-progtrckr-steps="3"] li { width: 33%; }
+ol.progtrckr[data-progtrckr-steps="4"] li { width: 24%; }
+ol.progtrckr[data-progtrckr-steps="5"] li { width: 19%; }
+ol.progtrckr[data-progtrckr-steps="6"] li { width: 16%; }
+ol.progtrckr[data-progtrckr-steps="7"] li { width: 14%; }
+ol.progtrckr[data-progtrckr-steps="8"] li { width: 12%; }
+ol.progtrckr[data-progtrckr-steps="9"] li { width: 11%; }
+
+ol.progtrckr li.progtrckr-done {
+    color: black;
+    border-bottom: 4px solid yellowgreen;
+}
+ol.progtrckr li.progtrckr-todo {
+    color: black; 
+    border-bottom: 4px solid black;
+}
+
+ol.progtrckr li:after {
+    content: "\00a0\00a0";
+}
+ol.progtrckr li:before {
+  background-color: #afc2d5;
+    position: relative;
+    bottom: -2.5em;
+    float: left;
+    left: 50%;
+    line-height: 1em;
+}
+ol.progtrckr li.progtrckr-done:before {
+    content: "\2713";
+    color: white;
+    background-color: yellowgreen;
+    height: 2.2em;
+    width: 2.2em;
+    line-height: 2.2em;
+    border: none;
+    border-radius: 2.2em;
+}
+ol.progtrckr li.progtrckr-todo:before {
+    content: "\039F";
+     display: inline-block;
+    color: black;
+    background-color: #afc2d5;
+    font-size: 2.2em;
+    bottom: -1.2em;
+}
+
+
+  
+</style>
 <style type="text/css">
 
 #main{
@@ -153,7 +220,7 @@ var tech=null;
 
 
  tech = getUrlVars().productid;
-alert(tech);
+//alert(tech);
 if (tech!=null) {
 
 /*
@@ -184,12 +251,13 @@ $("#logo").css("left",v.left+width/2-width1/2);
 }
 $('.here').click(function(){
   var d=$(this).attr('id');
-alert(d);
+   var status=$(this).attr('name');
+//alert(status);
  $(location).attr('href', 'adminp.php?productid='+d);
 });
 $('#find').click(function(){
   var d=$("#enterid").val();
-alert(d);
+//alert(d);
  $(location).attr('href', 'adminp.php?productid='+d);
 });
 
@@ -241,13 +309,14 @@ if (isset($_SESSION['id'])) {
 
     <div style="background-color: #357196;padding-top: 5px; padding-bottom: 5px;">
     <center>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-dashboard" style="float: left;font-size: 30px; width: 100%;"></span><a href="dashboard.php" style="color: white;font-size: 15px;"> Dashboard</a></div>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;"></span> <a href="previous.php" style="color: white;font-size: 15px;">Orders</a></div>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;"></span><a href="update_detail.php" style="color: white;font-size: 15px;">Accaunt</a></div>
-    <div style="margin-top: 100%;">
-    <div ><center><span class="fa fa-facebook-official " style="font-size: 50px;color:white;"></span> </center></div>
-    <div><center><span class="fa fa-twitter " style="font-size: 50px;color:white;"></span> </center></div>
-    </div>
+   <div id="leftmenu" ><span class="glyphicon glyphicon-dashboard" style="float: left;font-size: 30px; width: 100%;"></span><a href="admindash.php" style="color: white;font-size: 15px;"> Dashboard</a></div>
+    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;"></span> <a href="adminp.php" style="color: white;font-size: 15px;">All Orders</a></div>
+    <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;"></span><a href="register.php" style="color: white;font-size: 15px;">Create new accaunt</a></div>
+
+
+   <div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="addproduct.php" style="color: white;font-size: 15px;"> Add product</a></div>
+    
+
   </center>
   </div>  
 
@@ -256,7 +325,20 @@ if (isset($_SESSION['id'])) {
    <div class="col-lg-10"  >
     <div class="container-fluid" id="d"  style="background-color: #1e3a68;box-shadow: 1px 6px 4px gray; " >
 
-  <span class="fas fa-wallet" style="float: left;font-size: 20px;" > : 4000</span>
+  <span class="fas fa-wallet" style="float: left;font-size: 20px;" ><?php
+if(isset($_SESSION['id'])){
+$id=$_SESSION['id'];
+$sql="select * from customer where id=$id";
+
+$result=mysqli_query($conn,$sql);
+
+while ($row=mysqli_fetch_assoc($result)) {
+echo 'A/C: '.$row['accaunt'];
+}
+
+}
+
+?> </span>
   <a href="main.php?logout=true" style="color: white;margin-left:  2px;" >
   <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
    <span class="glyphicon glyphicon-log-out" style="float: right;text-align: center;font-size: 16px;color: white;margin-right: 2px;"></span>Log out
@@ -416,7 +498,7 @@ while ($row=mysqli_fetch_assoc($result)) {
 
 
 <tr>
-  <td><?php echo $row['id']; ?></td> <td><?php echo $row['type']; ?></td> <td><?php echo $row['dateoforder']; ?></td> <td><?php echo $row['status']; ?></td><td><p id="<?php echo $row['id']; ?>" class="here" style="color: blue;">More info</p></td>
+  <td><?php echo $row['id']; ?></td> <td><?php echo $row['type']; ?></td> <td><?php echo $row['dateoforder']; ?></td> <td><?php echo $row['status']; ?></td><td><p id="<?php echo $row['id']; ?>" class="here" style="color: blue;" name="<?php echo $row['status'] ?>">More info</p></td>
 </tr>
 <?php
 }

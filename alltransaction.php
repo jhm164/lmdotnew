@@ -17,8 +17,7 @@
 
 
 <style type="text/css">
-
-   #leftmenu{
+    #leftmenu{
       margin-top: 20px;
        background-color: #357196;
        height: auto;
@@ -104,43 +103,12 @@ box-shadow: 3px 3px 2px white;
 left: 50%;
 }
 </style>
-
 <script>
 
 
-  function getUrlVars() {
-        var vars = {};
-        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
-            function (m, key, value) {
-                vars[key] = value;
-            });
-        return vars;
-    }
+$(document).ready(function(){
+$('#spinner').hide();
 
-
-  $(document).ready(function(){
-var data=new Array() ;
-var heading=new Array();
-var senddata;
-var category;
-
-$('#accauntsett').change(function(){
-  var a=$(this).val();
-
-$(location).attr('href',a);
-});
-$('#menuselect').change(function(){
-  var a=$(this).val();
-
-$(location).attr('href',a);
-});
-
-$("#type").change(function(){
-  data.push($(this).attr('id'));
-var x=$(this).val();
-alert(x);
- $(location).attr('href', 'addproduct.php?category='+x);
-});
 
 
 $('#accauntsett').change(function(){
@@ -152,50 +120,6 @@ $('#menuselect').change(function(){
   var a=$(this).val();
 
 $(location).attr('href',a);
-});
-
-$('#add').click(function(){
-category=getUrlVars().category;
-data[0]=6;
-heading[0]='range';
-var i;
-for( i=1;i<=5;i++){
-data[i]=$('.c'+i).val();
-heading[i]=$('.c'+i).attr('id');
-
-//var c+i=  $('.c'+i).val();
-//alert($('.c'+i).val());
-//alert(data[i]);
-
-}
-//for( i=1;i<=5;i++){
-senddata='?category='+category+'&c1='+data[1]+'&c2='+data[2]+'&c3='+data[3]+'&c4='+data[4]+'&c5='+data[5];
-  //}
-/*
-
-$.ajax({
-   type: "GET",
-   data: {heading:data},
-   url: "addnewproduct.php",
-   success: function(msg){
-    alert(msg);
-   }
-});
-*/
-  $.ajax({url: "addnewproduct.php"+senddata, success: function(result){
-       alert('success');
-    }});
-/*
-$.ajax({
-    type: "GET",
-    url: "addnewproduct.php",
-    dataType: "json",
-    data: senddata,
-    success: function(msg){
-    alert(msg);
-    }
-});
-*/
 });
 
 });
@@ -212,24 +136,6 @@ $.ajax({
 session_start();
 include 'connection.php';
 
-if (isset($_POST['username'])&&isset($_POST['username'])) {
-	
-$username=$_POST['username'];
-$password=$_POST['password'];
-
-
-	$sql="select * from customer where username='$username' and password='$password'";
-
-	$result=mysqli_query($conn,$sql);
-while ($row=mysqli_fetch_assoc($result)) {
-	$_SESSION['fname']=$row['fname'];
-	$_SESSION['lname']=$row['lname'];
-	$_SESSION['id']=$row['id'];
-
-}
-
-}
-
 if (isset($_SESSION['id'])) {
 	# code...
 
@@ -238,29 +144,55 @@ if (isset($_SESSION['id'])) {
 <div class="col-lg-2" style="background-color: #357196; box-shadow: 3px 4px 3px gray;"  >
     <div  style="background-color: #357196;padding-bottom: 5px;padding-top: 15px;">
     <center>
-    
+    <img src="images/oscar.png" style="height: 80px;width: 80px;border: 2px solid gray;padding: 2px; background-color: white;" class="img-circle">
     <h4 style="color:white;font-family: 'Times New Romen';font-weight: bold;"> <?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </h4>
-    <a href="update_detail.php" style="color: white;">Update Profile</a></center>
 
+  
+    </center>
   </div>
 
     <div style="background-color: #357196;padding-top: 5px; padding-bottom: 5px;">
     <center>
-   <div id="leftmenu" ><span class="glyphicon glyphicon-dashboard" style="float: left;font-size: 30px; width: 100%;"></span><a href="admindash.php" style="color: white;font-size: 15px;"> Dashboard</a></div>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;"></span> <a href="adminp.php" style="color: white;font-size: 15px;">All Orders</a></div>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;"></span><a href="register.php" style="color: white;font-size: 15px;">Create new accaunt</a></div>
+    <div id="leftmenu" ><span class="glyphicon glyphicon-dashboard" style="float: left;font-size: 30px; width: 100%;"></span><a href="dashboard.php" style="color: white;font-size: 15px;"> Dashboard</a></div>
+  <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;margin-bottom: 10px;"></span> 
+<select style="color: black;font-size: 15px;" class="form-control" id="menuselect">
+  <option>--select--</option>
+   <option value="createorder5.php">Create New order</option>
+  <option value="previous.php">My Orders</option>
 
+</select>
+    </div>
+    <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;margin-bottom: 10px;"></span>
+  <select style="color: black;font-size: 15px;"  class="form-control" id="accauntsett">
+  <option>--select--</option>
+   <option value="update_detail.php">Update Details</option>
+
+
+</select>
+
+    </div>
+  
+
+
+
+  
+   
+  <?php    
+ if (isset($_SESSION['admin'])){
+
+ 
+if ($_SESSION['admin']==1) {
+   
+
+    ?>
+     <div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="adminp.php" style="color: white;font-size: 15px;"> All order</a></div>
 
    <div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="addproduct.php" style="color: white;font-size: 15px;"> Add product</a></div>
-    
+     <?php 
 
-  
-
-
-
-   
-  
-
+}
+}
+     ?>
     <div style="margin-top: 100%;">
     <div ><center><span class="fa fa-facebook-official " style="font-size: 50px;color:white;"></span> </center></div>
     <div><center><span class="fa fa-twitter " style="font-size: 50px;color:white;"></span> </center></div>
@@ -271,7 +203,9 @@ if (isset($_SESSION['id'])) {
 
   </div>
    <div class="col-lg-10"  >
-    <div class="container-fluid" id="d"  style="background-color: #1e3a68;box-shadow: 1px 6px 4px gray; " >
+
+
+  <div class="container-fluid" id="d"  style="color:white;background-color: #1e3a68;box-shadow: 1px 6px 4px gray; " >
 
   <span class="fas fa-wallet" style="float: left;font-size: 20px;" > <?php
 if(isset($_SESSION['id'])){
@@ -294,100 +228,71 @@ echo 'A/C: '.$row['accaunt'];
    <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
     <span class="glyphicon glyphicon-user" style="font-size: 16px;"> </span><span style="margin-left: 3px;font-weight: bold;"><?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </span></div>
     </div>
-<table class="table table-striped">
-  <thread></thread>
-<tbody>
-  <tr>
-    <td>Enter category</td>
-    <td><select id="type">
-      <option>--select--</option>
-       <?php 
-$sql="select * from category";
 
-  $result=mysqli_query($conn,$sql);
-while ($row=mysqli_fetch_assoc($result)) {
 
-       ?>
-      <option value="<?php echo $row['category'] ;?>"><?php echo $row['category'] ;?></option>
-    <?php } ?>
-    <option value="gg">kk</option>
-    </select></td>
-   
 
-  </tr>
+
+
+
+
+<div style="margin-left: auto;margin-top: 22px;">
+  <center>
+  <a href="current.php" style="color: white"> <div style="border:1px solid white; background-color: #142952;width: 33%;height: 50px;float: left; color: white;"><p style="text-align: center;color: white;padding-top: 15px;">Current orders</p> </div> </a>
+    <a href="previous.php" style="color: white">  <div style="border:1px solid white;background-color: #142952;width: 33%;height: 50px;float: left;color: white;">
+  <p style="padding-top: 15px;">  Cancelled orders</p>
+   </div></a>
+    <div style="border:1px solid white;background-color:#142952;width: 33%;height: 50px;float: left;"></div>
+    </center>
+</div>
+
+
+<div class="row" style=" margin: 10px;margin-top:10%; ">
+<table class="table table-striped" style="box-shadow: 1px 6px 6px gray;">
+  <thead><th>Date</th><th>Order ID</th><th>Customer Name</th><th>Status</th></thead>
+  <tbody>
   <?php 
-$content=array();
-$i=1;
-if (isset($_GET['category'])) {
-  $cat=$_GET['category'];
-$sql="select * from category where category='$cat'";
 
-  $result=mysqli_query($conn,$sql);
+$id=$_SESSION['id'];
+
+$sql = "SELECT * FROM `orders` WHERE customerid =$id Order by 'dateoforder' ASC";
+    
+$result=mysqli_query($conn,$sql);
+
 while ($row=mysqli_fetch_assoc($result)) {
-//echo $row['c'.$i];
-  /*
-$content[1]=$row['c1'];
-$content[2]=$row['c2'];
-$content[3]=$row['c3'];
-$content[4]=$row['c4'];
-$content[5]=$row['c5'];
-*/
-//$i++;
-for($j=1;$j<=5;$j++){
-
-
-
-
-if($row['c'.$j]!='N/A'){
 ?>
- <tr><td>Enter <?php echo $row['c'.$j];?></td><td><input type="text" name="" class="form-control <?php echo 'c'.$j;?> " id="<?php echo $row['c'.$j];?>"></td></tr>
+<tr>
+  <td><?php echo $row['dateoforder'];  ?></td>
+  <td><?php echo $row['id'];  ?></td>
+  <td>saurabh solkar</td>
+  <td><?php
+if($row['status']=='shipped'){
+   echo '<p style="color:red;">'.$row['status'].'</p>';
+}else if($row['status']=='ordered'){
+   echo '<p style="color:blue;">'.$row['status'].'</p>';
+}
+    ?></td>
+  <td ><span class="glyphicon glyphicon-info-sign oo" id="<?php echo $row['id'];  ?>" ></span></td>
   
+</tr>
+
 <?php
-}
-}
-}
-
-?>
-<tr><td colspan="2"><input type="button" class="btn btn-primary" id="add" value="Add product" name=""></td></tr>
-<?php
-//echo $content[1];
-//print_r($content);
-
-/*
-$sql="select * from $cat";
-
-  $result=mysqli_query($conn,$sql);
-while ($row=mysqli_fetch_assoc($result)) {
- 
-}
-*/
 }
 
 
   ?>
+
+<div id="show"></div>
 </tbody>
 </table>
 
 
 </div>
 
-
 </div>
 
-<?php
-}else{
-	
-	echo "<h1 class='alert alert-danger'>Please login</h1>";
-	
-}
- if (isset($_GET['logout'])){
-if($_GET['logout']=='true'){
-	session_destroy();
-header('Location:login.php');
-}
 
-} ?>
-
+</div>
+<?php }?>
 </body>
 </html>
 

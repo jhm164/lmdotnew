@@ -30,6 +30,8 @@
         text-align: center;
 
     }
+
+
     .row1{
    
   margin: 0 auto;
@@ -39,6 +41,7 @@
     #d{
       background-color:#1e3a68;
       padding-top: 10px;
+      padding-bottom:  10px;
        height: auto;
        width: auto;
       color: white;
@@ -103,12 +106,112 @@ box-shadow: 3px 3px 2px white;
 left: 50%;
 }
 </style>
-<script>
+
+<style type="text/css">
+  
+
+ol.progtrckr {
+    margin: 0;
+    padding: 0;
+    list-style-type none;
+}
+
+ol.progtrckr li {
+    display: inline-block;
+    text-align: center;
+    line-height: 3.5em;
+}
+
+ol.progtrckr[data-progtrckr-steps="2"] li { width: 49%; }
+ol.progtrckr[data-progtrckr-steps="3"] li { width: 33%; }
+ol.progtrckr[data-progtrckr-steps="4"] li { width: 24%; }
+ol.progtrckr[data-progtrckr-steps="5"] li { width: 19%; }
+ol.progtrckr[data-progtrckr-steps="6"] li { width: 16%; }
+ol.progtrckr[data-progtrckr-steps="7"] li { width: 14%; }
+ol.progtrckr[data-progtrckr-steps="8"] li { width: 12%; }
+ol.progtrckr[data-progtrckr-steps="9"] li { width: 11%; }
+
+ol.progtrckr li.progtrckr-done {
+    color: black;
+    border-bottom: 4px solid yellowgreen;
+}
+ol.progtrckr li.progtrckr-todo {
+    color: black; 
+    border-bottom: 4px solid black;
+}
+
+ol.progtrckr li:after {
+    content: "\00a0\00a0";
+}
+ol.progtrckr li:before {
+  background-color: #afc2d5;
+    position: relative;
+    bottom: -2.5em;
+    float: left;
+    left: 50%;
+    line-height: 1em;
+}
+ol.progtrckr li.progtrckr-done:before {
+    content: "\2713";
+    color: white;
+    background-color: yellowgreen;
+    height: 2.2em;
+    width: 2.2em;
+    line-height: 2.2em;
+    border: none;
+    border-radius: 2.2em;
+}
+ol.progtrckr li.progtrckr-todo:before {
+    content: "\039F";
+     display: inline-block;
+    color: black;
+    background-color: #afc2d5;
+    font-size: 2.2em;
+    bottom: -1.2em;
+}
 
 
+  
+</style>
+
+
+<script type="text/javascript">
+  
 $(document).ready(function(){
-$('#spinner').hide();
+ $('#ordered').removeClass('progtrckr-todo');
+$('#shipped').removeClass('progtrckr-todo');
+$('#delivered').removeClass('progtrckr-todo');
 
+ 
+$('.oo').click(function(){
+var status=$(this).attr('id');
+//alert(status);
+if (status=='ordered') {
+  $('#ordered').removeClass('progtrckr-todo');
+$('#shipped').removeClass('progtrckr-todo');
+$('#delivered').removeClass('progtrckr-todo');
+$('#ordered').addClass('progtrckr-done');
+$('#shipped').addClass('progtrckr-todo');
+$('#delivered').addClass('progtrckr-todo');
+}else if (status=='shipped') {
+   $('#ordered').removeClass('progtrckr-todo');
+$('#shipped').removeClass('progtrckr-todo');
+$('#delivered').removeClass('progtrckr-todo');
+$('#ordered').addClass('progtrckr-done');
+$('#shipped').addClass('progtrckr-done');
+$('#delivered').addClass('progtrckr-todo');
+
+//alert($('#ordered').attr('class'));
+}else if (status=='delivered') {
+ 
+$('#shipped').removeClass('progtrckr-todo');
+$('#delivered').removeClass('progtrckr-todo');
+$('#ordered').addClass('progtrckr-done');
+$('#shipped').addClass('progtrckr-done');
+$('#delivered').addClass('progtrckr-done');
+}
+
+});
 
 
 $('#accauntsett').change(function(){
@@ -122,9 +225,10 @@ $('#menuselect').change(function(){
 $(location).attr('href',a);
 });
 
-});
-</script>
 
+});
+
+</script>
 </head>
 <body class="container-fluid" style="background-color: #AFC2D5;" id="load_screen" >
 
@@ -136,6 +240,30 @@ $(location).attr('href',a);
 session_start();
 include 'connection.php';
 
+if (isset($_POST['username'])&&isset($_POST['username'])) {
+	$admin=0;
+$username=$_POST['username'];
+$password=$_POST['password'];
+
+
+	$sql="select * from customer where username='$username' and password='$password'";
+
+	$result=mysqli_query($conn,$sql);
+while ($row=mysqli_fetch_assoc($result)) {
+  if ($row['admin']==1) {
+ 
+ $_SESSION['admin']=$row['admin'];
+header('Location:adminp.php');
+
+  }
+	$_SESSION['fname']=$row['fname'];
+	$_SESSION['lname']=$row['lname'];
+	$_SESSION['id']=$row['id'];
+
+}
+
+}
+
 if (isset($_SESSION['id'])) {
 	# code...
 
@@ -146,19 +274,21 @@ if (isset($_SESSION['id'])) {
     <center>
     <img src="images/oscar.png" style="height: 80px;width: 80px;border: 2px solid gray;padding: 2px; background-color: white;" class="img-circle">
     <h4 style="color:white;font-family: 'Times New Romen';font-weight: bold;"> <?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </h4>
-
+   </center>
   
-    </center>
+ 
   </div>
 
     <div style="background-color: #357196;padding-top: 5px; padding-bottom: 5px;">
     <center>
     <div id="leftmenu" ><span class="glyphicon glyphicon-dashboard" style="float: left;font-size: 30px; width: 100%;"></span><a href="dashboard.php" style="color: white;font-size: 15px;"> Dashboard</a></div>
-  <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;margin-bottom: 10px;"></span> 
+    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;margin-bottom: 10px;"></span> 
 <select style="color: black;font-size: 15px;" class="form-control" id="menuselect">
   <option>--select--</option>
    <option value="createorder5.php">Create New order</option>
   <option value="previous.php">My Orders</option>
+   <option value="trackorder.php">track Orders</option>
+
 
 </select>
     </div>
@@ -175,7 +305,6 @@ if (isset($_SESSION['id'])) {
 
 
 
-  
    
   <?php    
  if (isset($_SESSION['admin'])){
@@ -193,60 +322,33 @@ if ($_SESSION['admin']==1) {
 }
 }
      ?>
+
     <div style="margin-top: 100%;">
     <div ><center><span class="fa fa-facebook-official " style="font-size: 50px;color:white;"></span> </center></div>
     <div><center><span class="fa fa-twitter " style="font-size: 50px;color:white;"></span> </center></div>
     </div>
+  
   </center>
   </div>  
 
 
   </div>
    <div class="col-lg-10"  >
-
-
-  <div class="container-fluid" id="d"  style="color:white;background-color: #1e3a68;box-shadow: 1px 6px 4px gray; " >
-
-  <span class="fas fa-wallet" style="float: left;font-size: 20px;" > <?php
-if(isset($_SESSION['id'])){
-$id=$_SESSION['id'];
-$sql="select * from customer where id=$id";
-
-$result=mysqli_query($conn,$sql);
-
-while ($row=mysqli_fetch_assoc($result)) {
-echo 'A/C: '.$row['accaunt'];
-}
-
-}
-
-?></span>
-  <a href="main.php?logout=true" style="color: white;margin-left:  2px;" >
-  <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
-   <span class="glyphicon glyphicon-log-out" style="float: right;text-align: center;font-size: 16px;color: white;margin-right: 2px;"></span>Log out
- </div></a>
-   <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
-    <span class="glyphicon glyphicon-user" style="font-size: 16px;"> </span><span style="margin-left: 3px;font-weight: bold;"><?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </span></div>
-    </div>
-
-
-
-
-
-
-
-<div style="margin-left: auto;margin-top: 22px;">
-  <center>
-  <a href="current.php" style="color: white"> <div style="border:1px solid white; background-color: #142952;width: 33%;height: 50px;float: left; color: white;"><p style="text-align: center;color: white;padding-top: 15px;">Current orders</p> </div> </a>
-    <a href="previous.php" style="color: white">  <div style="border:1px solid white;background-color: #142952;width: 33%;height: 50px;float: left;color: white;">
-  <p style="padding-top: 15px;">  Cancelled orders</p>
-   </div></a>
-    <div style="border:1px solid white;background-color:#142952;width: 33%;height: 50px;float: left;"></div>
-    </center>
-</div>
-
+<center>
 
 <div class="row" style=" margin: 10px;margin-top:10%; ">
+
+
+<?php
+include 'connection.php';
+
+
+?>
+<ol class="progtrckr" data-progtrckr-steps="5" style="margin-top:10px;margin-bottom: 10px; ">
+    <li id="ordered" >Ordered</li><!--
+ --><li id="shipped" >Shipped</li><!--
+ --><li id="delivered" >Delivered</li>
+</ol>
 <table class="table table-striped" style="box-shadow: 1px 6px 6px gray;">
   <thead><th>Date</th><th>Order ID</th><th>Customer Name</th><th>Status</th></thead>
   <tbody>
@@ -269,9 +371,11 @@ if($row['status']=='shipped'){
    echo '<p style="color:red;">'.$row['status'].'</p>';
 }else if($row['status']=='ordered'){
    echo '<p style="color:blue;">'.$row['status'].'</p>';
+}else if($row['status']=='delivered'){
+   echo '<p style="color:green;">'.$row['status'].'</p>';
 }
     ?></td>
-  <td ><span class="glyphicon glyphicon-info-sign oo" id="<?php echo $row['id'];  ?>" ></span></td>
+  <td ><span class=" oo" id="<?php echo $row['status'];  ?>" style="color:green;" >show status</span></td>
   
 </tr>
 
@@ -281,18 +385,25 @@ if($row['status']=='shipped'){
 
   ?>
 
-<div id="show"></div>
-</tbody>
-</table>
-
+</div>
+</center>
 
 </div>
 
-</div>
+<?php
+}else{
+	
+	echo "<h1 class='alert alert-danger'>Please login</h1>";
+	header('Location:login.php');
+}
+ if (isset($_GET['logout'])){
+if($_GET['logout']=='true'){
+	session_destroy();
+header('Location:login.php');
+}
 
+} ?>
 
-</div>
-<?php }?>
 </body>
 </html>
 

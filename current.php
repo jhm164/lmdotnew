@@ -220,7 +220,20 @@ if ($_SESSION['admin']==1) {
  
   <div class="container-fluid" id="d"  style="color:white;background-color: #1e3a68;box-shadow: 1px 6px 4px gray; " >
 
-  <span class="fas fa-wallet" style="float: left;font-size: 20px;" > : 4000</span>
+  <span class="fas fa-wallet" style="float: left;font-size: 20px;" > <?php
+if(isset($_SESSION['id'])){
+$id=$_SESSION['id'];
+$sql="select * from customer where id=$id";
+
+$result=mysqli_query($conn,$sql);
+
+while ($row=mysqli_fetch_assoc($result)) {
+echo 'A/C: '.$row['accaunt'];
+}
+
+}
+
+?></span>
   <a href="main.php?logout=true" style="color: white;margin-left:  2px;" >
   <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
    <span class="glyphicon glyphicon-log-out" style="float: right;text-align: center;font-size: 16px;color: white;margin-right: 2px;"></span>Log out
