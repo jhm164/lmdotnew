@@ -22,6 +22,7 @@ $(document).ready(function(){
 $('#spinner').hide();
 
 
+
 $('#accauntsett').change(function(){
   var a=$(this).val();
 
@@ -31,6 +32,21 @@ $('#menuselect').change(function(){
   var a=$(this).val();
 
 $(location).attr('href',a);
+});
+
+$('.update').click(function(){
+var s = $('#sel').val();
+var id=$('#id1').val();
+//alert(s+id);
+$.post("update_s.php",
+    {
+   id:id,
+   status:s
+    }, function(data, status){
+      alert(data);
+       // $('#status').text(data);
+   
+    });
 });
 
 
@@ -198,8 +214,8 @@ box-shadow: 3px 3px 2px white;
 
 <style>
 #spinner{
-	position: fixed;
-	top:50%;
+  position: fixed;
+  top:50%;
 left: 50%;
 }
 </style>
@@ -251,15 +267,12 @@ $("#logo").css("left",v.left+width/2-width1/2);
 }
 $('.here').click(function(){
   var d=$(this).attr('id');
-   var status=$(this).attr('name');
-//alert(status);
- $(location).attr('href', 'adminp.php?productid='+d);
+  $(location).attr('href','update_status.php?productid='+d);
+ //alert(d);
+ 
 });
-$('#find').click(function(){
-  var d=$("#enterid").val();
-//alert(d);
- $(location).attr('href', 'adminp.php?productid='+d);
-});
+
+
 
 });
 </script>
@@ -268,33 +281,33 @@ $('#find').click(function(){
 <body class="container-fluid" style="background-color: #AFC2D5;" id="load_screen" >
 
 <div id="spinner" style="display: none;">
-	<img src="css/spinner.gif" alt="loading" id="img-spinner">
-	
+  <img src="css/spinner.gif" alt="loading" id="img-spinner">
+  
 </div>
 <?php
 session_start();
 include 'connection.php';
 
 if (isset($_POST['username'])&&isset($_POST['username'])) {
-	
+  
 $username=$_POST['username'];
 $password=$_POST['password'];
 
 
-	$sql="select * from customer where username='$username' and password='$password'";
+  $sql="select * from customer where username='$username' and password='$password'";
 
-	$result=mysqli_query($conn,$sql);
+  $result=mysqli_query($conn,$sql);
 while ($row=mysqli_fetch_assoc($result)) {
-	$_SESSION['fname']=$row['fname'];
-	$_SESSION['lname']=$row['lname'];
-	$_SESSION['id']=$row['id'];
+  $_SESSION['fname']=$row['fname'];
+  $_SESSION['lname']=$row['lname'];
+  $_SESSION['id']=$row['id'];
 
 }
 
 }
 
 if (isset($_SESSION['id'])) {
-	# code...
+  # code...
 
 ?>
 <div class="row" >
@@ -315,7 +328,8 @@ if (isset($_SESSION['id'])) {
 
 
    <div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="addproduct.php" style="color: white;font-size: 15px;"> Add product</a></div>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="update_status.php" style="color: white;font-size: 15px;"> Update Order Status</a></div>
+    
+<div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="update_status.php" style="color: white;font-size: 15px;"> Update Order Status</a></div>
 
   </center>
   </div>  
@@ -323,167 +337,61 @@ if (isset($_SESSION['id'])) {
 
   </div>
    <div class="col-lg-10"  >
-    <div class="container-fluid" id="d"  style="background-color: #1e3a68;box-shadow: 1px 6px 4px gray; " >
-
-  <span class="fas fa-wallet" style="float: left;font-size: 20px;" ><?php
-if(isset($_SESSION['id'])){
-$id=$_SESSION['id'];
-$sql="select * from customer where id=$id";
-
-$result=mysqli_query($conn,$sql);
-
-while ($row=mysqli_fetch_assoc($result)) {
-echo 'A/C: '.$row['accaunt'];
-}
-
-}
-
-?> </span>
-  <a href="main.php?logout=true" style="color: white;margin-left:  2px;" >
-  <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
-   <span class="glyphicon glyphicon-log-out" style="float: right;text-align: center;font-size: 16px;color: white;margin-right: 2px;"></span>Log out
- </div></a>
-   <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
-    <span class="glyphicon glyphicon-user" style="font-size: 16px;"> </span><span style="margin-left: 3px;font-weight: bold;"><?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </span></div>
-    </div>
-<a href="addproduct.php"><div style="margin-top: 10px;background-color:  #001a66; height: 50px; text-align: center;width: 100%;color: white;padding-top: 24px; "><span style="padding-top: 24px;">Add new product</span></div></a>
-
-<table style="margin-top:10px; ">
-  <tr><td>
-<input type="text " class="form-control" name="" placeholder="Enter order Id" id="enterid"> </td><td><input type="button" class="btn btn-primary" name="" id="find" value="Find Order">
-</td>
-</tr>
-</table>
 <?php
-if (isset($_GET['productid'])) {
-$logoid1;
-$pid1;
-$category1=null;
-$type=null;
-$customerid1=null;
-$subcustomerid=null;
- $pid=$_GET['productid'];
+    if(isset($_GET['productid'])){
+       $pid=$_GET['productid'];
  
 $sql1 ="select * from orders where id=$pid";
 $result1=mysqli_query($conn,$sql1);
-
-?>
-<center>
-<table class="table table-dark">
-  <thead><th>product</th></thead>
-  <tbody>
-  
-<?php
-
 while ($row=mysqli_fetch_assoc($result1)) {
 
-
-  $veri=$row['id'];
-?>
+      ?>
+      <center>
+      <table class="table">
+        <tbody>
 <tr>
   <td>Order Id</td>
-   <td><?php echo $row['id']; ?></td>
+   <td><input type="text" name="" id="id1"  value="<?php echo $row['id']; ?>" readonly>
+    </td>
+</tr>
+<tr>
+  <td>Order Type</td>
+ <td><input type="text" name="" id="id1"  value="<?php echo $row['type']; ?>" readonly></td>
 </tr>
  <tr>
 <td>Date of order</td>
-<td><?php echo $row['dateoforder']; ?></td>
+<td><input type="text" name="" id="id1"  value="<?php echo $row['dateoforder']; ?>" readonly></td>
 </tr>
-  <tr>
-<td>product ID</td>
-<td><?php echo $row['productid']; ?></td>
-</tr>
+
 <tr>
   <td>Current Status</td>
- <td><?php echo $row['status']; ?></td>
+ <td><input type="text" name="" id="id1"  value="<?php echo $row['status']; ?>" readonly="readonly" ></td>
 </tr>
+<tr>
+  <td>Update new Status <span></span></td>
+ <td>
+  <select id="sel">
+    <option value="ordered">Ordered</option>
+     <option value="shipped">Shipped</option>
 
-<tr  ><td colspan="2"  >
-     <center style="margin-top:15px; ">   
-<?php
+ <option value="delivered">delivered</option>
 
-$logoid1=$row['logoid'];
-$pid1=$row['productid'];
-$type=$row['type'];
-$customerid1=$row['customerid'];
-$subcustomerid=$row['subcustomerid'];
-}
+  </select>
+   
 
-$sql2="select * from category where category='$type'" ;
-
-$result2=mysqli_query($conn,$sql2);
-
-while ($row=mysqli_fetch_assoc($result2)) {
-$category1=$row['category'];
-}
-
-$sql2="select * from $category1 where id=$pid1" ;
-$result3=mysqli_query($conn,$sql2);
-
-while ($row=mysqli_fetch_assoc($result3)) {
-
-?>
-<img src="<?php echo $row['imagepath'];?>" id="main" style="background-color: white;">
-<?php
-}
-$sql2="select * from logo where id=$logoid1" ;
-
-$result2=mysqli_query($conn,$sql2);
-
-while ($row=mysqli_fetch_assoc($result2)) {
-  ?>
-            
-<img src="<?php echo $row['imagepath'];?>" id="logo" style="background:transparent;">
-  <?php
-
-
-
-  
-?></center>
-</td></tr>
-<?php }
-
-$sql2="select * from customer where id=$customerid1" ;
-
-$result2=mysqli_query($conn,$sql2);
-
-while ($row=mysqli_fetch_assoc($result2)) {
-
- ?>
- <tr style="background-color: black;color:white;"><td colspan="2"><center><h3>Marchant Detail</h3></center></td></tr>
- <tr><td>Marchant Name</td><td><?php echo $row['fname'].'  ',$row['mname'].'  '.$row['lname']; ?></td></tr>
- <tr><td> Marchant Address</td><td><?php echo $row['address'];?></td></tr>
- <tr><td>Pin Code</td><td><?php echo $row['pin'];?></td></tr>
-  <tr><td>Contact</td><td><?php echo $row['contact'];?></td></tr>
-<?php }
-
-$sql2="select * from customerdetail where id=$subcustomerid" ;
-
-$result2=mysqli_query($conn,$sql2);
-
-while ($row=mysqli_fetch_assoc($result2)) {
-
-?>
-<tr style="background-color: black;color:white;"><td colspan="2"><center><h3>Customer Detail</h3></center></td></tr>
-<tr><td>Customer Name</td><td><?php echo $row['name'];?></td></tr>
-<tr><td>Address</td><td><?php echo $row['add1'];?></td></tr>
-<tr><td>Landmark</td><td><?php echo $row['landmark'];?></td></tr>
-<tr><td>State</td><td><?php echo $row['state'];?></td></tr>
-<tr><td>City</td><td><?php echo $row['city'];?></td></tr>
-<tr><td>Pin</td><td><?php echo $row['pincode'];?></td></tr>
-<tr><td>Landmark</td><td><?php echo $row['landmark'];?></td></tr>
-<tr><td>E-mail</td><td><?php echo $row['email'];?></td></tr>
-<tr><td>Mobile</td><td><?php echo $row['mobile'];?></td></tr>
-<?php
-}
-?>
-</tbody>
-</table>
+ </td>
+</tr>
+<tr>
+  <td colspan="2">
+ <center> <input type="button" class="btn btn-success update" id=" " value="Update" name="">
+  </center>  </td>
+</tr>
+</tbody></table>
 </center>
-<?php
- } ?>
- <center style="background-color: black;color: white;"><h3>All Current orders</h3></center>
-
-    <table class="table table-dark">
+<?php } ?>
+   
+   <?php } ?>
+  <table class="table table-dark">
       <thead>
       <tr class=""><th>Order id</th><th>Type</th><th>Date</th><th>Status</th></tr>
 </thead>
@@ -507,19 +415,16 @@ while ($row=mysqli_fetch_assoc($result)) {
 </tbody>
     </table>
 </div>
-
-
 </div>
-
 <?php
 }else{
-	
-	echo "<h1 class='alert alert-danger'>Please login</h1>";
-	
+  
+  echo "<h1 class='alert alert-danger'>Please login</h1>";
+  
 }
  if (isset($_GET['logout'])){
 if($_GET['logout']=='true'){
-	session_destroy();
+  session_destroy();
 header('Location:login.php');
 }
 
@@ -528,4 +433,4 @@ header('Location:login.php');
 </body>
 </html>
 
-	
+  

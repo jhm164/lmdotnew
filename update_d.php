@@ -1,16 +1,16 @@
 <?php
 session_start();
 include 'connection.php';
-if (isset($_GET['fname'])&&isset($_GET['mname'])) {
-	$fname=$_GET['fname'];
-	$mname=$_GET['mname'];
-	$lname=$_GET['lname'];
-	$addr=$_GET['addr'];
-	$landmark=$_GET['landmark'];
-	$pin=$_GET['pin'];
-	$contact=$_GET['contact'];
-	$username=$_GET['username'];
-	$password=$_GET['password'];
+if (isset($_POST['fname'])&&isset($_POST['mname'])) {
+	$fname=$_POST['fname'];
+	$mname=$_POST['mname'];
+	$lname=$_POST['lname'];
+	$addr=$_POST['addr'];
+	$landmark=$_POST['landmark'];
+	$pin=$_POST['pin'];
+	$contact=$_POST['contact'];
+	$username=$_POST['username'];
+	$password=$_POST['password'];
 	
 
 //echo $fname.' '.$mname.' '.$lname.' '.$addr.' '.$landmark.' '.$pin.' '.$contact.' '.$username.' '.$password;

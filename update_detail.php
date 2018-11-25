@@ -66,8 +66,8 @@ var contact=$('#contact').val();
 var username=$('#username').val();
 var password=$('#password').val();
 
-alert(fname+' '+mname+' '+lname+' '+addr+' '+landmark+' '+pin+' '+contact+' '+username+' '+password);
-$.get("update_d.php",
+//alert(fname+' '+mname+' '+lname+' '+addr+' '+landmark+' '+pin+' '+contact+' '+username+' '+password);
+$.post("update_d.php",
     {
     fname:fname,
 	mname:mname,
