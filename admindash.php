@@ -24,7 +24,7 @@ $id=$_SESSION['id'];
 include 'connection.php'; 
 $sql="select * from orders";
 $delivered=0;
-$dispatch=0;
+$shipped=0;
 $ordered=0;
 $total=0;
 $totalprice=0;
@@ -41,8 +41,8 @@ $sellp=$sellp+$row['sellprice'];
     $ordered++;
 
    }
-   if ($status=='dispatch') {
-    $dispatch++;
+   if ($status=='shipped') {
+    $shipped++;
    }
     if ($status=='delivered') {
     $delivered++;
@@ -65,7 +65,7 @@ $benifit=$sellp-$totalprice;
         var data = google.visualization.arrayToDataTable([
          ['Task', 'Hours per Day'],
           ['ordered',   <?php echo $ordered;?> ],
-           ['dispatch',   <?php echo $dispatch;?> ],
+           ['shipped',   <?php echo $shipped;?> ],
             ['delivered',   <?php echo $delivered;?> ]
          
                  ]);
@@ -253,7 +253,7 @@ echo 'A/C: '.$row['accaunt'];
 <div id="o" >Total Orders:<?php echo $total; ?></div>
  <div id="o" >Current Orders:<?php echo $ordered; ?></div>
 <div id="o" >Delivered Orders:<?php echo $delivered; ?></div>
-<div id="o" >Despatch Orders:<?php echo $dispatch; ?></div>
+<div id="o" >Despatch Orders:<?php echo $shipped; ?></div>
     </div>
 </div></center>
 

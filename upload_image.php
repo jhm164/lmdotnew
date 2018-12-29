@@ -1,4 +1,6 @@
 <?php
+session_start();
+include 'connection.php';
 if(is_array($_FILES)) 
 {
  if(is_uploaded_file($_FILES['userImage']['tmp_name'])) {
@@ -8,14 +10,13 @@ if(is_array($_FILES))
   $targetPath = "images/".$_FILES['userImage']['name'];
 
 
-$conn=mysqli_connect("localhost","root","","lmdot");
 
 if(!$conn){
 	echo die();
 }
 
 
-  		$id=4;
+  		$id=$_SESSION['id'];
 $sql = "INSERT INTO `lmdot`.`logo` (`id`,`imagepath`, `imagename`, `type`, `cid`) VALUES (NULL, '$targetPath','$fileName','$fileType',$id)";
 if(mysqli_query($conn,$sql)){
   if(move_uploaded_file($sourcePath,$targetPath)) {

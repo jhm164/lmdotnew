@@ -18,7 +18,6 @@ $selectedcustomer=null;
 $paymentmode=null;
 $totalprice=0;
 
-
 $category=$_POST['category'];
 $brand=$_POST['brand'];
 $model=$_POST['model'];
@@ -38,13 +37,14 @@ echo $category.' '.$brand.' '.$model.' '.$size.' '.$quantity.' '.$sellp.' '.$id.
 $flag="true";
 if ($productid!=null&&$logoid!=null&&$id!=null) {
 $sql1="select * from orders where productid='$productid' and logoid='$logoid' and customerid='$id' and status='ordered' ";
+echo $sql1;
 
 $result=mysqli_query($conn,$sql1);
 while ($row=mysqli_fetch_assoc($result)) {
 
 	
 	if ($row['id']==null) {
-		# code...
+		
 	}else{
 	$flag="false";
 	
@@ -64,7 +64,14 @@ if ($flag=="true") {
 
 $sql = "INSERT INTO `orders` (`id`, `type`, `productid`, `logoid`, `customerid`, `dateoforder`, `totalprice`, `sellprice`, `subcustomerid`, `ordermode`, `status`) VALUES (NULL,'$category', '$productid', '$logoid', '$id',now(), $totalprice, $sellp, '$selectedcustomer', '$paymentmode','ordered');";
 if (mysqli_query($conn,$sql)) {
+
+$sql4="update  customer set accaunt=accaunt-$totalprice where id=$id";
+
+if (mysqli_query($conn,$sql4)) {
 	echo "order placed successfully";
+}else{
+	echo "please fill all fields ";
+}
 
 
 }else

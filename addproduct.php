@@ -253,8 +253,7 @@ if (isset($_SESSION['id'])) {
 
 
    <div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="addproduct.php" style="color: white;font-size: 15px;"> Add product</a></div>
-    
-<div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="update_status.php" style="color: white;font-size: 15px;"> Update Order Status</a></div>
+    <div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="update_status.php" style="color: white;font-size: 15px;"> Update Order Status</a></div>
 
   
 
@@ -340,7 +339,7 @@ for($j=1;$j<=5;$j++){
 
 
 
-if($row['c'.$j]!='N/A'){
+if($row['c'.$j]!='Na'){
 ?>
  <tr><td>Enter <?php echo $row['c'.$j];?></td><td><input type="text" name="" class="form-control <?php echo 'c'.$j;?> " id="<?php echo $row['c'.$j];?>"></td></tr>
   

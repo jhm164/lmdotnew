@@ -22,7 +22,6 @@ $(document).ready(function(){
 $('#spinner').hide();
 
 
-
 $('#accauntsett').change(function(){
   var a=$(this).val();
 
@@ -32,21 +31,6 @@ $('#menuselect').change(function(){
   var a=$(this).val();
 
 $(location).attr('href',a);
-});
-
-$('.update').click(function(){
-var s = $('#sel').val();
-var id=$('#id1').val();
-//alert(s+id);
-$.post("update_s.php",
-    {
-   id:id,
-   status:s
-    }, function(data, status){
-      alert(data);
-       // $('#status').text(data);
-   
-    });
 });
 
 
@@ -267,12 +251,15 @@ $("#logo").css("left",v.left+width/2-width1/2);
 }
 $('.here').click(function(){
   var d=$(this).attr('id');
-  $(location).attr('href','update_status.php?productid='+d);
- //alert(d);
- 
+   var status=$(this).attr('name');
+//alert(status);
+ $(location).attr('href', 'adminp.php?productid='+d);
 });
-
-
+$('#find').click(function(){
+  var d=$("#enterid").val();
+//alert(d);
+ $(location).attr('href', 'adminp.php?productid='+d);
+});
 
 });
 </script>
@@ -326,10 +313,9 @@ if (isset($_SESSION['id'])) {
     <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;"></span> <a href="adminp.php" style="color: white;font-size: 15px;">All Orders</a></div>
     <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;"></span><a href="register.php" style="color: white;font-size: 15px;">Create new accaunt</a></div>
 
-
+     <div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="addcategory.php" style="color: white;font-size: 15px;"> Add category</a></div>
    <div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="addproduct.php" style="color: white;font-size: 15px;"> Add product</a></div>
-    
-<div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="update_status.php" style="color: white;font-size: 15px;"> Update Order Status</a></div>
+    <div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="update_status.php" style="color: white;font-size: 15px;"> Update Order Status</a></div>
 
   </center>
   </div>  
@@ -339,7 +325,7 @@ if (isset($_SESSION['id'])) {
    <div class="col-lg-10"  >
     <div class="container-fluid" id="d"  style="background-color: #1e3a68;box-shadow: 1px 6px 4px gray; " >
 
-  <span class="fas fa-wallet" style="float: left;font-size: 20px;" > <?php
+  <span class="fas fa-wallet" style="float: left;font-size: 20px;" ><?php
 if(isset($_SESSION['id'])){
 $id=$_SESSION['id'];
 $sql="select * from customer where id=$id";
@@ -352,7 +338,7 @@ echo 'A/C: '.$row['accaunt'];
 
 }
 
-?></span>
+?> </span>
   <a href="main.php?logout=true" style="color: white;margin-left:  2px;" >
   <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
    <span class="glyphicon glyphicon-log-out" style="float: right;text-align: center;font-size: 16px;color: white;margin-right: 2px;"></span>Log out
@@ -360,85 +346,117 @@ echo 'A/C: '.$row['accaunt'];
    <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
     <span class="glyphicon glyphicon-user" style="font-size: 16px;"> </span><span style="margin-left: 3px;font-weight: bold;"><?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </span></div>
     </div>
-<?php
-    if(isset($_GET['productid'])){
-       $pid=$_GET['productid'];
+<a href="addproduct.php"><div style="margin-top: 10px;background-color:  #001a66; height: 50px; text-align: center;width: 100%;color: white;padding-top: 24px; "><span style="padding-top: 24px;">Add new product</span></div></a>
+
  
-$sql1 ="select * from orders where id=$pid";
-$result1=mysqli_query($conn,$sql1);
-while ($row=mysqli_fetch_assoc($result1)) {
+<center>
+<table class="table">
+  <form action="updatemerchant.php" method="post">
+  <tbody ><tr style="background-color: #ccd5da;"><td><input type="fname" style="background-color: white;" class="form-control" id="fn" placeholder="first name" name="fn"></td><td><input type="fname" id="ln" style="background-color: white;" class="form-control" name="ln" placeholder="last name"></td><td><input type="submit" class="btn btn-primary" value="search" name="" id="sub"  ></td></tr></form></tbody>
 
-      ?>
-      <center>
-      <table class="table">
-        <tbody>
-<tr>
-  <td>Order Id</td>
-   <td><input type="text" name="" id="id1" class="form-control" style="background-color: #b3b3b3;" id="id1"  value="<?php echo $row['id']; ?>" readonly>
-    </td>
-</tr>
-<tr>
-  <td>Order Type</td>
- <td><input type="text" name="" id="id1" class="form-control" style="background-color: #b3b3b3;" id="id1" value="<?php echo $row['type']; ?>" readonly></td>
-</tr>
- <tr>
-<td>Date of order</td>
-<td><input type="text" name="" id="id1" class="form-control" style="background-color: #b3b3b3;" id="id1" value="<?php echo $row['dateoforder']; ?>" readonly></td>
-</tr>
+</table>
 
-<tr>
-  <td>Current Status</td>
- <td><input type="text" name="" class="form-control" style="background-color: #b3b3b3;" id="id1"  value="<?php echo $row['status']; ?>" readonly="readonly" ></td>
-</tr>
-<tr>
-  <td>Update new Status <span style="color: red;"> *</span></td>
- <td>
-  <select id="sel">
-    <option value="ordered">Ordered</option>
-     <option value="shipped">Shipped</option>
-
- <option value="delivered">delivered</option>
-
-  </select>
-   
-
- </td>
-</tr>
-<tr>
-  <td colspan="2">
- <center> <input type="button" class="btn btn-success update" id=" " value="Update" name="">
-  </center>  </td>
-</tr>
-</tbody></table>
-</center>
-<?php } ?>
-   
-   <?php } ?>
-  <table class="table table-dark">
-      <thead>
-      <tr class=""><th>Order id</th><th>Type</th><th>Date</th><th>Status</th></tr>
-</thead>
-<tbody>
 <?php
-$sql ="select * from orders where status='ordered'";
-$result=mysqli_query($conn,$sql);
-while ($row=mysqli_fetch_assoc($result)) {
 
+if (isset($_POST['fn'])&&isset($_POST['ln'])) {
+  $fn=$_POST['fn'];
+  $ln=$_POST['ln'];
+  //echo $fn.' '.$ln;
+
+$sql ="select * from customer where fname='$fn' and lname='$ln'";
+
+//echo $sql;
+
+$result=mysqli_query($conn,$sql);
 
 ?>
 
-
-<tr>
-  <td><?php echo $row['id']; ?></td> <td><?php echo $row['type']; ?></td> <td><?php echo $row['dateoforder']; ?></td> <td><?php echo $row['status']; ?></td><td><p id="<?php echo $row['id']; ?>" class="here" style="color: blue;" name="<?php echo $row['status'] ?>">More info</p></td>
-</tr>
 <?php
+
+//    if(mysqli_fetch_array($result) == true){
+  //    echo "inside";
+while ($row=mysqli_fetch_assoc($result)) {
+if($row['fname']!=''&&$row['lname']!=''){
+
+
+
+
+ ?><table class="table table-condensed animated bounceInDown delay-0.7s" >
+  
+    <thead style="background-color: #004d99;color: white;"><tr  ><th colspan="3"><center><h2>Register</h2></center></th></tr></thead>
+    <tbody >
+
+      <tr  class="form-group" colspan="3" >
+        <td><h5>First Name</h5>
+          <input type="text" class="form-control" value="<?php echo $row['fname']; ?>" placeholder="First Name" id="fname" required=""><span id="id1"><?php echo $row['id']; ?></span></td>
+          <td><h5>Middle Name</h5>
+          <input type="text" class="form-control" placeholder="Middle Name" value="<?php echo $row['mname']; ?>" id="mname" required=""></td>
+          <td><h5>Last Name</h5>
+          <input type="text" class="form-control" placeholder="Last Name" value="<?php echo $row['lname']; ?>" id="lname" required=""></td>
+      </tr>
+      <tr >
+        <td colspan="3"><h5>Address</h5>
+          <input type="text" class="form-control" placeholder="Address" value="<?php echo $row['address']; ?>" id="addr"  required=""></td>
+      </tr>
+      <tr>
+        <td colspan="3"><h5>Landmark</h5>
+          <input type="text" class="form-control" placeholder="Landmark" value="<?php echo $row['landmark']; ?>" id="landmark"  required=""></td>
+      </tr>
+      <tr>
+        <td colspan="3"><h5>Pin Code</h5>
+          <input type="text" class="form-control" value="<?php echo $row['pin']; ?>" placeholder="Pin Code"  id="pin"  required=""></td>
+      </tr>
+      <tr>
+        <td colspan="3"><h5>Contact Number</h5>
+          <input type="text" class="form-control" value="<?php echo $row['contact']; ?>" placeholder="Contact"  id="contact"  required=""></td>
+      </tr>
+      <tr>
+        <td colspan="3"><h5>Accaunt Balance</h5>
+          <input type="text" class="form-control" id="accaunt" value="<?php echo $row['accaunt']; ?>" placeholder="accaunt"  required=""></td>
+      </tr>
+      <tr>
+        <td colspan="3"><h5>Username</h5>
+          <input type="text" class="form-control" id="username" placeholder="username" value="<?php echo $row['username']; ?>"  required=""></td>
+      </tr>
+      <tr>
+        <td colspan="3"><h5>Password</h5>
+          <input type="text" class="form-control" id="password" value="<?php echo $row['password']; ?>" placeholder="password"  required=""></td>
+      </tr>
+      
+      <tr>
+        <td ><center>
+          <input type="button" class=" btn btn-success" id="submit" value="update" ></center></td>
+      </tr>
+        </tbody>
+  </form>
+</table>
+<?php
+}else{
+  echo "no record found";
 }
+
+
+ }
+
+  //echo "outside";
+  ?>
+<div class="table table-condensed animated bounceInDown delay-0.7s">No data found for this  name</div>
+  <?php
 ?>
   
-</tbody>
-    </table>
+<?php
+
+}else{
+
+echo "No data found for this name";
+}?>
+</center>
+
 </div>
+
+
 </div>
+
 <?php
 }else{
   

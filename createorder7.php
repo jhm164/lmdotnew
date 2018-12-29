@@ -256,6 +256,12 @@ function abortHandler(event){
     var zonep=0;
     var  paymentmode=null;
   	$(document).ready(function(){
+      var quantity='';
+$('.kk').hide();
+  var category='';
+  var brand='';
+  var model='';
+
       $('#mycustomer').hide();
 
 
@@ -297,7 +303,31 @@ var w=$('#logo').outerHeight();
 var h=0;
 var w1=0;
 //alert($("#logo").outerWidth()+' '+$("#logo").outerHeight());
-if(v1>50&&v1<70){
+if(v1>0&&v1<25){
+
+ 
+$('#logo').css('height',95);
+$('#logo').css('width',95);
+var w2=$("#logo").outerWidth();
+var h2=$("#logo").outerHeight();
+$("#h").val(1);
+$("#w").val(2);
+$("#logo").css("top",v.top+height/2-h2/2);
+$("#logo").css("left",v.left+width/2-w2/2);
+
+}else if(v1>25&&v1<50){
+
+ 
+$('#logo').css('height',105);
+$('#logo').css('width',105);
+var w2=$("#logo").outerWidth();
+var h2=$("#logo").outerHeight();
+$("#h").val(2);
+$("#w").val(3);
+$("#logo").css("top",v.top+height/2-h2/2);
+$("#logo").css("left",v.left+width/2-w2/2);
+
+}else if(v1>50&&v1<70){
 
  
 $('#logo').css('height',115);
@@ -334,6 +364,7 @@ $("#logo").css("left",v.left+width/2-w2/2);
 
 }
 
+$('.section2').show(500);
 });
 
 
@@ -461,6 +492,11 @@ var s=$('#logo').position();
 $('#logo').css('left',s.left+3);
 });
 
+ $("body").on("click",".logoc", function(){
+    logoid1=$(this).attr('id');
+var g= $(this).attr('src');
+$('#logo').attr('src',g);
+  });
 
 $('.logoc').click(function x(v){
 	logoid1=$(this).attr('id');
@@ -478,11 +514,14 @@ $("#main").attr('src',g);
 
 
   $('#grab').click(function(){
-var category=$('#category').val();
-var brand=$('#brand').val();
-var model=$('#model').val();
-//alert(category+" "+brand+" "+model);
-$.getJSON( "loadproduct.php?category="+category+"&brand="+brand+"&model="+model, function( data ) {
+
+ category=$('#category').val();
+ var name1=$('#m1').text();
+  var name2=$('#m2').text();
+ brand=$('#i1').val();
+ model=$('#i2').val();
+alert(category+" "+brand+" "+model+" "+name1);
+$.getJSON( "loadproduct.php?category="+category+"&brand="+brand+"&model="+model+"&name1="+name1+"&name2="+name2, function( data ) {
   pcategory=category;
   var items = [];
   $.each( data, function( key, val ) {
@@ -536,11 +575,70 @@ $("#drop-area").on('dragenter', function (e){
    });
 
 
+$('#sellp').change(function(){
+quantity=$(this).val();
+   category=$('#category').val();
+   brand=$('#brand').val();
+   model=$('#model').val();
+  $('#finalp').show(1000);
+  $('#evaluatearea').show(1000);
+ $('#quantity1').text(quantity);
+ $('#pname1').text(category+' '+brand+' '+model);
+$('#priceperp').text(mainproductprice);
+ $('#pprice1').text(quantity*mainproductprice);
+ $.post("zone.php",
+    {
+      zone:zone
+    }, function(data, status){
+        $('#zonepp').text(data);
+    var    zonep=data;
+    }).then(function(){
+
+      zonep=parseInt($('#zonepp').text());
+var m=quantity*mainproductprice;
+var x11=zonep+m;
+totalp=x11;
+$('#total').text(x11);
+    });
+
+});
+
+
+
+
+$('#quantity').change(function(){
+ quantity=$(this).val();
+   category=$('#category').val();
+   brand=$('#brand').val();
+   model=$('#model').val();
+  $('#finalp').show(1000);
+  $('#evaluatearea').show(1000);
+ $('#quantity1').text(quantity);
+ $('#pname1').text(category+' '+brand+' '+model);
+$('#priceperp').text(mainproductprice);
+ $('#pprice1').text(quantity*mainproductprice);
+ $.post("zone.php",
+    {
+      zone:zone
+    }, function(data, status){
+        $('#zonepp').text(data);
+    var    zonep=data;
+    }).then(function(){
+
+      zonep=parseInt($('#zonepp').text());
+var m=quantity*mainproductprice;
+var x11=zonep+m;
+totalp=x11;
+$('#total').text(x11);
+    });
+
+});
+
 $('#evaluate').click(function(){
- var quantity=$('#quantity').val();
-  var category=$('#category').val();
-  var brand=$('#brand').val();
-  var model=$('#model').val();
+  quantity=$('#quantity').val();
+   category=$('#category').val();
+   brand=$('#brand').val();
+   model=$('#model').val();
   
   //alert(zone);
 
@@ -590,10 +688,34 @@ var id=$(this).attr('id');
 var cat=$(this).val();
 //alert(cat);
 $('#'+id).attr('onkeyup',cat);
-$(location).attr('href', 'createorder5.php?category='+cat);
+$(location).attr('href', 'createorder7.php?category='+cat);
 //$('#'+id).attr('onkeyup',cat);
 $('#bb').text(cat);
 });
+
+
+
+
+   $("body").on("click","#searchbutton", function(){
+  var id=$("#search").val();
+$('#myicons').load('mylogo.php?id=+id);
+});
+
+
+$('#openm').click(function(){
+ var id1=22;
+
+$('#myicons').load('mylogo.php?id1='+id1);
+
+//$.getJSON( "mylogo.php?id1="+id1, function( data ) {
+ 
+ // $.each( data, function( key, val ) {
+  //  $('#myicons').html(data);
+  //  $('#myicons').append('<img src="'+val.imagepath+'" height="60" width="60" height="90" width="90" style=" margin:4px;" class="img-rounded logoc" id="'+val.id+'">');
+ // });
+//});
+});
+
 
 
  $("#submit").click(function(){
@@ -698,7 +820,7 @@ include "connection.php";
    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;margin-bottom: 10px;"></span> 
 <select style="color: black;font-size: 15px;" class="form-control" id="menuselect">
   <option>--select--</option>
-   <option value="createorder5.php">Create New order</option>
+   <option value="createorder7.php">Create New order</option>
   <option value="previous.php">My Orders</option>
    <option value="trackorder.php">track Orders</option>
 
@@ -826,35 +948,41 @@ $sql="select * from category where category='$cat'";
 
   $result=mysqli_query($conn,$sql);
 while ($row=mysqli_fetch_assoc($result)) {
-for ($i=1; $i <=5 ; $i++) { 
+for ($i=1; $i <3 ; $i++) { 
+  if ($row['c'.$i]!='imagepath'&&$row['c'.$i]!='zone'&&$row['c'.$i]!='price') {
    $arr[$i]=$row['c'.$i];
+ }
 }
 
 }
 ?>
       
           <?php
-for($j=1;$j<=5;$j++){
+for($j=1;$j<3;$j++){
 
 
 if($row['c'.$j]!='N/A'){
-
+//echo $arr[$j];
 ?>
 
 <?php
-if ($arr[$j]=='brand') {
+//if ($arr[$j]!='imagepath'&&$arr[$j]!='zone'&&$arr[$j]!='price') {
+   
+  // print_r($arr);
  ?>
  <tr><td>
    <h5><?php echo $arr[$j];?><span style="color:red;font-size: 20px;">*</span></h5>
- <select class="form-control" id="<?php echo $arr[$j];?>">
+   <span id="<?php echo 'm'.$j;?>" class="kk"><?php echo $arr[$j];?></span>
+ <select class="form-control" id="<?php echo 'i'.$j;?>">
 
  <?php
- $sql="SELECT DISTINCT brand FROM $cat ";
-
+ echo $arr[$j];
+ $sql="SELECT DISTINCT $arr[$j] FROM $cat ";
+echo $sql;
   $result=mysqli_query($conn,$sql);
 while ($row=mysqli_fetch_assoc($result)) {
 ?>  <option>
-<?php echo  $row['brand']; ?>
+<?php echo  $row[$arr[$j]]; ?>
 </option>
 <?php
 }
@@ -864,30 +992,7 @@ while ($row=mysqli_fetch_assoc($result)) {
 </td>
 </tr>
 <?php
-} else  if ($arr[$j]=='model') {
-   ?>
-   <tr>
-    <td>
-      <h5><?php echo $arr[$j];?><span style="color:red;font-size: 20px;">*</span></h5>
- <select class="form-control" id="<?php echo $arr[$j];?>">
-
- <?php
- $sql="SELECT DISTINCT model FROM $cat ";
-
-  $result=mysqli_query($conn,$sql);
-while ($row=mysqli_fetch_assoc($result)) {
-?>  <option >
-<?php echo  $row['model']; ?>
-</option>
-<?php
-}
-?>
-
-</select>
-</td>
-</tr>
-<?php
-}
+//} 
 
 }
 }
@@ -971,19 +1076,49 @@ while ($row=mysqli_fetch_assoc($result)) {
          <tr>
           <td>
           <h5>My Designs<span style="color:red;font-size: 20px;">*</span></h5>
-          <center style="margin-bottom: 10px;"> 
-<div style="background-color: white; overflow: auto;overflow-x: hidden; transform-origin: right top;  box-shadow: 1px 2px 3px gray;height: 70px; display: inline-block; margin-top: 12px;margin-bottom: 12px;" id="myicons">         <?php 
-$id=$_SESSION['id'];
-      $sql="select * from logo where cid=$id";
-      $result=mysqli_query($conn,$sql);
-      while ($row=mysqli_fetch_assoc($result)) {
-        ?>
-        <img src="<?php echo $row['imagepath'];?>" height="60" width="60" style=" margin:4px;" class="img-rounded logoc"  id="<?php echo $row['id'];?>" >
-        <?php
-      }
-        ?>
+
+
+ <button type="button" class="btn btn-info btn-lg" data-toggle="modal" id="openm" data-target="#myModal">Open Modal</button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">My designs</h4>
+        </div>
+        <div class="modal-body">
+            <center style="margin-bottom: 10px;"> 
+
+<input type="text" name="" id="search" placeholder="search by sql number"> <input type="button" value="click" name="" id="searchbutton">
+
+
+
+
+<div  id="myicons"> 
 </div>
 </center>
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+  
+
+
+
+
+
+
+
+</div>
+
+
+       
 <div style="float: right; font-size:25px;"><span class="glyphicon glyphicon-resize-full" id="fullsize" ></span>
 </div></td></tr>
 

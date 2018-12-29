@@ -103,7 +103,7 @@ session_destroy();
 		<h3 style="font-family: 'Roboto'; color: white;" class="animated fadeInLeft delay-1s" ><center>Login admin panel</center></h3>
 		</th>
 	</thead>
-	<form action="main.php" method="POST">
+	<form action="loginredirect.php" method="POST">
 	<tbody>
 		<tr><td>	<span id="errmsg"></span></td></tr>
 		<tr class="form-group">

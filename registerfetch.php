@@ -4,7 +4,7 @@ if (isset($_POST['fname'])) {
 	$fname=$_POST['fname'];
 	$mname=$_POST['mname'];
 	$lname=$_POST['lname'];
-	$addr=$_POST['addr'];
+	$addr=$_POST['address'];
 	$landmark=$_POST['landmark'];
 	$pin=$_POST['pin'];
 	$contact=$_POST['contact'];

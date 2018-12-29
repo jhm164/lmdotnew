@@ -139,29 +139,6 @@ $(location).attr('href',a);
 session_start();
 include 'connection.php';
 
-if (isset($_POST['username'])&&isset($_POST['username'])) {
-	$admin=0;
-$username=$_POST['username'];
-$password=$_POST['password'];
-
-
-	$sql="select * from customer where username='$username' and password='$password'";
-
-	$result=mysqli_query($conn,$sql);
-while ($row=mysqli_fetch_assoc($result)) {
-  if ($row['admin']==1) {
- 
- $_SESSION['admin']=$row['admin'];
-header('Location:adminp.php');
-
-  }
-	$_SESSION['fname']=$row['fname'];
-	$_SESSION['lname']=$row['lname'];
-	$_SESSION['id']=$row['id'];
-
-}
-
-}
 
 if (isset($_SESSION['id'])) {
 	# code...
@@ -279,7 +256,6 @@ echo 'A/C: '.$row['accaunt'];
 
 
 </div>
-?>
 <?php
 }else{
 	

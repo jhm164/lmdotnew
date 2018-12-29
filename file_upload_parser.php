@@ -1,7 +1,8 @@
 <?php
+include 'connection.php';
 session_start();
 
-$id= 4;
+$id= $_SESSION['id'];
 $fileName = $_FILES["file1"]["name"]; // The file name
 $fileTmpLoc =$_FILES["file1"]["tmp_name"]; // File in the PHP tmp folder
 $fileType = $_FILES["file1"]["type"]; // The type of file it is
@@ -11,8 +12,6 @@ $fileErrorMsg = $_FILES["file1"]["error"]; // 0 for false... and 1 for true
 
 	$filepath = "images/$fileName";
 
-
-$conn=mysqli_connect("localhost","root","","lmdot");
 
 if(!$conn){
 	echo die();
