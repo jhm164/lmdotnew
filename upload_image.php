@@ -21,7 +21,7 @@ $sql = "INSERT INTO `lmdot`.`logo` (`id`,`imagepath`, `imagename`, `type`, `cid`
 if(mysqli_query($conn,$sql)){
   if(move_uploaded_file($sourcePath,$targetPath)) {
   ?>
-   <img src="<?php echo $targetPath; ?>">
+   
    <?php
    exit();
   }

@@ -3,8 +3,8 @@
 session_start();
 include "connection.php";
 
-if (isset($_POST['category'])&&isset($_POST['brand'])&&isset($_POST['model'])&&isset($_POST['size'])&&isset($_POST['quantity'])&&isset($_POST['sellp'])&&isset($_POST['mainproductid'])&&isset($_POST['logoid'])&&isset($_POST['selectedcustomer'])&&isset($_POST['paymentmode'])&&isset($_POST['total'])) {
-	//isset($_POST['category'])&&isset($_POST['brand'])&&isset($_POST['model'])&&isset($_POST['size'])&&isset($_POST['quantity'])&&isset($_POST['sellp'])
+//if (isset($_GET['category'])&&isset($_GET['brand'])&&isset($_GET['model'])&&isset($_GET['size'])&&isset($_GET['quantity'])&&isset($_GET['sellp'])&&isset($_GET['mainproductid'])&&isset($_GET['logoid'])&&isset($_GET['selectedcustomer'])&&isset($_GET['paymentmode'])&&isset($_GET['total'])&&isset($_GET['mainid'])) {
+	//isset($_GET['category'])&&isset($_GET['brand'])&&isset($_GET['model'])&&isset($_GET['size'])&&isset($_GET['quantity'])&&isset($_GET['sellp'])
 $category="N/A";
 $brand="N/A";
 $model="N/A";
@@ -17,26 +17,27 @@ $id=0;
 $selectedcustomer=null;
 $paymentmode=null;
 $totalprice=0;
+$mainid='';
 
-$category=$_POST['category'];
-$brand=$_POST['brand'];
-$model=$_POST['model'];
-$size=$_POST['size'];
-$quantity=$_POST['quantity'];
-$sellp=$_POST['sellp'];
+$category=$_GET['category'];
+$brand=$_GET['brand'];
+$model=$_GET['model'];
+$size=$_GET['size'];
+$quantity=$_GET['quantity'];
+$sellp=$_GET['sellp'];
 $id=$_SESSION['id'];
-$productid=$_POST['mainproductid'];
-$logoid=$_POST['logoid'];
-$selectedcustomer=$_POST['selectedcustomer'];
-$paymentmode=$_POST['paymentmode'];
-$totalprice=$_POST['total'];
+$productid=$_GET['mainproductid'];
+$logoid=$_GET['logoid'];
+$selectedcustomer=$_GET['selectedcustomer'];
+$paymentmode=$_GET['paymentmode'];
+$totalprice=$_GET['total'];
+$mainid=$_GET['mainid'];
 
-
-echo $category.' '.$brand.' '.$model.' '.$size.' '.$quantity.' '.$sellp.' '.$id.' '.$productid.' '.$logoid.' '.$selectedcustomer.' '.$paymentmode.' '.$totalprice;
+echo $category.' '.$brand.' '.$model.' '.$size.' '.$quantity.' '.$sellp.' '.$id.' '.$productid.' '.$logoid.' '.$selectedcustomer.' '.$paymentmode.' '.$totalprice.' '.$mainid ;
 
 $flag="true";
 if ($productid!=null&&$logoid!=null&&$id!=null) {
-$sql1="select * from orders where productid='$productid' and logoid='$logoid' and customerid='$id' and status='ordered' ";
+$sql1="select * from orders where productid='$productid' and logoid='$logoid' and customerid='$id' and status='ordered' and mainid='$mainid' ";
 echo $sql1;
 
 $result=mysqli_query($conn,$sql1);
@@ -62,7 +63,7 @@ if ($flag=="true") {
 
 
 
-$sql = "INSERT INTO `orders` (`id`, `type`, `productid`, `logoid`, `customerid`, `dateoforder`, `totalprice`, `sellprice`, `subcustomerid`, `ordermode`, `status`) VALUES (NULL,'$category', '$productid', '$logoid', '$id',now(), $totalprice, $sellp, '$selectedcustomer', '$paymentmode','ordered');";
+$sql = "INSERT INTO `orders` (`id`, `type`, `productid`, `logoid`, `customerid`, `dateoforder`, `totalprice`, `sellprice`, `subcustomerid`, `ordermode`, `status`,`mainlogoid`) VALUES (NULL,'$category', '$productid', '$logoid', '$id',now(), $totalprice, $sellp, '$selectedcustomer', '$paymentmode','ordered','$mainid');";
 if (mysqli_query($conn,$sql)) {
 
 $sql4="update  customer set accaunt=accaunt-$totalprice where id=$id";
@@ -81,9 +82,9 @@ if (mysqli_query($conn,$sql4)) {
 }
 }
 
-}else{
+//}else{
 
 	
-echo "please fill all required fields ";
-}
+//echo "please fill all required fields ";
+//}
 	?>

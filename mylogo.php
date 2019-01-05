@@ -15,7 +15,7 @@ include 'connection.php';
       		echo "no dataa found";
       	}else{
       		?>
-      	<img src="<?php echo $row['imagepath'];?>" height="60" width="60" style=" margin:4px;" class="img-rounded close logoc"  id="<?php echo $row['id'];?>" >
+      	<img src="<?php echo $row['imagepath'];?>" height="60" width="60" style=" margin:4px;" class="img-rounded logoc" data-dismiss="modal" aria-label="Close" id="<?php echo $row['id'];?>" >
       <?php
 
       }

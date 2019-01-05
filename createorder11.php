@@ -1,5 +1,7 @@
 <html>
   <head>
+       <title>Create order</title>
+   <link rel="venderboat icon" href="images/oscar.png" />
     <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -12,57 +14,55 @@
 
 
 <script>
-function jj(){
-  window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
+
 function _(el){
-	return document.getElementById(el);
+  return document.getElementById(el);
 }
 function uploadFile(){
-	var file = _("file1").files[0];
-	// alert(file.name+" | "+file.size+" | "+file.type);
-	var formdata = new FormData();
-	formdata.append("file1", file);
-	var ajax = new XMLHttpRequest();
-	ajax.upload.addEventListener("progress", progressHandler, false);
-	ajax.addEventListener("load", completeHandler, false);
-	ajax.addEventListener("error", errorHandler, false);
-	ajax.addEventListener("abort", abortHandler, false);
-	ajax.open("POST", "file_upload_parser.php");
-	ajax.send(formdata);
+ var jjj=document.getElementById('sqa').value;
+ alert(jjj);
+ console.log(jjj);
+  var file = _("file1").files[0];
+  // alert(file.name+" | "+file.size+" | "+file.type);
+  var formdata = new FormData();
+  formdata.append("file1", file);
+  var ajax = new XMLHttpRequest();
+  ajax.upload.addEventListener("progress", progressHandler, false);
+  ajax.addEventListener("load", completeHandler, false);
+  ajax.addEventListener("error", errorHandler, false);
+  ajax.addEventListener("abort", abortHandler, false);
+  ajax.open("GET", "file_upload_parser.php?file1="+file+"&sqa="+jjj);
+  ajax.send(formdata);
 }
 function progressHandler(event){
-	_("loaded_n_total").innerHTML = "Uploaded "+event.loaded+" bytes of "+event.total;
-	var percent = (event.loaded / event.total) * 100;
-	_("progressBar").value = Math.round(percent);
-	_("status").innerHTML = Math.round(percent)+"% uploaded... please wait";
+  _("loaded_n_total").innerHTML = "Uploaded "+event.loaded+" bytes of "+event.total;
+  var percent = (event.loaded / event.total) * 100;
+  _("progressBar").value = Math.round(percent);
+  _("status").innerHTML = Math.round(percent)+"% uploaded... please wait";
 }
 function completeHandler(event){
-	_("status").innerHTML = event.target.responseText;
-	_("progressBar").value = 0;
+  _("status").innerHTML = event.target.responseText;
+  _("progressBar").value = 0;
 }
 function errorHandler(event){
-	_("status").innerHTML = "Upload Failed";
+  _("status").innerHTML = "Upload Failed";
 }
 function abortHandler(event){
-	_("status").innerHTML = "Upload Aborted";
+  _("status").innerHTML = "Upload Aborted";
 }
 </script>
 
 <style type="text/css">
     #leftmenu{
       margin-top: 20px;
-       background-color: #357196;
+       background-color:  #010423;
        height: auto;
        width: 100%;
        color:white;
         font-size:  20px;
         padding: 5px;
         color:white;
-      font-family: "Comic Sans MS", cursive, sans-serif;
+   
         text-align: center;
 
     }
@@ -91,12 +91,12 @@ input[type="range"]::-ms-fill-lower {
     }
     #d{
      
-      padding-top: 10px;
+ 
        height: auto;
        width: 100%;
       color: black;
-       padding: 6px;box-shadow: 6px 2px 2px gray;float: left; margin:10px; padding: 5px;
-     border: 3px solid  #428ebd;
+       padding: 6px;box-shadow: 6px 2px 2px gray;float: left; padding: 5px;
+ 
      background-color: white;
     }
 
@@ -124,10 +124,6 @@ input[type="range"]::-ms-fill-lower {
        height: auto;
        width: auto;
       color: white;
-}
-
-.dd : hover{
-	background-color: #747475;
 }
 
 .slider {
@@ -165,7 +161,7 @@ input[type="range"]::-ms-fill-lower {
 }
 .drop-text
 {
- margin-top:70px;
+ margin-top:40px;
  color:grey;
  font-size:25px;
  font-weight:bold;
@@ -177,6 +173,26 @@ input[type="range"]::-ms-fill-lower {
   ::-webkit-scrollbar-thumb:hover {
     background: #555; 
 }
+
+.borderless td, .borderless th {
+    border: none;
+}
+.table-borderless > tbody > tr > th,
+.table-borderless > tfoot > tr > td,
+.table-borderless > tfoot > tr > th,
+.table-borderless > thead > tr > td,
+.table-borderless > thead > tr > th {
+    border: none;
+}
+
+.table-borderless>thead>tr>th
+.table-borderless>thead>tr>td
+.table-borderless>tbody>tr>th
+.table-borderless>tbody>tr>td
+.table-borderless>tfoot>tr>th
+.table-borderless>tfoot>tr>td {
+    border: none;
+}
 #errmsg1
 {
 color: red;
@@ -185,7 +201,9 @@ color: red;
 {
 color: red;
 }
-.dh{
+.
+
+dh{
   box-shadow: 3px 4px 3px gray;
  
 }
@@ -221,70 +239,39 @@ height: 100px;
 
   </style>
   <script type="text/javascript">
-function _(el){
-	return document.getElementById(el);
-}
-function uploadFile(){
-	var file = _("file1").files[0];
-	// alert(file.name+" | "+file.size+" | "+file.type);
-	var formdata = new FormData();
-	formdata.append("file1", file);
-	var ajax = new XMLHttpRequest();
-	ajax.upload.addEventListener("progress", progressHandler, false);
-	ajax.addEventListener("load", completeHandler, false);
-	ajax.addEventListener("error", errorHandler, false);
-	ajax.addEventListener("abort", abortHandler, false);
-	ajax.open("POST", "file_upload_parser.php");
-	ajax.send(formdata);
-}
-function progressHandler(event){
-	_("loaded_n_total").innerHTML = "Uploaded "+event.loaded+" bytes of "+event.total;
-	var percent = (event.loaded / event.total) * 100;
-	_("progressBar").value = Math.round(percent);
-	_("status").innerHTML = Math.round(percent)+"% uploaded... please wait";
-}
-function completeHandler(event){
-	_("status").innerHTML = event.target.responseText;
-	_("progressBar").value = 0;
-}
-function errorHandler(event){
-	_("status").innerHTML = "Upload Failed";
-}
-function abortHandler(event){
-	_("status").innerHTML = "Upload Aborted";
-}
 
-	var v1=0;
-  	var mainproductid=0;
-  	var pcategory=0;
-  	var pmodel=0;
-  	var logoid1=0;
+  var v1=0;
+    var mainproductid=0;
+    var pcategory=0;
+    var pmodel=0;
+    var logoid1=0;
+    var mainid1=null;
     var zone=null;
     var selectedcustomer=0;
     var mainproductprice=0;
     var zonep=0;
     var  paymentmode=null;
-  	$(document).ready(function(){
-      $('.selection1').hide();
+    $(document).ready(function(){
+
+       $('.selection1').hide();
       $('.selection2').hide();
       $('.selection3').hide();
       $('.selection4').hide();
       $('.selection5').hide();
       $('.selection6').hide();
         $('.selection12').hide();
-      var quantity='';
+           var quantity='';
 $('.kk').hide();
   var category='';
   var brand='';
   var model='';
-
       $('#mycustomer').show();
 
 
-$('#customerd').hide();
+$('#customerd').show();
 
-$('#uploadarea').show();
-$('#manual').show();
+$('#uploadarea').hide();
+$('#manual').hide();
 var v=$("#main").position();
 var marginl=$("#main").css("margin-left");
 var margint=$("#main").css("margin-top");
@@ -302,9 +289,9 @@ $("#logo").css("padding-left",paddingl);
 $("#logo").css("padding-top",paddingt);
 $("#logo").css("top",v.top+height/2-height1/2);
 $("#logo").css("left",v.left+width/2-width1/2);
-
+$("#hideid").hide();
 $('#showmycustomer').click(function(){
-$('#mycustomer').toggle(1000);
+
 
 });
 $('#createnew').click(function(){
@@ -318,7 +305,9 @@ var s=$('#logo').outerWidth();
 var w=$('#logo').outerHeight();
 var h=0;
 var w1=0;
+
 //alert($("#logo").outerWidth()+' '+$("#logo").outerHeight());
+
 if(v1>0&&v1<25){
 
  
@@ -380,7 +369,6 @@ $("#logo").css("left",v.left+width/2-w2/2);
 
 }
 $('.selection2').show(500);
-
 });
 
 
@@ -434,15 +422,37 @@ $('#demo').click(function(v){
 });
 
 
+
+   $("body").on("click","#searchbutton", function(){
+  var id=$("#search").val();
+$('#myicons').load('mylogo.php?id='+id);
+});
+
+
+$('#openm').click(function(){
+  //  alert($("#hideid").text());
+ var id1=$("#hideid").text();
+alert(id1);
+$('#myicons').load('mylogo.php?id1='+id1);
+$('.selection12').show(500);
+});
+
+
+
 $('#zoomin').click(function(){
 var s=$('#logo').height();
 $('#logo').css('height',s+3);
 });
 
-$('.getcustomer').click(function(){
-selectedcustomer=$('.getcustomer').attr('id');
-$('.selection5').show(500);
-//alert(selectedcustomer);
+$('.get1').click(function(){
+    
+selectedcustomer=$(this).attr('id');
+
+//$("#"+selectedcustomer).css('background-color','#53c653');
+
+
+//alert($(this).attr('id'));
+$('.selection5').show();
 
 });
 
@@ -513,11 +523,16 @@ $('#logo').css('left',s.left+3);
     logoid1=$(this).attr('id');
 var g= $(this).attr('src');
 $('#logo').attr('src',g);
-jj();
+  });
+
+  $("body").on("click",".mainc", function(){
+    mainid1=$(this).attr('id');
+var g= $(this).attr('src');
+$('#main').attr('src',g);
   });
 
 $('.logoc').click(function x(v){
-	logoid1=$(this).attr('id');
+  logoid1=$(this).attr('id');
 var g= $(this).attr('src');
 $('#logo').attr('src',g);
 
@@ -532,13 +547,12 @@ $("#main").attr('src',g);
 
 
   $('#grab').click(function(){
-
  category=$('#category').val();
  var name1=$('#m1').text();
   var name2=$('#m2').text();
  brand=$('#i1').val();
  model=$('#i2').val();
-alert(category+" "+brand+" "+model+" "+name1);
+//alert(category+" "+brand+" "+model);
 $.getJSON( "loadproduct.php?category="+category+"&brand="+brand+"&model="+model+"&name1="+name1+"&name2="+name2, function( data ) {
   pcategory=category;
   var items = [];
@@ -551,11 +565,62 @@ zone=val.zone;
 pmodel=val.model;
 
 mainproductprice=val.price;
+mainid1='main';
 $('#main').attr('src',val.imagepath);
+$('.img2').attr('src',val.img2);
+$('.img3').attr('src',val.img3);
   });
 });
 
+
+
+  quantity=$('#quantity').val();
+   category=$('#category').val();
+   brand=$('#brand').val();
+   model=$('#model').val();
+  
+  //alert(zone);
+
+  $('#finalp').show(1000);
+  $('#evaluatearea').show(1000);
+ $('#quantity1').text(quantity);
+
+ $('#pname1').text(category+' '+brand+' '+model);
+$('#priceperp').text(mainproductprice);
+ $('#pprice1').text(quantity*mainproductprice);
+//var zonep;
+
+ $.post("zone.php",
+    {
+      zone:zone
+    }, function(data, status){
+        $('#zonepp').text(data);
+    var    zonep=data;
+        //alert("parsed"+zonep+1000);
+    }).then(function(){
+
+      zonep=parseInt($('#zonepp').text());
+      // alert(parseInt(zonep)+400);
+
+      //  var ff=zonep;
+
+//zonep=$('#zonepp').text();
+ //lert(parseInt(ff)+80);
+var m=quantity*mainproductprice;
+//alert('m='+m);
+var x11=zonep+m;
+//alert('x11'+x11);
+//alert('zonep'+ff);
+//alert(x11);
+totalp=x11;
+$('#total').text(x11);
+
+
+    });
+
 $('.selection1').show(500);
+
+
 
   });
 
@@ -593,67 +658,60 @@ $("#drop-area").on('dragenter', function (e){
                return false;
     }
    });
-
-
-$('#sellp').change(function(){
-quantity=$(this).val();
-   category=$('#category').val();
-   brand=$('#brand').val();
-   model=$('#model').val();
-  $('#finalp').show(1000);
-  $('#evaluatearea').show(1000);
- $('#quantity1').text(quantity);
- $('#pname1').text(category+' '+brand+' '+model);
-$('#priceperp').text(mainproductprice);
- $('#pprice1').text(quantity*mainproductprice);
- $.post("zone.php",
-    {
-      zone:zone
-    }, function(data, status){
-        $('#zonepp').text(data);
-    var    zonep=data;
-    }).then(function(){
-
-      zonep=parseInt($('#zonepp').text());
-var m=quantity*mainproductprice;
-var x11=zonep+m;
-totalp=x11;
-$('#total').text(x11);
-    });
-
-$('.selection4').show(500);
-});
-
-
-
-
+   
+   
 $('#quantity').change(function(){
- quantity=$(this).val();
+   quantity=$('#quantity').val();
    category=$('#category').val();
    brand=$('#brand').val();
    model=$('#model').val();
+  
+  //alert(zone);
+
   $('#finalp').show(1000);
   $('#evaluatearea').show(1000);
  $('#quantity1').text(quantity);
+
  $('#pname1').text(category+' '+brand+' '+model);
 $('#priceperp').text(mainproductprice);
  $('#pprice1').text(quantity*mainproductprice);
+//var zonep;
+
  $.post("zone.php",
     {
       zone:zone
     }, function(data, status){
         $('#zonepp').text(data);
     var    zonep=data;
+        //alert("parsed"+zonep+1000);
     }).then(function(){
 
       zonep=parseInt($('#zonepp').text());
+      // alert(parseInt(zonep)+400);
+
+      //  var ff=zonep;
+
+//zonep=$('#zonepp').text();
+ //lert(parseInt(ff)+80);
 var m=quantity*mainproductprice;
+//alert('m='+m);
 var x11=zonep+m;
+//alert('x11'+x11);
+//alert('zonep'+ff);
+//alert(x11);
 totalp=x11;
 $('#total').text(x11);
+
+
     });
 
+
+
 });
+
+   
+   
+
 
 $('#evaluate').click(function(){
   quantity=$('#quantity').val();
@@ -681,10 +739,10 @@ $('#priceperp').text(mainproductprice);
         //alert("parsed"+zonep+1000);
     }).then(function(){
 
-    	zonep=parseInt($('#zonepp').text());
-    	// alert(parseInt(zonep)+400);
+      zonep=parseInt($('#zonepp').text());
+      // alert(parseInt(zonep)+400);
 
-    	//  var ff=zonep;
+      //  var ff=zonep;
 
 //zonep=$('#zonepp').text();
  //lert(parseInt(ff)+80);
@@ -709,55 +767,31 @@ var id=$(this).attr('id');
 var cat=$(this).val();
 //alert(cat);
 $('#'+id).attr('onkeyup',cat);
-$(location).attr('href', 'createorder9.php?category='+cat);
+$(location).attr('href', 'createorder11.php?category='+cat);
 //$('#'+id).attr('onkeyup',cat);
 $('#bb').text(cat);
 });
 
 
+$('#sellp').change(function(){
+
+//alert('sellp change');
 
 
-   $("body").on("click","#searchbutton", function(){
-  var id=$("#search").val();
-$('#myicons').load('mylogo.php?id='+id);
+$('.selection4').show(500);
 });
-
-
-$('#openm').click(function(){
- var id1=22;
-
-$('#myicons').load('mylogo.php?id1='+id1);
-
-//$.getJSON( "mylogo.php?id1="+id1, function( data ) {
- 
- // $.each( data, function( key, val ) {
-  //  $('#myicons').html(data);
-  //  $('#myicons').append('<img src="'+val.imagepath+'" height="60" width="60" height="90" width="90" style=" margin:4px;" class="img-rounded logoc" id="'+val.id+'">');
- // });
-//});
-$('.selection12').show(500);
-});
-
-
 
  $("#submit").click(function(){
-var name1=$('#m1').text();
-  var name2=$('#m2').text();
-  var i1=$('#m1').val();
-  var i2=$('#m2').val();
-//alert(name1+' '+name2);
-  var category=$('#category').val();
- brand=$('#i1').val();
- model=$('#i2').val();
+
   var size=$('#h').val();
-  var quantity=$('#quantity').val();
+var sizew=$('#w').val();
   var sellp=$('#sellp').val();
-  var category=$('#category').val();
+ 
 
 
-alert(category+' '+brand+' '+model+' '+size+' '+quantity+' '+sellp+' '+category+' '+mainproductid+' '+logoid1+' '+selectedcustomer+' '+paymentmode);
+//alert(category+' '+brand+' '+model+' '+size+' '+quantity+' '+sellp+' '+category+' '+mainproductid+' '+logoid1+' '+selectedcustomer+' '+paymentmode+'  '+totalp);
 
- $.post("orderp.php",
+ $.get("orderp.php",
     {
        
         category:category,
@@ -771,7 +805,10 @@ alert(category+' '+brand+' '+model+' '+size+' '+quantity+' '+sellp+' '+category+
         logoid:logoid1,
         selectedcustomer:selectedcustomer,
         paymentmode:paymentmode,
-        total:totalp
+        total:totalp,
+        sizew:sizew,
+        mainid:mainid1
+
     }, function(data, status){
         alert(data);
     });
@@ -779,7 +816,7 @@ alert(category+' '+brand+' '+model+' '+size+' '+quantity+' '+sellp+' '+category+
 });
 
 
-  	});
+    });
 
 
 
@@ -825,30 +862,29 @@ include "connection.php";
 ?>
 
   </head>
-  <body class="container-fluid">
+  <body class="container-fluid" style="background-color: #ccc;font-size: 16px;">
 
 
 <div class="row" >
-<div class="col-lg-2" style="background-color: #357196; box-shadow: 3px 4px 3px gray;"  >
-    <div  style="background-color: #357196;padding-bottom: 5px;padding-top: 15px;">
+<div class="col-lg-2" style="background-color: #0c0032; box-shadow: 3px 4px 3px gray;"  >
+    <div  style="background-color:  #0c0032;padding-bottom: 5px;padding-top: 15px;">
     <center>
-    <img src="images/oscar.png" style="height: 80px;width: 80px;border: 2px solid gray;padding: 2px; background-color: white;" class="img-circle">
-    <h4 style="color:white;font-family: 'Times New Romen';font-weight: bold;"><br></h4>
-    
+    <img src="images/oscar.png" style="height: 100px;width: 100%;border: 2px solid gray;padding: 2px; background-color: white;">
+   
+   </center>
   
-    </center>
+ 
   </div>
 
-    <div style="background-color: #357196;padding-top: 5px; padding-bottom: 5px;">
+    <div style="background-color: #010423;padding-top: 5px; padding-bottom: 5px;">
     <center>
     <div id="leftmenu" ><span class="glyphicon glyphicon-dashboard" style="float: left;font-size: 30px; width: 100%;"></span><a href="dashboard.php" style="color: white;font-size: 15px;"> Dashboard</a></div>
-   <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;margin-bottom: 10px;"></span> 
+    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;margin-bottom: 10px;"></span> 
 <select style="color: black;font-size: 15px;" class="form-control" id="menuselect">
   <option>--select--</option>
-   <option value="createorder9.php">Create New order</option>
+   <option value="createorder11.php">Create New order</option>
   <option value="previous.php">My Orders</option>
-   <option value="trackorder.php">track Orders</option>
-
+  <option value="trackorder.php">track Orders</option>
 
 </select>
     </div>
@@ -862,6 +898,7 @@ include "connection.php";
 
     </div>
   
+
 
 
    
@@ -881,10 +918,12 @@ if ($_SESSION['admin']==1) {
 }
 }
      ?>
+
     <div style="margin-top: 100%;">
     <div ><center><span class="fa fa-facebook-official " style="font-size: 50px;color:white;"></span> </center></div>
     <div><center><span class="fa fa-twitter " style="font-size: 50px;color:white;"></span> </center></div>
     </div>
+  
   </center>
   </div>  
 
@@ -892,9 +931,9 @@ if ($_SESSION['admin']==1) {
   </div>
    <div class="col-lg-10"   >
 
-  <div class="container-fluid" id="d"  style="color:white;background-color: #1e3a68;box-shadow: 1px 6px 4px gray; " >
+  <div class="container-fluid" id="d"  style="background-color: #0c0032;box-shadow: 1px 3px 4px gray; padding: 5px;color:white; " >
 
-  <span class="fas fa-wallet" style="float: left;font-size: 20px;" ><?php
+ <p  style=" border-radius: 25px;margin: 2px; background-color:  #010423;border:1px solid white;padding: 10px;text-align: center;float: left;" > <span class="fas fa-wallet" style="float: left;font-size: 20px;" ><?php
 if(isset($_SESSION['id'])){
 $id=$_SESSION['id'];
 $sql="select * from customer where id=$id";
@@ -907,12 +946,12 @@ echo 'A/C: '.$row['accaunt'];
 
 }
 
-?></span>
+?> </span></p>
   <a href="main.php?logout=true" style="color: white;margin-left:  2px;" >
-  <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
+  <div style="border-radius: 25px;margin: 2px; background-color:   #010423;border:1px solid white;float: right;padding: 10px;text-align: center;">
    <span class="glyphicon glyphicon-log-out" style="float: right;text-align: center;font-size: 16px;color: white;margin-right: 2px;"></span>Log out
  </div></a>
-   <div style="margin: 2px; background-color:   #001a66;border:1px solid white;float: right;padding: 8px;text-align: center;">
+   <div style="border-radius: 25px;margin: 2px; background-color:   #010423;border:1px solid white;float: right;padding: 10px;text-align: center;">
     <span class="glyphicon glyphicon-user" style="font-size: 16px;"> </span><span style="margin-left: 3px;font-weight: bold;"><?php echo $_SESSION['fname'].' '.$_SESSION['lname']; ?> </span></div>
     </div>
 
@@ -920,11 +959,12 @@ echo 'A/C: '.$row['accaunt'];
 
 
 
- <div class="row" style="margin-left:10px;margin-right:10px;box-shadow: 1px 4px 4px gray;background-color: #d9d9d9;" >
+
+ <div class="row" style="margin-left:10px;margin-right:10px;box-shadow: 1px 4px 4px gray;background-color: white;" >
       
       <div class="col-lg-6"  >
       
-<table class="table" style="border: none;">
+<table class="table table-borderless" style="border: none;">
   
       <thead>
         <th>Create product</th>
@@ -1003,7 +1043,7 @@ if($row['c'.$j]!='N/A'){
  <?php
  echo $arr[$j];
  $sql="SELECT DISTINCT $arr[$j] FROM $cat ";
-//echo $sql;
+echo $sql;
   $result=mysqli_query($conn,$sql);
 while ($row=mysqli_fetch_assoc($result)) {
 ?>  <option>
@@ -1026,19 +1066,20 @@ while ($row=mysqli_fetch_assoc($result)) {
 }
           ?>
         
+        
         <tr>
           <td >
             <div style="color: blue;" id="grab"  class="form-control btn btn-primary"><b style="color:white;">Load</b></div>
           </td>
         </tr>
        
-        <tr class="selection2">
+        <tr  class="selection2">
           <td >
              <h5> Quantity<span style="color:red;font-size: 20px;">*</span></h5>
             <input type="text" class="form-control" name="quantity" id="quantity" placeholder="Quantity" ><span id="errmsg"></span>
           </td>
         </tr>
-        <tr class="selection2">
+        <tr  class="selection2">
           <td >
              <h5>Enter total selling price<span style="color:red;font-size: 20px;">*</span></h5>
             <input type="text" class="form-control" name="sellp" id="sellp" placeholder="Enter your selling price " ><span id="errmsg1"></span>
@@ -1066,81 +1107,51 @@ while ($row=mysqli_fetch_assoc($result)) {
 
         </table>
 
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       </div>
        
       <div class="col-lg-6" >
 
         <table class="table">
           <tbody>
-          <tr  >
-            <td>
+          <tr colspan="2">
+            <td colspan="2">
          <center style="margin-top:15px; ">
           <h4 style="color: #1c6704;">Preview</h4>
-            <img  id="main" style="background-color: white;"  >
-                      <img id="logo" style="background:transparent;" class="close">
+            <img  id="main" style="background-color:#c7c7c7;"  >
+                      <img id="logo" style="background:#a9a9a9;" >
                     </center>
+                    <center style="margin-top: 4px;">
+                          <img  id="img2" class="img2 mainc" style="background-color:#c7c7c7; width: 70px;  height: 70px;"  >
+                                <img  id="img3" class="img3 mainc" style="background-color:#c7c7c7;width: 70px;  height: 70px;"   >
+                                </center>
                   </td>
                 </tr>
-                <tr  class="selection12"><td><center><div style="max-width: 300px;"> <span style="margin-left: 50px; float: left;" style="width: 40%;">height</span><span style="width: 40%;" >width</span></div></center></td></tr>
-                <tr  class="selection12"><td><center><div style="max-width: 300px;"> <input type="text" name="" style="width: 40%;" id="h"> <input type="text" id="w" style="width: 40%;" name=""></div></center></td></tr>
-                <tr  class="selection12"><td><center><input type="range" class="form-control slider"  min="1" max="100" value="0"  id="slider" name="" style="width: 300px;" ></center></td></tr>
+                 <tr  class="selection12" colspan="2" style="background-color: #efefff;"><td colspan="2"><center><div style="max-width: 300px;"> <span style="margin-left: 50px; float: left;" style="width: 40%;">height</span><span style="width: 40%;" >width</span></div></center></td></tr>
+                <tr  class="selection12" colspan="2" style="background-color: #efefff;"><td colspan="2"><center><div style="max-width: 300px;"> <input type="text" name="" style="width: 40%;" id="h"> <input type="text" id="w" style="width: 40%;" name=""></div></center></td></tr>
+                <tr  class="selection12" colspan="2" style="background-color: #efefff;"><td colspan="2"><center><input type="range" class="form-control slider"  min="1" max="100" value="0"  id="slider" name="" style="width: 300px;" ></center></td></tr>
+
          <tr class="selection1" >
           <td>
-      <center><h5>My Designs<span style="color:red;font-size: 20px;">*</span></h5></center>    
-<center><div style="height:  100px;width: 100px;background-color:  #afacac;border:1px dashed black;"  data-toggle="modal" id="openm" class="dd" data-target="#myModal" ><span class="glyphicon glyphicon-plus-sign"  style="margin-top:  45%;"></span></div></center>
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
+      <center>   <h4 style="color:green;">Select Designs<span style="color:red;font-size: 20px;">*</span></h4></center> 
+          
+    <center><div style="height:  100px;width: 100px;background-color:  #afacac;border:1px dashed black;"  data-toggle="modal" id="openm" class="dd" data-target="#myModal" ><span class="glyphicon glyphicon-plus-sign"  style="margin-top:  45%;"></span></div></center>
+ 
+ <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
     
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">My designs</h4>
+          <h4 class="modal-title">My Designs</h4>
+          <p id="hideid"><?php echo $_SESSION['id']; ?></p>
         </div>
         <div class="modal-body">
             <center style="margin-bottom: 10px;"> 
 
-<input type="text" name="" id="search" placeholder="search by sqa number"> <input type="button" value="click" name="" id="searchbutton">
-<div id="manual">
-  		<form id="upload_form" enctype="multipart/form-data" method="post">
-  <input type="file" name="file1" id="file1"><br>
-  <input type="button" value="Upload File" onclick="uploadFile()">
-  <progress id="progressBar" value="0" max="100" style="width:300px;"></progress>
-  <h3 id="status"></h3>
-  <p id="loaded_n_total"></p>
-</form>
+<input type="text" name="" id="search" placeholder="search by sqa number"> <input type="button" value="Search" name="" id="searchbutton">
 
-    </div>
-
-  <div class="row" id="uploadarea" style="">   
-<form id="upload_form" enctype="multipart/form-data" method="post">
-</form>
-<div id="wrapper" class="row" >
- <div id="drop-area"  style="padding:12px; margin-left: 12px;margin-right: 12px;">
-  <p style="  font-weight:bold;">drop image here</p>
-  <h3 class="drop-text"><span class="glyphicon glyphicon-file"></span></h3>
-</div>
-</div>
-
-
-
-<div  id="myicons"> 
+<div  id="myicons">    
 </div>
 </center>
         </div>
@@ -1149,56 +1160,112 @@ while ($row=mysqli_fetch_assoc($result)) {
       
     </div>
   </div>
+</td>
+    <td>
+   <center style="margin-top: 45%;">
+<button type="button" class="btn btn-primary selection1"  id="showupload" data-toggle="modal" data-target="#exampleModalCenter"  >
+ Upload new design 
+</button>
+</center>    
+</td></tr>
   
-
-
-
-
-
-
-
-</div>
-
-
-</div></td></tr>
-
-
- <tr class="selection1"><td>
-<center><button class="btn btn-primary" style="background:transparent;border:1px solid #2e6da4;color:#2e6da4;" id="showupload" >Upload new design </button></center>
-  </td></tr>
-  <tr></tr>
        </tbody>
           </table>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLongTitle">Upload new Design</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <center>
+          <div style="background-color: #0000004f;padding: 5px;">
+          <h5 style="font-weight: bold;">Enter SQA ID <span style="color: red">*</span></h5><input type="text" placeholder="" class="form-control" name="" id="sqa"></div>
+        <div class="row" id="uploadarea" >   
+          
+<form id="upload_form" enctype="multipart/form-data" method="post">
+</form>
+<div id="wrapper" class="row" style="width: 200px;border:1px dashed black;" >
+ <div id="drop-area"  style="padding: 2px;background-color: #deefde;">
+  <p style="  font-weight:bold;">drop image here</p>
+  <h3 class="drop-text"><span class="glyphicon glyphicon-file"></span></h3>
+ </div>
+</div>
+
+<div style="background-color: #e8e7ea;margin:20px;">
+<div id="manual" style="margin-top: 10px;">
+  <center><p>or</p></center>
+      <form id="upload_form" enctype="multipart/form-data" method="post">
+  <input type="file"  class="btn btn-primary"  name="file1" id="file1"><br>
+  <input type="button" value="Upload File" class="btn btn-primary" onclick="uploadFile()">
+  <progress id="progressBar" value="0" max="100" style="width:300px;height: 25px;"></progress>
+  <h3 id="status"></h3>
+  <p id="loaded_n_total"></p>
+</form>
+
+    </div>
+    </div>
+    </div>
+    </center>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
   </div>
+</div>
+
+  </div>
+
+
 
 <table class="table">
   <tbody>
-  <tr>
-  	<td>
-  		
-  	</td>
-  </tr>
+  
   <tr><td>
 
- 
- </div>
-</div>
-    </div>
+
   </td></tr>
   </tbody>
 </table>
+
+
+
+
+
 </div>
-<div style="margin-top: 20px; margin-left:10px;margin-right:10px;box-shadow: 1px 4px 4px gray;background-color: #d9d9d9;" class="selection4">
-	<h3 style="margin: 10px;">Customer details</h3>
-<input type="button" class="btn btn-primary"  style="background:transparent;border:1px solid #2e6da4;color:#2e6da4; margin: 10px;" name="" id="showmycustomer" value="my customers">
+<div style="margin-top: 20px; margin-left:10px;margin-right:10px;box-shadow: 1px 4px 4px gray;background-color: white;" class="selection4">
+  <h3 style="margin: 10px;margin-top:15px;">Customer details</h3>
 <input type="button" class="btn btn-primary"  style="background:transparent;border:1px solid #2e6da4;color:#2e6da4; margin: 10px;" name="" id="createnew" value="create new">
 
-<div id="existcustomer">
+<button type="button" class="btn btn-primary" data-toggle="modal" id="showmycustomer" data-target="#exampleModalCenter1">
+my customers
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+     <div id="existcustomer">
 <table class="table table-hover" style="border-bottom: 1px solid gray;" id="mycustomer" >
 
   <thead>
   <tr></tr>
-    <tr style="background-color: #204c67;color: white;"><th>Customer name</th><th>Country</th><th>City</th><th>Pincode</th><th>Landmark</th></tr></thead>
+    <tr style="background-color: #204c67;color: white;" ><th>select</th><th>Customer name</th><th>Country</th><th>City</th><th>Pincode</th><th>Landmark</th></tr></thead>
 <tbody>
   
   
@@ -1207,9 +1274,14 @@ $sql="select * from customerdetail where recordholder='$id'";
 
 $result=mysqli_query($conn,$sql);
 while ($row=mysqli_fetch_assoc($result)) {
+    
+    
  ?>
- <tr class="getcustomer" id="<?php echo $row['id'];?>">
-  
+ 
+ <tr id="<?php echo $row['id'];?>" >
+  <td>
+<input type="radio" name="group" class="get1" data-dismiss="modal" aria-label="Close" id="<?php echo $row['id'];?>" >
+</td>
 <td><b>
 <?php echo $row['name'];?></b></td>
 <td>
@@ -1220,8 +1292,11 @@ while ($row=mysqli_fetch_assoc($result)) {
 <?php echo $row['pincode'];?></td>
 <td>
 <?php echo $row['landmark'];?></td>
+
   </tr>  
+  
  <?php
+
 }
 
 
@@ -1233,6 +1308,15 @@ while ($row=mysqli_fetch_assoc($result)) {
 
 </table>
 
+</div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -1270,7 +1354,7 @@ while ($row=mysqli_fetch_assoc($result)) {
 </table>
 </div>
 </div>
-<div style="margin-top: 20px; margin-left:10px;margin-right:10px;box-shadow: 1px 4px 4px gray;background-color: #d9d9d9;" class="selection5">
+<div style="margin-top: 20px; margin-left:10px;margin-right:10px;box-shadow: 1px 4px 4px gray;background-color: white;" class="selection5">
 <table class="table">
   <thead><tr><th>Shipping mode</th></thead>
   <tbody><tr style="font-weight: bold;">
@@ -1280,7 +1364,7 @@ while ($row=mysqli_fetch_assoc($result)) {
 </tbody>
 </table>
 </div>
-<div style="margin-top: 20px; margin-left:10px;margin-right:10px;box-shadow: 1px 4px 4px gray;background-color: #d9d9d9;"  class="selection6">
+<div style="margin-top: 20px; margin-left:10px;margin-right:10px;box-shadow: 1px 4px 4px gray;background-color: white" class="selection6">
 <button id="evaluate" class="btn btn-primary"  style="margin: 10px; background:transparent;border:1px solid #2e6da4;color:#2e6da4;float:left;" >Evaluate</button>
 <table class="table" style="" id="finalp" >
   
@@ -1291,7 +1375,20 @@ while ($row=mysqli_fetch_assoc($result)) {
   <tr><td><b id="pname1"></b></td><td><b id="quantity1"></b></td><td id="priceperp">-</td><td>-</td><td>-</td><td><b id="pprice1"></b></td></tr>
   <tr><td><b >Shipping</b></td><td>-</td><td>-</td><td>-</td><td>-</td><td><b id="zonepp">-</b></td></tr>
  
-  <tr><td><b >Current Balance</b></td><td><b >-</b></td><td><b></b></td><td>-</td><td>-</td><td>4000</td></tr>
+  <tr><td><b >Current Balance</b></td><td><b >-</b></td><td><b></b></td><td>-</td><td>-</td><td><?php
+if(isset($_SESSION['id'])){
+$id=$_SESSION['id'];
+$sql="select * from customer where id=$id";
+
+$result=mysqli_query($conn,$sql);
+
+while ($row=mysqli_fetch_assoc($result)) {
+echo 'A/C: '.$row['accaunt'];
+}
+
+}
+
+?> </td></tr>
   <tr  style="background-color:  #004d99;color: white;"><td><b>Total Payable</b></td><td>-</td><td>-</td><td>-</td><td>-</td><td id="total">-</td></tr>
 </tbody>
 </table>
@@ -1309,26 +1406,26 @@ while ($row=mysqli_fetch_assoc($result)) {
 <?php
 include 'connection.php';
 if(isset($_POST['btn_upload'])){
-	$id=$_SESSION['id'];
-	# code...
-	//$conn=mysqli_connect("localhost","root","","lmdot");
+  $id=$_SESSION['id'];
+  # code...
+  //$conn=mysqli_connect("localhost","root","","lmdot");
 
 if(!$conn){
-	echo die();
+  echo die();
 }
 
 
-	
-	$filetmp = $_FILES["file_img"]["tmp_name"];
-	$filename = $_FILES["file_img"]["name"];
-	$filetype = $_FILES["file_img"]["type"];
-	$filepath = "images/".$filename;
+  
+  $filetmp = $_FILES["file_img"]["tmp_name"];
+  $filename = $_FILES["file_img"]["name"];
+  $filetype = $_FILES["file_img"]["type"];
+  $filepath = "images/".$filename;
   //$targetPath = "images/".$_FILES['file_img']['name'];
 
 
 
 move_uploaded_file($filetmp,$filepath);
-	
+  
 $sql = "INSERT INTO `logo` (`id`,`imagepath`, `imagename`, `type`, `cid`) VALUES (NULL, '$filepath','$filename','$filetype',$id)";
 if(mysqli_query($conn,$sql)){
 echo "<script type='text/javascript'>alert(<?php echo 'success'; ?>);</script>";
@@ -1339,4 +1436,4 @@ echo "<script type='text/javascript'>alert(<?php echo 'please change the file na
  
 
 }
-	?>
+  ?>

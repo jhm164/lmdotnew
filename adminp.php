@@ -358,6 +358,7 @@ echo 'A/C: '.$row['accaunt'];
 if (isset($_GET['productid'])) {
 $logoid1;
 $pid1;
+$mainid;
 $category1=null;
 $type=null;
 $customerid1=null;
@@ -402,7 +403,9 @@ while ($row=mysqli_fetch_assoc($result1)) {
 <?php
 
 $logoid1=$row['logoid'];
+
 $pid1=$row['productid'];
+$mainid=$row['mainlogoid'];
 $type=$row['type'];
 $customerid1=$row['customerid'];
 $subcustomerid=$row['subcustomerid'];
@@ -422,7 +425,7 @@ $result3=mysqli_query($conn,$sql2);
 while ($row=mysqli_fetch_assoc($result3)) {
 
 ?>
-<img src="<?php echo $row['imagepath'];?>" id="main" style="background-color: white;">
+<img src="<?php echo $row[$mainid];?>" id="main" style="background-color: white;">
 <?php
 }
 $sql2="select * from logo where id=$logoid1" ;

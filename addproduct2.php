@@ -16,13 +16,20 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
 <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.4.2/css/all.css' >
 
+<link rel="stylesheet" type="text/css" href="css/imgareaselect-default.css" />
+  <script type="text/javascript" src="scripts/jquery.min.js"></script>
+  <script type="text/javascript" src="scripts/jquery.imgareaselect.pack.js"></script>
 
 <style type="text/css">
-#preview{
-  
+
+
+#main {
+    background-size: cover;
+   
   width:300px;
   height:300px;
   border: 1px solid black;
+        /*  clip the excess when child gets bigger than parent  */
 }
    #leftmenu{
       margin-top: 20px;
@@ -129,16 +136,6 @@ var data=new Array() ;
 var heading=new Array();
 var senddata;
 var category;
-
-
-
-$('#preview').imgAreaSelect({
-        handles: true,
-        onSelectEnd: function (img, selection) {
-        alert('width: ' + selection.width + '; height: ' + selection.height+ 'x1: ' + selection.x1+'y1: ' + selection.y1);
-    }
-    });
-
 $("#preview").hide();
 
 $('#accauntsett').change(function(){
@@ -146,6 +143,19 @@ $('#accauntsett').change(function(){
 
 $(location).attr('href',a);
 });
+
+
+$('#main').imgAreaSelect({
+        handles: true,
+        onSelectEnd: function (img, selection) {
+       // alert('width: ' + selection.width + '; height: ' + selection.height+ 'x1: ' + selection.x1+'y1: ' + selection.y1);
+    
+    $('#h').text(selection.height);
+    $('#w').text(selection.width);
+    $('#y1').text(selection.y1);
+    $('#x1').text(selection.x1);
+    }
+    });
 $('#menuselect').change(function(){
   var a=$(this).val();
 
@@ -173,9 +183,13 @@ $(location).attr('href',a);
 
 $('#load').click(function(){
 var c3=$('.c3').val();
+alert(c3);
 if(c3!=''){
-  $('#preview').show();
-  $('#preview').attr('src',c3);
+ // $('#preview').show();
+ // $('#preview').attr('src',c3);
+   // $('#main').css('background-image','url('+c3+')');
+    
+$('#main').css('background-image','url('+c3+')');
 }
 });
 
@@ -183,6 +197,11 @@ if(c3!=''){
 
 $('#add').click(function(){
 category=getUrlVars().category;
+var h=$('#h').text();
+var w=$('#w').text();
+var x1=$('#x1').text();
+var y1=$('#y1').text();
+alert(h);
 data[0]=8;
 heading[0]='range';
 var i;
@@ -195,8 +214,9 @@ heading[i]=$('.c'+i).attr('id');
 //alert(data[i]+' '+heading[i]);
 
 }
+if(h!=''&&w!=''&&x1!=''&&y1!=''){
 //for( i=1;i<=5;i++){
-senddata='?category='+category+'&c1='+data[1]+'&c2='+data[2]+'&c3='+data[3]+'&c4='+data[4]+'&c5='+data[5]+'&c6='+data[6]+'&c7='+data[7]+'&c8='+data[8];
+senddata='?category='+category+'&c1='+data[1]+'&c2='+data[2]+'&c3='+data[3]+'&c4='+data[4]+'&c5='+data[5]+'&c6='+data[6]+'&c7='+data[7]+'&c8='+data[8]+'&c9='+h+'&c10='+w+'&c11='+x1+'&c12='+y1;
   //}
 /*
 
@@ -212,6 +232,10 @@ $.ajax({
   $.ajax({url: "addnewproduct.php"+senddata, success: function(result){
        alert('success');
     }});
+
+}else{
+    alert('please fill all the  fields');
+}
 /*
 $.ajax({
     type: "GET",
@@ -376,7 +400,13 @@ if($row['c'.$j]!='Na'){
 
 ?>
 <tr><td colspan="2"><center><input type="button" value="Load" id="load" class="btn btn-default"> </center></td></tr>
-<tr><td colspan="2"><center><img id="preview" ></center></td></tr>
+<tr><td ><center><div id="main"></div></center></td>
+<td>
+<p>height:<b id="h"></b></p> 
+ <p>width:<b id="w"></b></p>
+ <p>x1:<b id="x1"></b></p>
+ <p>y1:<b id="y1"></b></p>
+ </td></tr>
 <tr><td colspan="2"><input type="button" class="btn btn-primary" id="add" value="Add product" name=""></td></tr>
 <?php
 //echo $content[1];
