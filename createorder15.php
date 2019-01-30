@@ -19,16 +19,19 @@ function _(el){
   return document.getElementById(el);
 }
 function uploadFile(){
+ var jjj=document.getElementById('sqa').value;
+ alert(jjj);
+ console.log(jjj);
   var file = _("file1").files[0];
   // alert(file.name+" | "+file.size+" | "+file.type);
   var formdata = new FormData();
   formdata.append("file1", file);
   var ajax = new XMLHttpRequest();
- ajax.upload.addEventListener("progress", progressHandler, false);
+  ajax.upload.addEventListener("progress", progressHandler, false);
   ajax.addEventListener("load", completeHandler, false);
   ajax.addEventListener("error", errorHandler, false);
   ajax.addEventListener("abort", abortHandler, false);
-  ajax.open("POST", "file_upload_parser.php");
+  ajax.open("GET", "file_upload_parser.php?file1="+file+"&sqa="+jjj);
   ajax.send(formdata);
 }
 function progressHandler(event){
@@ -47,7 +50,6 @@ function errorHandler(event){
 function abortHandler(event){
   _("status").innerHTML = "Upload Aborted";
 }
-
 </script>
 
 <style type="text/css">
@@ -87,12 +89,6 @@ input[type="range"]::-ms-fill-lower {
     
      
     }
-    
-    
-    .table thead tr th, .table tbody tr td {
-    border: none;
-}
-
     #d{
      
  
@@ -205,9 +201,12 @@ color: red;
 {
 color: red;
 }
-.
 
-dh{
+.table thead tr th, .table tbody tr td {
+    border: none;
+}
+
+.dh{
   box-shadow: 3px 4px 3px gray;
  
 }
@@ -228,30 +227,78 @@ dh{
 box-shadow: 3px 3px 2px #255370;
 
 }
-#main{
-  width: 300px;
-  height: 300px;
-  position: relative;
+/*
+#displayarea{
+  overflow: hidden;  
+  width:100px;
+  height:100px;
 }
+#main {
+    background-size: cover;
+    
+
+  width:300px;
+  height:300px;
+  border: 1px solid black;
+        /*  clip the excess when child gets bigger than parent  */
+}
+*/
 #logo{
 
-  position: absolute;
+  position:absolute;
+
+}
+
+#main {
+  position:relative;
+    background-size: cover;
+    
+
+  width:300px;
+  height:300px;
+  border: 1px solid black;
+        /*  clip the excess when child gets bigger than parent  */
+}
+
+#displayarea{
+    
+
+  background-size: cover;
+ overflow:hidden;
   
-  width: 100px;
-height: 100px;
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  border:1px d.otted gray;
+}
+#displayarea img {
+  display:block;
+ 
 }
 
   </style>
   <script type="text/javascript">
-
 
   var v1=0;
     var mainproductid=0;
     var pcategory=0;
     var pmodel=0;
     var logoid1=0;
+    var mainid1=null;
     var zone=null;
-     var mainid1=null;
     var selectedcustomer=0;
     var mainproductprice=0;
     var zonep=0;
@@ -273,7 +320,7 @@ $('.kk').hide();
       $('#mycustomer').show();
 
 
-$('#customerd').hide();
+$('#customerd').show();
 
 $('#uploadarea').hide();
 $('#manual').hide();
@@ -288,12 +335,17 @@ var width1=$("#logo").outerWidth();
 var height1=$("#logo").outerHeight();
 var totalp;
 
+//$("#displayarea").css("margin-top",height/2-height1/2);
+
+//$("#displayarea").css("transform-origin","50% 50%");
+/*
 $("#logo").css("margin-left",marginl);
-$("#logo").css("margin-top",margint);
+$("#logo").css("margin-top",height/2-height1/2);
 $("#logo").css("padding-left",paddingl);
 $("#logo").css("padding-top",paddingt);
 $("#logo").css("top",v.top+height/2-height1/2);
 $("#logo").css("left",v.left+width/2-width1/2);
+*/
 $("#hideid").hide();
 $('#showmycustomer').click(function(){
 
@@ -304,79 +356,32 @@ $('#customerd').toggle(1000);
 
 });
 
-$('#slider').change(function(){
+$('#slider').mousemove(function(){
+var x=$(this).val();
+//alert(x);
+//$('#logo').css('transform':'scale('+x+')');
+$('#logo').css('transform', 'scale(' + x + ')');
+console.log(x);
+$('#zoom1').text(x);
+$(".selection2").show(500);
+
+
+});
+/*
+$('#slider').mousemove(function(){
+    var x=$(this).val();
 var v1=$('#slider').val();
 var s=$('#logo').outerWidth();
 var w=$('#logo').outerHeight();
 var h=0;
 var w1=0;
-
+$('#logo').css('transform', 'scale(' + x + ')');
 //alert($("#logo").outerWidth()+' '+$("#logo").outerHeight());
 
-if(v1>0&&v1<25){
-
- 
-$('#logo').css('height',95);
-$('#logo').css('width',95);
-var w2=$("#logo").outerWidth();
-var h2=$("#logo").outerHeight();
-$("#h").val(1);
-$("#w").val(2);
-$("#logo").css("top",v.top+height/2-h2/2);
-$("#logo").css("left",v.left+width/2-w2/2);
-
-}else if(v1>25&&v1<50){
-
- 
-$('#logo').css('height',105);
-$('#logo').css('width',105);
-var w2=$("#logo").outerWidth();
-var h2=$("#logo").outerHeight();
-$("#h").val(2);
-$("#w").val(3);
-$("#logo").css("top",v.top+height/2-h2/2);
-$("#logo").css("left",v.left+width/2-w2/2);
-
-}else if(v1>50&&v1<70){
-
- 
-$('#logo').css('height',115);
-$('#logo').css('width',115);
-var w2=$("#logo").outerWidth();
-var h2=$("#logo").outerHeight();
-$("#h").val(3);
-$("#w").val(4);
-$("#logo").css("top",v.top+height/2-h2/2);
-$("#logo").css("left",v.left+width/2-w2/2);
-
-}else if(v1>70&&v1<=100){
-
- 
-$('#logo').css('height',125);
-$('#logo').css('width',125);
-var w2=$("#logo").outerWidth();
-var h2=$("#logo").outerHeight();
-$("#h").val(4);
-$("#w").val(5);
-$("#logo").css("top",v.top+height/2-h2/2);
-$("#logo").css("left",v.left+width/2-w2/2);
-
-}else if(v1>90&&v1<100){
-
-$('#logo').css('height',135);
-$('#logo').css('width',135);
-var w2=$("#logo").outerWidth();
-var h2=$("#logo").outerHeight();
-$("#h").val(5);
-$("#w").val(6);
-$("#logo").css("top",v.top+height/2-h2/2);
-$("#logo").css("left",v.left+width/2-w2/2);
-
-}
 $('.selection2').show(500);
 });
 
-
+*/
 $('#accauntsett').change(function(){
   var a=$(this).val();
 
@@ -499,17 +504,6 @@ $.post("addcustomer.php",
 
       location.reload();
     });
-
-
-
-
-
-
-
-
-
-
-
 });
 
 
@@ -529,8 +523,8 @@ $('#logo').css('left',s.left+3);
 var g= $(this).attr('src');
 $('#logo').attr('src',g);
   });
-  
-   $("body").on("click",".mainc", function(){
+
+  $("body").on("click",".mainc", function(){
     mainid1=$(this).attr('id');
 var g= $(this).attr('src');
 $('#main').attr('src',g);
@@ -570,10 +564,22 @@ zone=val.zone;
 pmodel=val.model;
 
 mainproductprice=val.price;
-$('#main').attr('src',val.imagepath);
+mainid1='main';
+//$('#main').attr('src',val.imagepath);
 
+$('#main').css('background-image','url('+val.imagepath+')');
 $('.img2').attr('src',val.img2);
 $('.img3').attr('src',val.img3);
+$('#displayarea').css('height',val.lheight);
+$('#displayarea').css('width',val.lwidth);
+
+
+$('#logo').css('height',val.lheight);
+$("#displayarea").css("margin-top",val.y1);
+$('#logo').css('width',val.lwidth);
+$('#logo').css('left',val.x1);
+$('#logo').css('top',val.y1);
+
   });
 });
 
@@ -772,7 +778,7 @@ var id=$(this).attr('id');
 var cat=$(this).val();
 //alert(cat);
 $('#'+id).attr('onkeyup',cat);
-$(location).attr('href', 'createorder5.php?category='+cat);
+$(location).attr('href', 'createorder15.php?category='+cat);
 //$('#'+id).attr('onkeyup',cat);
 $('#bb').text(cat);
 });
@@ -787,8 +793,8 @@ $('.selection4').show(500);
 });
 
  $("#submit").click(function(){
-
-  var size=$('#h').val();
+var zoom1=$('#zoom1').text();
+var size=$('#h').val();
 var sizew=$('#w').val();
   var sellp=$('#sellp').val();
  var name1=$('#m1').text();
@@ -797,8 +803,7 @@ var sizew=$('#w').val();
  var model=$('#i2').val();
  
 
-
-alert(category+' '+brand+' '+model+' '+size+' '+quantity+' '+sellp+' '+category+' '+mainproductid+' '+logoid1+' '+selectedcustomer+' '+paymentmode+'  '+totalp);
+alert(category+' '+brand+' '+model+' '+quantity+' '+sellp+' '+mainproductid+' '+logoid1+' '+selectedcustomer+' '+paymentmode+'  '+totalp+' '+zoom1);
 
  $.get("orderp.php",
     {
@@ -806,7 +811,6 @@ alert(category+' '+brand+' '+model+' '+size+' '+quantity+' '+sellp+' '+category+
         category:category,
         brand:brand,
         model:model,
-        size:size,
         quantity:quantity,
         sellp:sellp,
         category:category,
@@ -815,8 +819,9 @@ alert(category+' '+brand+' '+model+' '+size+' '+quantity+' '+sellp+' '+category+
         selectedcustomer:selectedcustomer,
         paymentmode:paymentmode,
         total:totalp,
-        sizew:sizew,
-          mainid:mainid1
+        mainid:mainid1,
+        zoom1:zoom1
+
     }, function(data, status){
         alert(data);
     });
@@ -890,7 +895,7 @@ include "connection.php";
     <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;margin-bottom: 10px;"></span> 
 <select style="color: black;font-size: 15px;" class="form-control" id="menuselect">
   <option>--select--</option>
-   <option value="createorder5.php">Create New order</option>
+   <option value="createorder15.php">Create New order</option>
   <option value="previous.php">My Orders</option>
   <option value="trackorder.php">track Orders</option>
 
@@ -979,7 +984,7 @@ echo 'A/C: '.$row['accaunt'];
       </thead>  
             <tbody >
 
-<div style="padding: 2px;">         
+<div style="padding: 12px;">         
 
 <tr> <td>
     <h5>Select Category<span style="color:red;font-size: 20px;">*</span></h5>
@@ -1081,13 +1086,13 @@ while ($row=mysqli_fetch_assoc($result)) {
           </td>
         </tr>
        
-        <tr  class="selection2">
+        <tr  class="selection1">
           <td >
              <h5> Quantity<span style="color:red;font-size: 20px;">*</span></h5>
             <input type="text" class="form-control" name="quantity" id="quantity" placeholder="Quantity" ><span id="errmsg"></span>
           </td>
         </tr>
-        <tr  class="selection2">
+        <tr  class="selection1">
           <td >
              <h5>Enter total selling price<span style="color:red;font-size: 20px;">*</span></h5>
             <input type="text" class="form-control" name="sellp" id="sellp" placeholder="Enter your selling price " ><span id="errmsg1"></span>
@@ -1122,21 +1127,33 @@ while ($row=mysqli_fetch_assoc($result)) {
         <table class="table">
           <tbody>
           <tr colspan="2">
-            <td>
+            <td colspan="2">
          <center style="margin-top:15px; ">
           <h4 style="color: #1c6704;">Preview</h4>
-            <img  id="main" style="background-color:#c7c7c7;"  >
-                      <img id="logo" style="background:#a9a9a9;" >
+          <center>
+
+<div id="main" style="background-color:#c7c7c7;"> 
+<div id="displayarea" >
+<img id="logo"  style=""  />
+</div>
+</div>
+</center>
+           
                     </center>
-                     <center style="margin-top: 4px;">
+                    <center style="margin-top: 4px;">
                           <img  id="img2" class="img2 mainc" style="background-color:#c7c7c7; width: 70px;  height: 70px;"  >
                                 <img  id="img3" class="img3 mainc" style="background-color:#c7c7c7;width: 70px;  height: 70px;"   >
                                 </center>
                   </td>
                 </tr>
-                 <tr  class="selection12" colspan="2" style="background-color: #efefff;"><td><center><div style="max-width: 300px;"> <span style="margin-left: 50px; float: left;" style="width: 40%;">height</span><span style="width: 40%;" >width</span></div></center></td></tr>
-                <tr  class="selection12" colspan="2" style="background-color: #efefff;"><td><center><div style="max-width: 300px;"> <input type="text" name="" style="width: 40%;" id="h"> <input type="text" id="w" style="width: 40%;" name=""></div></center></td></tr>
-                <tr  class="selection12" colspan="2" style="background-color: #efefff;"><td><center><input type="range" class="form-control slider"  min="1" max="100" value="0"  id="slider" name="" style="width: 300px;" ></center></td></tr>
+                 <tr  class="selection12" colspan="2" style="background-color: #efefff;">
+                 <td colspan="2"><center><div style="max-width: 300px;">
+                  <span style="float: left;" >Zoom : </span><span id="zoom1" style="font-weight:bold;"></span>
+                  
+              
+                  </td></tr>
+               
+                <tr  class="selection12" colspan="2" style="background-color: #efefff;"><td colspan="2"><center><input type="range"  min="1" max="5" step="0.03" class="form-control slider"  min="1" max="100" value="0"  id="slider" name="" style="width: 300px;" ></center></td></tr>
 
          <tr class="selection1" >
           <td>
@@ -1151,8 +1168,8 @@ while ($row=mysqli_fetch_assoc($result)) {
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">My designs</h4>
-            <p id="hideid"><?php echo $_SESSION['id']; ?></p>
+          <h4 class="modal-title">My Designs</h4>
+          <p id="hideid"><?php echo $_SESSION['id']; ?></p>
         </div>
         <div class="modal-body">
             <center style="margin-bottom: 10px;"> 
@@ -1168,25 +1185,18 @@ while ($row=mysqli_fetch_assoc($result)) {
       
     </div>
   </div>
-
-    
-       
-</td></tr>
-
-
- <tr class="selection1" colspan="2"><td>
-
-
-
-  </td></tr>
-  <tr></tr>
-       </tbody>
-          </table>
-<center>
-<button type="button" class="btn btn-primary selection1"  id="showupload" data-toggle="modal" data-target="#exampleModalCenter" >
+</td>
+    <td>
+   <center style="margin-top: 45%;">
+<button type="button" class="btn btn-primary selection1"  id="showupload" data-toggle="modal" data-target="#exampleModalCenter"  >
  Upload new design 
 </button>
-</center>
+</center>    
+</td></tr>
+  
+       </tbody>
+          </table>
+
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -1200,7 +1210,10 @@ while ($row=mysqli_fetch_assoc($result)) {
       </div>
       <div class="modal-body">
         <center>
+          <div style="background-color: #0000004f;padding: 5px;">
+          <h5 style="font-weight: bold;">Enter SQA ID <span style="color: red">*</span></h5><input type="text" placeholder="" class="form-control" name="" id="sqa"></div>
         <div class="row" id="uploadarea" >   
+          
 <form id="upload_form" enctype="multipart/form-data" method="post">
 </form>
 <div id="wrapper" class="row" style="width: 200px;border:1px dashed black;" >
@@ -1255,12 +1268,14 @@ while ($row=mysqli_fetch_assoc($result)) {
 </div>
 <div style="margin-top: 20px; margin-left:10px;margin-right:10px;box-shadow: 1px 4px 4px gray;background-color: white;" class="selection4">
   <h3 style="margin: 10px;margin-top:15px;">Customer details</h3>
+<input type="button" class="btn btn-primary"  style="background:transparent;border:1px solid #2e6da4;color:#2e6da4; margin: 10px;" name="" id="createnew" value="create new">
+
 <button type="button" class="btn btn-primary" data-toggle="modal" id="showmycustomer" data-target="#exampleModalCenter1">
 my customers
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -1328,9 +1343,6 @@ while ($row=mysqli_fetch_assoc($result)) {
     </div>
   </div>
 </div>
-
-<input type="button" class="btn btn-primary"  style="background:transparent;border:1px solid #2e6da4;color:#2e6da4; margin: 10px;" name="" id="createnew" value="create new">
-
 
 
 <div id="newtcustomer">

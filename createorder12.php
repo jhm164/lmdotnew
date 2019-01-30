@@ -261,8 +261,25 @@ box-shadow: 3px 3px 2px #255370;
     
 
   background-size: cover;
-  overflow:hidden;
-  border:1px dotted gray;
+ overflow:hidden;
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  border:1px d.otted gray;
 }
 #displayarea img {
   display:block;
@@ -342,6 +359,7 @@ var x=$(this).val();
 //$('#logo').css('transform':'scale('+x+')');
 $('#logo').css('transform', 'scale(' + x + ')');
 console.log(x);
+$(".selection2").show(500);
 });
 /*
 $('#slider').mousemove(function(){
@@ -646,7 +664,38 @@ $("#drop-area").on('dragenter', function (e){
     }
    });
    
-   
+    $('#displayarea')
+  .resizable(
+
+  {
+    start: function(e, ui) {
+    //  alert('resizing started');
+  //  console.log(ui.)
+    },
+    resize: function(e, ui) {
+    
+    },
+    stop: function(e, ui) {
+      var p=ui.size;
+    //  console.log(p.height);
+      //alert('resizing stopped');
+    }
+
+  }).parent().draggable({
+    start: function(e, ui) {
+      //alert('drag started');
+    },
+    resize: function(e, ui) {
+    
+    },
+    stop: function(e, ui) {
+      var p=ui.position;
+     // console.log(p.top+' '+p.left);
+    //  alert('drag stopped');
+    }
+  });
+
+
 $('#quantity').change(function(){
    quantity=$('#quantity').val();
    category=$('#category').val();
@@ -1122,7 +1171,7 @@ while ($row=mysqli_fetch_assoc($result)) {
                 </tr>
                  <tr  class="selection12" colspan="2" style="background-color: #efefff;"><td colspan="2"><center><div style="max-width: 300px;"> <span style="margin-left: 50px; float: left;" style="width: 40%;">height</span><span style="width: 40%;" >width</span></div></center></td></tr>
                 <tr  class="selection12" colspan="2" style="background-color: #efefff;"><td colspan="2"><center><div style="max-width: 300px;"> <input type="text" name="" style="width: 40%;" id="h"> <input type="text" id="w" style="width: 40%;" name=""></div></center></td></tr>
-                <tr  class="selection12" colspan="2" style="background-color: #efefff;"><td colspan="2"><center><input type="range"  min="1" max="5" step="0.03" class="form-control slider"  min="1" max="100" value="0"  id="slider" name="" style="width: 300px;" ></center></td></tr>
+                <tr  class="selection12" colspan="2" style="background-color: #efefff;"><td colspan="2"><center><input type="range"  min="0.50" value="3" max="6" step="0.01" class="form-control slider"  min="1" max="100" value="0"  id="slider" name="" style="width: 300px;" ></center></td></tr>
 
          <tr class="selection1" >
           <td>

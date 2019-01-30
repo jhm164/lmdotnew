@@ -198,8 +198,8 @@ box-shadow: 3px 3px 2px white;
 
 <style>
 #spinner{
-	position: fixed;
-	top:50%;
+  position: fixed;
+  top:50%;
 left: 50%;
 }
 </style>
@@ -218,14 +218,14 @@ left: 50%;
 $('.llq').hide();
 $('#displayimage').hide();
 var tech=null;
-$('#loadimage').click(function(){
-  var lhright=$('#lheight').text();
+$(document).on('click','#loadimage',function(){
+  var lheight=$('#lheight').text();
   var lwidth=$('#lwidth').text();
   $('#displayimage').show(500);
-  $('#logo').css('height',lheight);
-  $('#logo').css('width',lwidth);
+  $('#logo').css('height',lheight+'px');
+  $('#logo').css('width',lwidth+'px');
 
-
+alert(lheight+lwidth);
 });
 
  tech = getUrlVars().productid;
@@ -255,12 +255,12 @@ $('.here').click(function(){
   var d=$(this).attr('id');
    var status=$(this).attr('name');
 //alert(status);
- $(location).attr('href', 'adminp.php?productid='+d);
+ $(location).attr('href', 'adminp1.php?productid='+d);
 });
 $('#find').click(function(){
   var d=$("#enterid").val();
 //alert(d);
- $(location).attr('href', 'adminp.php?productid='+d);
+ $(location).attr('href', 'adminp1.php?productid='+d);
 });
 
 });
@@ -270,33 +270,33 @@ $('#find').click(function(){
 <body class="container-fluid" style="background-color: #AFC2D5;" id="load_screen" >
 
 <div id="spinner" style="display: none;">
-	<img src="css/spinner.gif" alt="loading" id="img-spinner">
-	
+  <img src="css/spinner.gif" alt="loading" id="img-spinner">
+  
 </div>
 <?php
 session_start();
 include 'connection.php';
 
 if (isset($_POST['username'])&&isset($_POST['username'])) {
-	
+  
 $username=$_POST['username'];
 $password=$_POST['password'];
 
 
-	$sql="select * from customer where username='$username' and password='$password'";
+  $sql="select * from customer where username='$username' and password='$password'";
 
-	$result=mysqli_query($conn,$sql);
+  $result=mysqli_query($conn,$sql);
 while ($row=mysqli_fetch_assoc($result)) {
-	$_SESSION['fname']=$row['fname'];
-	$_SESSION['lname']=$row['lname'];
-	$_SESSION['id']=$row['id'];
+  $_SESSION['fname']=$row['fname'];
+  $_SESSION['lname']=$row['lname'];
+  $_SESSION['id']=$row['id'];
 
 }
 
 }
 
 if (isset($_SESSION['id'])) {
-	# code...
+  # code...
 
 ?>
 <div class="row" >
@@ -312,7 +312,7 @@ if (isset($_SESSION['id'])) {
     <div style="background-color: #357196;padding-top: 5px; padding-bottom: 5px;">
     <center>
    <div id="leftmenu" ><span class="glyphicon glyphicon-dashboard" style="float: left;font-size: 30px; width: 100%;"></span><a href="admindash.php" style="color: white;font-size: 15px;"> Dashboard</a></div>
-    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;"></span> <a href="adminp.php" style="color: white;font-size: 15px;">All Orders</a></div>
+    <div id="leftmenu" ><span class="glyphicon glyphicon-tasks" style="float: left;font-size: 30px;width: 100%;"></span> <a href="adminp1.php" style="color: white;font-size: 15px;">All Orders</a></div>
     <div id="leftmenu" ><span class="glyphicon glyphicon-user" style="float: left;font-size: 30px;width: 100%;"></span><a href="register.php" style="color: white;font-size: 15px;">Create new accaunt</a></div>
 
      <div id="leftmenu" ><span class="glyphicon glyphicon-asterisk" style="float: left;font-size: 30px; width: 100%;"></span><a href="addcategory.php" style="color: white;font-size: 15px;"> Add category</a></div>
@@ -438,7 +438,7 @@ while ($row=mysqli_fetch_assoc($result3)) {
   if($mainid=='main'){
 ?>
 <center><input type="button" id="loadimage" value="load images"></center>
-<p id="lheight" class="llq"> <?php echo $lheight; ?></p>
+<p id="lheight" class="llq"><?php echo $lheight; ?></p>
 <p id="lwidth" class="llq"> <?php echo $lwidth; ?></p>
 <p id="x1" class="llq"> <?php echo $x1; ?></p>
 <p id="y1" class="llq"> <?php echo $y1; ?></p>
@@ -541,13 +541,13 @@ while ($row=mysqli_fetch_assoc($result)) {
 
 <?php
 }else{
-	
-	echo "<h1 class='alert alert-danger'>Please login</h1>";
-	
+  
+  echo "<h1 class='alert alert-danger'>Please login</h1>";
+  
 }
  if (isset($_GET['logout'])){
 if($_GET['logout']=='true'){
-	session_destroy();
+  session_destroy();
 header('Location:login.php');
 }
 
@@ -556,4 +556,4 @@ header('Location:login.php');
 </body>
 </html>
 
-	
+  

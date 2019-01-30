@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/animate.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+
+<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+   rel = "stylesheet">
+<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <style type="text/css">
+  	#f{
+  		background-color: red;
+  		top:50;
+  		left: 50;
+  		height: 100%;
+  		width: 100%;
+  	}
+  	#outside{
+  		max-height:300px;
+  		max-width: 300px;
+  	}
+
+
+  	 #resizable { width: 150px; height: 150px;}
+ 
+  </style>
+<script type="text/javascript">
+	
+$(document).ready(function(){
+
+	
+
+$( "#dragme" ).draggable({
+
+	   cursor: "move" ,
+  drag: function( event, ui ) {
+    ui.position.left = Math.min( 100, ui.position.left );
+      ui.position.left = Math.max( 50, ui.position.left );
+       ui.position.top = Math.min( 200, ui.position.top );
+       ui.position.top = Math.max( 50, ui.position.top );
+
+  }
+  
+});
+
+/*
+$( "#dragme" ).on( "dragstop", function( event, ui ) {
+		var v=	$(this).position();
+	alert(v.top);
+} );
+*/
+
+    $( "#resizable" ).resizable({ maxHeight: 300 ,maxWidth: 300,minHeight: 50,minWidth: 50  });
+
+
+});
+
+</script>
+</head>
+<body>
+<img src="http://localhost:8080/lmdotn/images/s+sdada+12.jpg" height="100" width="100">
+
+<div style="" id="f">
+	
+</div>
+
+	<div id="dragme">
+  <img src="images/clk2.png" id="resizable" class="dragme ui-widget-content">
+ 
+</div>
+
+</body>
+</html>

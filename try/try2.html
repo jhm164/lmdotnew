@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	 <link rel="venderboat icon" href="images/oscar.png" />
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/animate.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+  <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"    rel = "stylesheet">
+<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+</head>
+<body>
+<div id="container" style="width: 300px; height: 300px; background-color: #000000;">
+    <div id="subject" style="width: 100px; height: 100px; background-color: #ffffff; background-image: url('http://localhost:8080/lmdotn/images/cl2.jpg'); background-repeat: no-repeat;
+    background-size: 100% 100%;">
+
+    </div>
+</div>
+
+<script type="text/javascript" language="javascript">
+jQuery(document).ready(function() {
+    jQuery("#subject").resizable(
+    {
+        aspectRatio: 4 / 3,
+        minHeight: 120,
+        minWidth: 160,
+        maxHeight: 240,
+        maxWidth: 320
+    }).draggable(
+    {
+        containment: "#container",
+        stop: function(evt, ui) {
+            var container = jQuery("#container");
+            var subject = jQuery("#subject");
+
+            var containerPosition = container.position();
+            var subjectPosition = subject.position();
+
+            var relativeLeft = subjectPosition.left - containerPosition.left;
+            var relativeTop = subjectPosition.top - containerPosition.top;
+
+            var maxWidth = (container.width() - relativeLeft) | 0;
+            var maxHeight = (container.height() - relativeTop) | 0;
+
+            subject.resizable("option", "maxWidth", maxWidth);
+            subject.resizable("option", "maxHeight", maxHeight);
+        }
+    });
+});
+</script>
+</body>
+</html>

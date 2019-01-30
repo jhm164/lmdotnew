@@ -25,7 +25,7 @@
 
 #main {
     background-size: cover;
-   
+  
   width:300px;
   height:300px;
   border: 1px solid black;
@@ -183,14 +183,15 @@ $(location).attr('href',a);
 
 $('#load').click(function(){
 var c3=$('.c3').val();
-alert(c3);
-if(c3!=''){
+var trimStr = $.trim(c3);
+alert(trimStr);
+//if(c3!=''){
  // $('#preview').show();
  // $('#preview').attr('src',c3);
    // $('#main').css('background-image','url('+c3+')');
-    
-$('#main').css('background-image','url('+c3+')');
-}
+$('#main').css('background-image','url('+trimStr+')');
+
+//}
 });
 
 
@@ -201,7 +202,7 @@ var h=$('#h').text();
 var w=$('#w').text();
 var x1=$('#x1').text();
 var y1=$('#y1').text();
-alert(h);
+//alert(h);
 data[0]=8;
 heading[0]='range';
 var i;
@@ -448,6 +449,7 @@ header('Location:login.php');
 } ?>
 
 </body>
+
 </html>
 
 	

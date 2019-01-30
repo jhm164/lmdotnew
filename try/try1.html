@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ytry1</title>
+	 <link rel="venderboat icon" href="images/oscar.png" />
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/animate.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+   rel = "stylesheet">
+<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<style type="text/css">
+	#logo{
+position: absolute;
+background-image:url('http://localhost:8080/lmdotn/images/cl.jpg'); 
+
+}
+
+#main {
+position: relative;
+    background-size: cover;
+    background-image: url("http://localhost:8080/lmdotn/images/apple.png");
+
+  width:300px;
+  height:300px;
+  border: 1px solid black;
+        /*  clip the excess when child gets bigger than parent  */
+}
+#displayarea{
+    
+
+  background-size: cover;
+ overflow:hidden;
+ 
+  border:1px d.otted gray;
+}
+</style>
+<script type="text/javascript">
+	$(document).ready(function(){
+var v=$("#main").position();
+var marginl=$("#main").css("margin-left");
+var margint=$("#main").css("margin-top");
+var paddingt=$("#main").css("padding-top");
+var paddingl=$("#main").css("padding-left");
+var width=$("#main").outerWidth();
+var height=$("#main").outerHeight();
+var width1=$("#logo").outerWidth();
+var height1=$("#logo").outerHeight();
+$("#logo").css("margin-left",marginl);
+$("#logo").css("margin-top",height/2-height1/2);
+$("#logo").css("padding-left",paddingl);
+$("#logo").css("padding-top",paddingt);
+$("#logo").css("top",v.top+height/2-height1/2);
+$("#logo").css("left",v.left+width/2-width1/2);
+$('#logo').resizable();
+	});
+</script>
+</head>
+<body>
+
+<div id="main" style="background-color:#c7c7c7;"> 
+<div id="displayarea"  style="border:1px solid black;">
+  
+<div id="logo"   ></div>
+
+</div>
+</div>
+</body>
+</html>

@@ -265,7 +265,7 @@ echo 'A/C: '.$row['accaunt'];
  if (isset($_GET['logout'])){
 if($_GET['logout']=='true'){
 	session_destroy();
-header('Location:login.php');
+header('Location:login.html');
 }
 
 } ?>
